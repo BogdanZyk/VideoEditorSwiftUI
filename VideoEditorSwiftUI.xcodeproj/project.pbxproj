@@ -11,6 +11,10 @@
 		5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF97029E944FA00827A37 /* ContentView.swift */; };
 		5ACFF97329E944FC00827A37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97229E944FC00827A37 /* Assets.xcassets */; };
 		5ACFF97629E944FC00827A37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97529E944FC00827A37 /* Preview Assets.xcassets */; };
+		5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */; };
+		5ACFF98329E945C300827A37 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98229E945C300827A37 /* RootView.swift */; };
+		5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98429E945E000827A37 /* RootViewModel.swift */; };
+		5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98629E949A900827A37 /* VideoItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		5ACFF97029E944FA00827A37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5ACFF97229E944FC00827A37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5ACFF97529E944FC00827A37 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerManager.swift; sourceTree = "<group>"; };
+		5ACFF98229E945C300827A37 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		5ACFF98429E945E000827A37 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		5ACFF98629E949A900827A37 /* VideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +59,10 @@
 		5ACFF96D29E944FA00827A37 /* VideoEditorSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				5ACFF97F29E9451B00827A37 /* ViewModels */,
+				5ACFF97E29E9451800827A37 /* Models */,
+				5ACFF97D29E9451100827A37 /* Views */,
+				5ACFF97C29E9450000827A37 /* Service */,
 				5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */,
 				5ACFF97029E944FA00827A37 /* ContentView.swift */,
 				5ACFF97229E944FC00827A37 /* Assets.xcassets */,
@@ -65,6 +77,38 @@
 				5ACFF97529E944FC00827A37 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5ACFF97C29E9450000827A37 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		5ACFF97D29E9451100827A37 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98229E945C300827A37 /* RootView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5ACFF97E29E9451800827A37 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98629E949A900827A37 /* VideoItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5ACFF97F29E9451B00827A37 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98429E945E000827A37 /* RootViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +181,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */,
+				5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */,
+				5ACFF98329E945C300827A37 /* RootView.swift in Sources */,
 				5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */,
+				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
