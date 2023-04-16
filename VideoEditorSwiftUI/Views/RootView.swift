@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct RootView: View {
+    @State var showRecordView: Bool = false
     @StateObject var videoPlayer = VideoPlayerManager()
     var body: some View {
         GeometryReader { proxy in
@@ -16,12 +17,20 @@ struct RootView: View {
                 videoPlayerSection
                     .frame(height: proxy.size.height / 1.8)
                 PhotosPicker("Select video", selection: $videoPlayer.selectedItem, matching: .videos)
+                Button("Record video") {
+                    showRecordView.toggle()
+                }
             }
             
         }
         .onChange(of: videoPlayer.selectedItem) { newValue in
             Task{
                 await videoPlayer.loadVideoItem(newValue)
+            }
+        }
+        .fullScreenCover(isPresented: $showRecordView) {
+            RecordVideoView{ url in
+                videoPlayer.loadState = .loaded(url)
             }
         }
     }

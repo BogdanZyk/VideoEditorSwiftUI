@@ -15,6 +15,10 @@
 		5ACFF98329E945C300827A37 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98229E945C300827A37 /* RootView.swift */; };
 		5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98429E945E000827A37 /* RootViewModel.swift */; };
 		5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98629E949A900827A37 /* VideoItem.swift */; };
+		5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98829E98EE700827A37 /* CameraManager.swift */; };
+		5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */; };
+		5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */; };
+		5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98E29E9A63000827A37 /* CameraManager2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +31,10 @@
 		5ACFF98229E945C300827A37 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5ACFF98429E945E000827A37 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		5ACFF98629E949A900827A37 /* VideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoItem.swift; sourceTree = "<group>"; };
+		5ACFF98829E98EE700827A37 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVideoView.swift; sourceTree = "<group>"; };
+		5ACFF98E29E9A63000827A37 /* CameraManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +90,9 @@
 		5ACFF97C29E9450000827A37 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				5ACFF98829E98EE700827A37 /* CameraManager.swift */,
 				5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */,
+				5ACFF98E29E9A63000827A37 /* CameraManager2.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -91,6 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				5ACFF98229E945C300827A37 /* RootView.swift */,
+				5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */,
+				5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,12 +193,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */,
 				5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */,
+				5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */,
 				5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */,
 				5ACFF98329E945C300827A37 /* RootView.swift in Sources */,
+				5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */,
 				5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
+				5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +334,8 @@
 				DEVELOPMENT_TEAM = 92PU6D6MCQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -330,6 +348,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Artem.VideoEditorSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -347,6 +368,8 @@
 				DEVELOPMENT_TEAM = 92PU6D6MCQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -359,6 +382,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Artem.VideoEditorSwiftUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
