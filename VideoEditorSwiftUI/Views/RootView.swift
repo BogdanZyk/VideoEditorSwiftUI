@@ -10,12 +10,20 @@ import PhotosUI
 
 struct RootView: View {
     @State var showRecordView: Bool = false
+    @StateObject var rootVM = RootViewModel()
     @StateObject var videoPlayer = VideoPlayerManager()
     var body: some View {
         GeometryReader { proxy in
             VStack{
                 videoPlayerSection
                     .frame(height: proxy.size.height / 1.8)
+                
+                
+               
+                ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, loadedState: videoPlayer.loadState){
+                        videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+                }
+                
                 PhotosPicker("Select video", selection: $videoPlayer.selectedItem, matching: .videos)
                 Button("Record video") {
                     showRecordView.toggle()
@@ -31,6 +39,15 @@ struct RootView: View {
         .fullScreenCover(isPresented: $showRecordView) {
             RecordVideoView{ url in
                 videoPlayer.loadState = .loaded(url)
+            }
+        }
+        
+        .onChange(of: videoPlayer.loadState) { type in
+            switch type{
+            case .loaded(let url):
+                rootVM.setAsset(url)
+            default:
+                break
             }
         }
     }
