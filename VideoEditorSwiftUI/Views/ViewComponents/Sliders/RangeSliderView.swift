@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct RangedSliderView<T: View>: View {
-//    @State private var leftLocation: CGPoint = .zero
-//    @State private var rightLocation: CGPoint = .zero
-    let currentValue: Binding<ClosedRange<Double>>
+    let currentValue: Binding<ClosedRange<Double>>?
     let sliderBounds: ClosedRange<Double>
     let step: Double
     let onEndChange: () -> Void
     var thumbView: T
     
-    init(value: Binding<ClosedRange<Double>>, bounds: ClosedRange<Double>, step: Double = 1, onEndChange: @escaping () -> Void, @ViewBuilder thumbView: () -> T) {
+    init(value: Binding<ClosedRange<Double>>?, bounds: ClosedRange<Double>, step: Double = 1, onEndChange: @escaping () -> Void, @ViewBuilder thumbView: () -> T) {
         self.onEndChange = onEndChange
         self.step = step
         self.currentValue = value
@@ -35,19 +33,19 @@ struct RangedSliderView<T: View>: View {
         let sliderViewYCenter = sliderSize.height / 2
         ZStack {
             Rectangle()
-                .fill(Color(.systemGray5).opacity(0.5))
+                .fill(Color(.systemGray5).opacity(0.75))
                 .frame(height: sliderSize.height)
             ZStack {
                 let sliderBoundDifference = sliderBounds.upperBound / step
                 let stepWidthInPixel = CGFloat(sliderSize.width) / CGFloat(sliderBoundDifference)
                 
                 // Calculate Left Thumb initial position
-                let leftThumbLocation: CGFloat = currentValue.wrappedValue.lowerBound == sliderBounds.lowerBound
+                let leftThumbLocation: CGFloat = currentValue?.wrappedValue.lowerBound == sliderBounds.lowerBound
                     ? 0
-                    : CGFloat(currentValue.wrappedValue.lowerBound - sliderBounds.lowerBound) * stepWidthInPixel
+                : CGFloat((currentValue?.wrappedValue.lowerBound ?? 0) - sliderBounds.lowerBound) * stepWidthInPixel
                 
                 // Calculate right thumb initial position
-                let rightThumbLocation = CGFloat(currentValue.wrappedValue.upperBound) * stepWidthInPixel
+                let rightThumbLocation = CGFloat(currentValue?.wrappedValue.upperBound ?? 1) * stepWidthInPixel
                 let height = rightThumbLocation - leftThumbLocation
                 // Path between both handles
                 
@@ -55,7 +53,7 @@ struct RangedSliderView<T: View>: View {
                 thumbView
                     .frame(width: height, height: sliderSize.height)
                     .position(x: sliderSize.width - (sliderSize.width - leftThumbLocation - height / 2) , y: sliderViewYCenter)
-                
+                    
                 
                 // Left Thumb Handle
                 let leftThumbPoint = CGPoint(x: leftThumbLocation, y: sliderViewYCenter)
@@ -68,8 +66,8 @@ struct RangedSliderView<T: View>: View {
                         let newValue = (sliderBounds.lowerBound) + (xThumbOffset / stepWidthInPixel)
                         
                         // Stop the range thumbs from colliding each other
-                        if newValue < currentValue.wrappedValue.upperBound {
-                            currentValue.wrappedValue = newValue...currentValue.wrappedValue.upperBound
+                        if newValue < currentValue?.wrappedValue.upperBound ?? 1 {
+                            currentValue?.wrappedValue = newValue...(currentValue?.wrappedValue.upperBound ?? 1)
                         }
                     }.onEnded({ _ in
                         onEndChange()
@@ -85,8 +83,8 @@ struct RangedSliderView<T: View>: View {
                         newValue = min(newValue, sliderBounds.upperBound)
                         
                         // Stop the range thumbs from colliding each other
-                        if newValue > currentValue.wrappedValue.lowerBound {
-                            currentValue.wrappedValue = currentValue.wrappedValue.lowerBound...newValue
+                        if newValue > currentValue?.wrappedValue.lowerBound ?? 0 {
+                            currentValue?.wrappedValue = (currentValue?.wrappedValue.lowerBound ?? 0)...newValue
                         }
                     }.onEnded({ _ in
                         onEndChange()
@@ -122,7 +120,7 @@ struct RangedSliderView<T: View>: View {
 
 struct RangeSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        RangedSliderView(value: .constant(16...60), bounds: 1...100, onEndChange: {}, thumbView: {Rectangle()})
+        RangedSliderView(value: .constant(16...60), bounds: 1...100, onEndChange: {}, thumbView: {Rectangle().blendMode(.destinationOut)})
             .frame(height: 60)
             .padding()
     }

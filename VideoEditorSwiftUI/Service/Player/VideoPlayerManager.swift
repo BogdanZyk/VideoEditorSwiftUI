@@ -21,6 +21,7 @@ final class VideoPlayerManager: ObservableObject{
     @Published private(set) var isPlaying: Bool = false
     private var cancellable = Set<AnyCancellable>()
     private var timeObserver: Any?
+    private var currentDurationRange: ClosedRange<Double>?
     
     deinit {
         removeTimeObserver()
@@ -42,7 +43,8 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
-    func action(){
+    func action(_ durationRange: ClosedRange<Double>){
+        self.currentDurationRange = durationRange
         if isPlaying{
             pause()
         }else{
@@ -101,10 +103,20 @@ final class VideoPlayerManager: ObservableObject{
     
     private func play(){
         
+        if let currentDurationRange{
+            if currentTime >= currentDurationRange.upperBound{
+                player.seek(to: CMTime(seconds: currentDurationRange.lowerBound, preferredTimescale: 1))
+            }else{
+                player.seek(to: CMTime(seconds: player.currentTime().seconds, preferredTimescale: 1))
+            }
+        }
+    
         player.play()
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
-            self.playerDidFinishPlaying()
+        if let currentDurationRange, player.currentItem?.duration.seconds ?? 0 >= currentDurationRange.upperBound{
+            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+                self.playerDidFinishPlaying()
+            }
         }
     }
     
@@ -115,6 +127,10 @@ final class VideoPlayerManager: ObservableObject{
             guard let self = self else { return }
             if self.isPlaying{
                 let time = time.seconds
+                
+                if let currentDurationRange = self.currentDurationRange, time >= currentDurationRange.upperBound{
+                    self.pause()
+                }
 
                 switch self.scrubState {
                 case .reset:

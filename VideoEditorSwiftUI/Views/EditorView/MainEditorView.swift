@@ -11,18 +11,25 @@ import PhotosUI
 struct MainEditorView: View {
     @State var isFullScreen: Bool = false
     @State var showRecordView: Bool = false
-    @StateObject var rootVM = EditorViewModel()
+    @StateObject var editorVM = EditorViewModel()
     @StateObject var videoPlayer = VideoPlayerManager()
         
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0){
                 headerView
-                PlayerHolderView(isFullScreen: $isFullScreen, editorVM: rootVM, videoPlayer: videoPlayer)
-                    .frame(height: proxy.size.height / (isFullScreen ?  1.05 : 1.4))
-                    ToolsSectionView()
-                        .opacity(isFullScreen ? 0 : 1)
-                        .padding()
+                PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
+                    .frame(height: proxy.size.height / (isFullScreen ?  1.05 : 1.5))
+                ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
+                    .opacity(isFullScreen ? 0 : 1)
+            }
+            .onChange(of: videoPlayer.loadState) { type in
+                switch type{
+                case .loaded(let url):
+                    editorVM.setVideo(url, geo: proxy)
+                default:
+                    break
+                }
             }
         }
         .background(Color.black)
@@ -35,17 +42,6 @@ struct MainEditorView: View {
             RecordVideoView{ url in
                 videoPlayer.loadState = .loaded(url)
             }
-        }
-        .onChange(of: videoPlayer.loadState) { type in
-            switch type{
-            case .loaded(let url):
-                rootVM.setAsset(url)
-            default:
-                break
-            }
-        }
-        .overlay(alignment: .topLeading) {
-            
         }
     }
 }

@@ -9,80 +9,91 @@ import SwiftUI
 import AVKit
 
 struct ThumbnailsSliderView: View {
-    @State private var isHiddenTimeSlider: Bool = false
+    @State var rangeDuration: ClosedRange<Double> = 0...1
     @Binding var curretTime: Double
-    @StateObject var viewModel = ThumbnailsSliderViewModel()
-    var loadedState: LoadState
+    @Binding var video: Video?
     let onChangeTimeValue: () -> Void
+    
+    
+    private var totalDuration: Double{
+        rangeDuration.upperBound - rangeDuration.lowerBound
+    }
+    
     var body: some View {
-        GeometryReader { proxy in
-            ZStack{
-                thumbnailsImagesSection(proxy)
-                    .border(Color.secondary, width: 2)
-                if let _ = viewModel.asset{
-                    RangedSliderView(value: $viewModel.trimRange, bounds: viewModel.duration, onEndChange: { setOnChangeTrim(false)}) {
-//                        if !isHiddenTimeSlider{
-//                            LineSlider(value: $curretTime, range: viewModel.trimRange, onEditingChanged: onChangeTimeValue)
-//                        }
+        VStack(spacing: 5) {
+            Text(totalDuration.formatterTimeString())
+                .foregroundColor(.white)
+                .font(.subheadline)
+            GeometryReader { proxy in
+                ZStack{
+                    thumbnailsImagesSection(proxy)
+                        .border(Color.secondary, width: 2)
+                    if let video{
+                        RangedSliderView(value: $rangeDuration, bounds: 0...video.originalDuration, onEndChange: { setOnChangeTrim(false)}) {
+                            Rectangle().blendMode(.destinationOut)
+                        }
+                        .onChange(of: self.video?.rangeDuration.upperBound) { upperBound in
+                            if let upperBound{
+                                curretTime = Double(upperBound)
+                                onChangeTimeValue()
+                                setOnChangeTrim(true)
+                            }
+                        }
+                        .onChange(of: self.video?.rangeDuration.lowerBound) { lowerBound in
+                            if let lowerBound{
+                                curretTime = Double(lowerBound)
+                                onChangeTimeValue()
+                                setOnChangeTrim(true)
+                            }
+                        }
+                        .onChange(of: rangeDuration) { newValue in
+                            self.video?.rangeDuration = newValue
+                        }
                     }
-                    .onChange(of: viewModel.trimRange.upperBound) { upperBound in
-                        curretTime = Double(upperBound)
-                        onChangeTimeValue()
-                        setOnChangeTrim(true)
-                    }
-                    .onChange(of: viewModel.trimRange.lowerBound) { lowerBound in
-                        curretTime = Double(lowerBound)
-                        onChangeTimeValue()
-                        setOnChangeTrim(true)
+                }
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .onAppear{
+                    if let video{
+                        rangeDuration = video.rangeDuration
                     }
                 }
             }
-            .frame(width: proxy.size.width, height: proxy.size.height)
-            
-            .onChange(of: loadedState) { type in
-                switch type{
-                case .loaded(let url):
-                    viewModel.updateThumbnails(url: url, geo: proxy)
-                    print(viewModel.thumbnailsImages.count)
-                default:
-                    break
-                }
-            }
-        }
-        .frame(width: getRect().width - 32, height: 70)
+            .frame(width: getRect().width - 64, height: 70)
         .padding(.vertical, 10)
-        .padding(.horizontal)
+        }
     }
 }
 
 struct ThumbnailsSliderView_Previews: PreviewProvider {
+   static let url = URL(string: "https://www.google.com/")!
     static var previews: some View {
-        ThumbnailsSliderView(curretTime: .constant(0), loadedState: .failed, onChangeTimeValue: {})
+        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(.init(url:url, asset: AVAsset(url: url), originalDuration: 250, rangeDuration: 0...250)), onChangeTimeValue: {})
     }
 }
 
 
 extension ThumbnailsSliderView{
     
-    
+    @ViewBuilder
     private func thumbnailsImagesSection(_ proxy: GeometryProxy) -> some View{
-        HStack(spacing: 0){
-            ForEach(viewModel.thumbnailsImages) { trimData in
-                if let image = trimData.image{
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: proxy.size.width / CGFloat(viewModel.thumbnailsImages.count), height: proxy.size.height - 5)
-                        .clipped()
+        if let video{
+            HStack(spacing: 0){
+                ForEach(video.thumbnailsImages) { trimData in
+                    if let image = trimData.image{
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: proxy.size.width / CGFloat(video.thumbnailsImages.count), height: proxy.size.height - 5)
+                            .clipped()
+                    }
                 }
             }
         }
     }
     
     private func setOnChangeTrim(_ isChange: Bool){
-        isHiddenTimeSlider = isChange
         if !isChange{
-            curretTime = viewModel.trimRange.lowerBound
+            curretTime = video?.rangeDuration.upperBound ?? 0
             onChangeTimeValue()
         }
     }

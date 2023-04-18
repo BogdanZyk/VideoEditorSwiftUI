@@ -22,10 +22,12 @@ struct PlayerHolderView: View{
                 case .failed:
                     Text("Failed to open video")
                 case .loaded:
-                    PlayerView(player: videoPlayer.player)
-                        .onTapGesture {
-                            videoPlayer.action()
-                        }
+                    if let video = editorVM.currentVideo{
+                        PlayerView(player: videoPlayer.player)
+                            .onTapGesture {
+                                videoPlayer.action(video.rangeDuration)
+                            }
+                    }
                     timelineLabel
                 }
             }
@@ -55,7 +57,9 @@ extension PlayerHolderView{
     private var playSection: some View{
         
         Button {
-            videoPlayer.action()
+            if let video = editorVM.currentVideo{
+                videoPlayer.action(video.rangeDuration)
+            }
         } label: {
             Image(systemName: videoPlayer.isPlaying ? "pause.fill" : "play.fill")
                 .imageScale(.medium)
@@ -80,11 +84,11 @@ extension PlayerHolderView{
     
     @ViewBuilder
     private var timelineLabel: some View{
-        if let asset = editorVM.asset{
+        if let video = editorVM.currentVideo{
             HStack{
-                Text(Int(videoPlayer.currentTime).secondsToTime()) +
+                Text((videoPlayer.currentTime - video.rangeDuration.lowerBound)  .formatterTimeString()) +
                 Text(" / ") +
-                Text(Int(asset.videoDuration()).secondsToTime())
+                Text(Int(video.totalDuration).secondsToTime())
             }
             .font(.caption2)
             .foregroundColor(.white)

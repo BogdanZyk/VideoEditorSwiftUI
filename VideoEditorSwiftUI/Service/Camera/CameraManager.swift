@@ -22,10 +22,10 @@ final class CameraManager: NSObject, ObservableObject{
     @Published var error: CameraError?
     @Published var session = AVCaptureSession()
     @Published var finalURL: URL?
-    @Published var recordedDuration: Int = .zero
+    @Published var recordedDuration: Double = .zero
     @Published var cameraPosition: AVCaptureDevice.Position = .front
     
-    let maxDuration: Int = 100 // sec
+    let maxDuration: Double = 100 // sec
     private var timer: Timer?
     private let sessionQueue = DispatchQueue(label: "com.VideoEditorSwiftUI")
     private let videoOutput = AVCaptureMovieFileOutput()
@@ -243,3 +243,13 @@ extension Int {
     }
 }
 
+extension Double{
+    
+    func formatterTimeString() -> String{
+        let minutes = Int(self / 60)
+          let seconds = Int(self.truncatingRemainder(dividingBy: 60))
+          let milliseconds = Int((self.truncatingRemainder(dividingBy: 1)) * 10)
+          return "\(minutes):\(String(format: "%02d", seconds)).\(milliseconds)"
+    }
+    
+}

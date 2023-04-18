@@ -15,7 +15,7 @@ struct RecordVideoView: View {
         ZStack{
             CameraPreviewHolder(captureSession: cameraManager.session)
             VStack(spacing: 0) {
-                Text(cameraManager.recordedDuration.secondsToTime())
+                Text(cameraManager.recordedDuration.formatterTimeString())
                     .foregroundColor(.white)
                 Spacer()
                 Button {
