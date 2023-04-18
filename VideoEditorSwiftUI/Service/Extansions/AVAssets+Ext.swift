@@ -46,6 +46,12 @@ extension AVAsset {
         guard let imageData = uiImage.jpegData(compressionQuality: compressionQuality), let compressedUIImage = UIImage(data: imageData) else { return nil }
         return Image(uiImage: compressedUIImage)
     }
+    
+    
+    func videoDuration() -> Double{
+        self.duration.seconds
+    }
+    
 }
 
 

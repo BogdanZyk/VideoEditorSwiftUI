@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A08FC7129EEB65000AB877C /* TimeLineView.swift */; };
 		5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */; };
 		5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF97029E944FA00827A37 /* ContentView.swift */; };
 		5ACFF97329E944FC00827A37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97229E944FC00827A37 /* Assets.xcassets */; };
 		5ACFF97629E944FC00827A37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97529E944FC00827A37 /* Preview Assets.xcassets */; };
 		5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */; };
-		5ACFF98329E945C300827A37 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98229E945C300827A37 /* RootView.swift */; };
-		5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98429E945E000827A37 /* RootViewModel.swift */; };
+		5ACFF98329E945C300827A37 /* MainEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98229E945C300827A37 /* MainEditorView.swift */; };
+		5ACFF98529E945E000827A37 /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98429E945E000827A37 /* EditorViewModel.swift */; };
 		5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98629E949A900827A37 /* VideoItem.swift */; };
 		5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98829E98EE700827A37 /* CameraManager.swift */; };
 		5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */; };
@@ -25,18 +26,24 @@
 		5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF99C29ED5C4900827A37 /* SliderView.swift */; };
 		5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF99E29ED709B00827A37 /* RangeSliderView.swift */; };
 		5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9A029ED9C4000827A37 /* CustomSlider.swift */; };
-		5ACFF9A329ED9CE000827A37 /* TimeLineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9A229ED9CE000827A37 /* TimeLineSlider.swift */; };
+		5ACFF9A329ED9CE000827A37 /* LineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9A229ED9CE000827A37 /* LineSlider.swift */; };
+		5ACFF9A529EE85C000827A37 /* ThumbnailsSliderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9A429EE85C000827A37 /* ThumbnailsSliderViewModel.swift */; };
+		5ACFF9A929EE878500827A37 /* ToolButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9A829EE878500827A37 /* ToolButtonView.swift */; };
+		5ACFF9AC29EE8B9400827A37 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9AB29EE8B9400827A37 /* PlayerView.swift */; };
+		5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */; };
+		5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A08FC7129EEB65000AB877C /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		5ACFF96B29E944FA00827A37 /* VideoEditorSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoEditorSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorSwiftUIApp.swift; sourceTree = "<group>"; };
 		5ACFF97029E944FA00827A37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5ACFF97229E944FC00827A37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5ACFF97529E944FC00827A37 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5ACFF98029E9454200827A37 /* VideoPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerManager.swift; sourceTree = "<group>"; };
-		5ACFF98229E945C300827A37 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		5ACFF98429E945E000827A37 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		5ACFF98229E945C300827A37 /* MainEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainEditorView.swift; sourceTree = "<group>"; };
+		5ACFF98429E945E000827A37 /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		5ACFF98629E949A900827A37 /* VideoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoItem.swift; sourceTree = "<group>"; };
 		5ACFF98829E98EE700827A37 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -48,7 +55,12 @@
 		5ACFF99C29ED5C4900827A37 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		5ACFF99E29ED709B00827A37 /* RangeSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSliderView.swift; sourceTree = "<group>"; };
 		5ACFF9A029ED9C4000827A37 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
-		5ACFF9A229ED9CE000827A37 /* TimeLineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineSlider.swift; sourceTree = "<group>"; };
+		5ACFF9A229ED9CE000827A37 /* LineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSlider.swift; sourceTree = "<group>"; };
+		5ACFF9A429EE85C000827A37 /* ThumbnailsSliderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailsSliderViewModel.swift; sourceTree = "<group>"; };
+		5ACFF9A829EE878500827A37 /* ToolButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolButtonView.swift; sourceTree = "<group>"; };
+		5ACFF9AB29EE8B9400827A37 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerHolderView.swift; sourceTree = "<group>"; };
+		5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsSectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,11 +127,12 @@
 		5ACFF97D29E9451100827A37 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5ACFF9AE29EE8C4700827A37 /* Camera */,
+				5ACFF9AD29EE8C1D00827A37 /* EditorView */,
 				5ACFF99B29ED5C3500827A37 /* ViewComponents */,
-				5ACFF98229E945C300827A37 /* RootView.swift */,
-				5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */,
-				5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */,
 				5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */,
+				5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */,
+				5A08FC7129EEB65000AB877C /* TimeLineView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -135,7 +148,8 @@
 		5ACFF97F29E9451B00827A37 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				5ACFF98429E945E000827A37 /* RootViewModel.swift */,
+				5ACFF98429E945E000827A37 /* EditorViewModel.swift */,
+				5ACFF9A429EE85C000827A37 /* ThumbnailsSliderViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -168,12 +182,56 @@
 		5ACFF99B29ED5C3500827A37 /* ViewComponents */ = {
 			isa = PBXGroup;
 			children = (
-				5ACFF99C29ED5C4900827A37 /* SliderView.swift */,
-				5ACFF99E29ED709B00827A37 /* RangeSliderView.swift */,
-				5ACFF9A029ED9C4000827A37 /* CustomSlider.swift */,
-				5ACFF9A229ED9CE000827A37 /* TimeLineSlider.swift */,
+				5ACFF9AA29EE8B8500827A37 /* Player */,
+				5ACFF9A729EE876D00827A37 /* Sliders */,
+				5ACFF9A629EE876900827A37 /* Buttons */,
 			);
 			path = ViewComponents;
+			sourceTree = "<group>";
+		};
+		5ACFF9A629EE876900827A37 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF9A829EE878500827A37 /* ToolButtonView.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		5ACFF9A729EE876D00827A37 /* Sliders */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF9A229ED9CE000827A37 /* LineSlider.swift */,
+				5ACFF9A029ED9C4000827A37 /* CustomSlider.swift */,
+				5ACFF99E29ED709B00827A37 /* RangeSliderView.swift */,
+				5ACFF99C29ED5C4900827A37 /* SliderView.swift */,
+			);
+			path = Sliders;
+			sourceTree = "<group>";
+		};
+		5ACFF9AA29EE8B8500827A37 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF9AB29EE8B9400827A37 /* PlayerView.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		5ACFF9AD29EE8C1D00827A37 /* EditorView */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98229E945C300827A37 /* MainEditorView.swift */,
+				5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */,
+			);
+			path = EditorView;
+			sourceTree = "<group>";
+		};
+		5ACFF9AE29EE8C4700827A37 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */,
+				5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,21 +305,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */,
+				5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */,
 				5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */,
 				5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */,
+				5ACFF9AC29EE8B9400827A37 /* PlayerView.swift in Sources */,
 				5ACFF99A29ED57BC00827A37 /* ThumbnailsSliderView.swift in Sources */,
-				5ACFF98529E945E000827A37 /* RootViewModel.swift in Sources */,
-				5ACFF98329E945C300827A37 /* RootView.swift in Sources */,
+				5ACFF9A529EE85C000827A37 /* ThumbnailsSliderViewModel.swift in Sources */,
+				5ACFF98529E945E000827A37 /* EditorViewModel.swift in Sources */,
+				5ACFF9A929EE878500827A37 /* ToolButtonView.swift in Sources */,
+				5ACFF98329E945C300827A37 /* MainEditorView.swift in Sources */,
 				5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */,
 				5ACFF99629EC8A2400827A37 /* AVAssets+Ext.swift in Sources */,
 				5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
+				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
+				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
 				5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */,
-				5ACFF9A329ED9CE000827A37 /* TimeLineSlider.swift in Sources */,
+				5ACFF9A329ED9CE000827A37 /* LineSlider.swift in Sources */,
 				5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,8 +463,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,8 +498,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

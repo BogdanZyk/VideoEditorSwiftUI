@@ -20,7 +20,6 @@ final class VideoPlayerManager: ObservableObject{
     @Published private(set) var player = AVPlayer()
     @Published private(set) var isPlaying: Bool = false
     private var cancellable = Set<AnyCancellable>()
-    
     private var timeObserver: Any?
     
     deinit {
@@ -40,6 +39,14 @@ final class VideoPlayerManager: ObservableObject{
                 player.seek(to: CMTime(seconds: seekTime, preferredTimescale: 600))
             default : break
             }
+        }
+    }
+    
+    func action(){
+        if isPlaying{
+            pause()
+        }else{
+            play()
         }
     }
     
@@ -86,12 +93,20 @@ final class VideoPlayerManager: ObservableObject{
     }
     
     
-    func pause(){
+   private func pause(){
         if isPlaying{
             player.pause()
         }
     }
     
+    private func play(){
+        
+        player.play()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+            self.playerDidFinishPlaying()
+        }
+    }
     
     private func startTimer() {
         
@@ -111,6 +126,11 @@ final class VideoPlayerManager: ObservableObject{
                 }
             }
         }
+    }
+    
+    
+    private func playerDidFinishPlaying() {
+        self.player.seek(to: .zero)
     }
     
     private func removeTimeObserver(){

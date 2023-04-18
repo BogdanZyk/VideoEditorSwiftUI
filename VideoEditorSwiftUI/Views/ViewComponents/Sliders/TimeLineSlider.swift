@@ -1,5 +1,5 @@
 //
-//  TimeLineSlider.swift
+//  LineSlider.swift
 //  VideoEditorSwiftUI
 //
 //  Created by Bogdan Zykov on 17.04.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimeLineSlider: View {
+struct LineSlider: View {
     @Binding var value: Double
     var range: ClosedRange<Double>
     let onEditingChanged: () -> Void
@@ -16,10 +16,10 @@ struct TimeLineSlider: View {
         GeometryReader { proxy in
             CustomSlider(value: $value,
                          in: range,
-                         onEditingChanged: { started in
-                if !started{
+                         onChanged: {
+ 
                     onEditingChanged()
-                }
+                
             }, track: {
                 Rectangle()
                     .fill(.clear)
@@ -34,7 +34,7 @@ struct TimeLineSlider: View {
 
 struct TimeLineSlider_Previews: PreviewProvider {
     static var previews: some View {
-        TimeLineSlider(value: .constant(100), range: 14...100){}
+        LineSlider(value: .constant(100), range: 14...100){}
             .frame(width: 250, height: 60)
             .background(Color.secondary)
     }

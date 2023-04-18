@@ -21,6 +21,7 @@ where Value: BinaryFloatingPoint, Value.Stride: BinaryFloatingPoint, Track: View
     let maximumValueLabel: Text?
     // called with `true` when sliding starts and with `false` when it stops
     let onEditingChanged: ((Bool) -> Void)?
+    let onChanged: (() -> Void)?
     // the track view
     let track: () -> Track
     // the thumb view
@@ -45,6 +46,7 @@ where Value: BinaryFloatingPoint, Value.Stride: BinaryFloatingPoint, Track: View
          minimumValueLabel: Text? = nil,
          maximumValueLabel: Text? = nil,
          onEditingChanged: ((Bool) -> Void)? = nil,
+         onChanged: (() -> Void)? = nil,
          track: @escaping () -> Track,
          thumb: @escaping () -> Thumb,
          thumbSize: CGSize) {
@@ -54,6 +56,7 @@ where Value: BinaryFloatingPoint, Value.Stride: BinaryFloatingPoint, Track: View
         self.minimumValueLabel = minimumValueLabel
         self.maximumValueLabel = maximumValueLabel
         self.onEditingChanged = onEditingChanged
+        self.onChanged = onChanged
         self.track = track
         self.thumb = thumb
         self.thumbSize = thumbSize
@@ -125,6 +128,7 @@ where Value: BinaryFloatingPoint, Value.Stride: BinaryFloatingPoint, Track: View
                     let newValue = (bounds.upperBound - bounds.lowerBound) * Value(xOffset / availableWidth) + bounds.lowerBound
                     let steppedNewValue = (round(newValue / step) * step)
                     value = min(bounds.upperBound, max(bounds.lowerBound, steppedNewValue))
+                    onChanged?()
                 }).onEnded({ _ in
                     // once the gesture ends, trigger `onEditingChanged` again
                     onEditingChanged?(false)
