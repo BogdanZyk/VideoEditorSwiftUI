@@ -18,7 +18,6 @@ struct TimeLineView: View {
                 TimelineSlider(bounds: video.rangeDuration, value: $curretTime, frameWigth: frameWigth) {
                     image
                         .resizable()
-                        
                         .aspectRatio(contentMode: .fill)
                         .frame(width: frameWigth + 10, height: frameWigth)
                         .clipped()

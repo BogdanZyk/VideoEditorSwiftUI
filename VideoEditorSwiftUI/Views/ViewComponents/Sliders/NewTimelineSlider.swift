@@ -24,16 +24,9 @@ struct TimelineSlider<T: View>: View {
             let sliderViewYCenter = proxy.size.height / 2
             let sliderPositionX = proxy.size.width / 2 + frameWigth / 2 + offset
             ZStack{
-               
                 frameView()
                     .frame(width: frameWigth, height: proxy.size.height - 5)
                     .position(x: sliderPositionX, y: sliderViewYCenter)
-                    .overlay(content: {
-                        VStack {
-                            Text("\(offset)")
-                            Text("\(gestureW)")
-                        }
-                    })
                 Capsule()
                     .fill(Color.white)
                     .frame(width: 4, height: proxy.size.height)
@@ -44,19 +37,14 @@ struct TimelineSlider<T: View>: View {
             .contentShape(Rectangle())
             
             .gesture(
-                DragGesture()
+                DragGesture(minimumDistance: 1)
                     .onChanged { gesture in
                         isChange = true
                         
-                        gestureW = gesture.translation.width * 0.5
+                        let translationWidth = gesture.translation.width * 0.5
+         
                         
-                        if abs(gesture.translation.width) > 0.1 {
-                           lastOffset = offset
-                        }
-                       
-                        offset = min(0, max((-lastOffset + gesture.translation.width) * 0.5, -frameWigth))
-                        
-                        
+                        offset = min(0, max(translationWidth, -frameWigth))
                         
                         let newValue = (bounds.upperBound - bounds.lowerBound) * (offset / frameWigth) - bounds.lowerBound
                         
@@ -69,7 +57,7 @@ struct TimelineSlider<T: View>: View {
                         isChange = false
                     }
             )
-            //.animation(.easeIn, value: offset)
+            .animation(.easeIn, value: offset)
             .onChange(of: value) { _ in
                setOffset()
             }

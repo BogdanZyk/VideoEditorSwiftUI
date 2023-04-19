@@ -105,9 +105,9 @@ final class VideoPlayerManager: ObservableObject{
         
         if let currentDurationRange{
             if currentTime >= currentDurationRange.upperBound{
-                player.seek(to: CMTime(seconds: currentDurationRange.lowerBound, preferredTimescale: 1))
+                player.seek(to: CMTime(seconds: currentDurationRange.lowerBound, preferredTimescale: 600))
             }else{
-                player.seek(to: CMTime(seconds: player.currentTime().seconds, preferredTimescale: 1))
+                player.seek(to: CMTime(seconds: player.currentTime().seconds, preferredTimescale: 600))
             }
         }
     
