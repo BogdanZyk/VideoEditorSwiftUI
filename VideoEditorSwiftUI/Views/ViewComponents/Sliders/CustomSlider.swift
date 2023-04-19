@@ -116,7 +116,7 @@ where Value: BinaryFloatingPoint, Value.Stride: BinaryFloatingPoint, Track: View
                 .gesture(DragGesture(minimumDistance: 0).onChanged({ gestureValue in
                     // make sure at least some dragging was done to trigger `onEditingChanged`
                     if abs(gestureValue.translation.width) < 0.1 {
-                        lastOffset = xOffset
+                       lastOffset = xOffset
                         onEditingChanged?(true)
                         isOnChange = true
                     }

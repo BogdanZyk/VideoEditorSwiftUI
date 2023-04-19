@@ -65,9 +65,8 @@ struct ThumbnailsSliderView: View {
 }
 
 struct ThumbnailsSliderView_Previews: PreviewProvider {
-   static let url = URL(string: "https://www.google.com/")!
     static var previews: some View {
-        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(.init(url:url, asset: AVAsset(url: url), originalDuration: 250, rangeDuration: 0...250)), onChangeTimeValue: {})
+        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(Video.mock), onChangeTimeValue: {})
     }
 }
 

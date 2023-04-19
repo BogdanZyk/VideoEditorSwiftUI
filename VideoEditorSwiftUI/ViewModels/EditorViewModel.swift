@@ -75,4 +75,7 @@ struct Video{
         
         return Int(ceil(num))
     }
+    
+    
+    static var mock: Video = .init(url:URL(string: "https://www.google.com/")!, asset: AVAsset(url: URL(string: "https://www.google.com/")!), originalDuration: 250, rangeDuration: 0...250)
 }

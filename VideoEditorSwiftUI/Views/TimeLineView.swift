@@ -8,39 +8,32 @@
 import SwiftUI
 
 struct TimeLineView: View {
-    @ObservedObject var editorVM: EditorViewModel
+    var video: Video
     @Binding var curretTime: Double
+    let frameWigth: CGFloat = 64
     let onChangeTimeValue: () -> Void
     var body: some View {
-        ZStack{
-            Rectangle()
-                .fill(Color.secondary)
-                .frame(height: 60)
-            if let image = editorVM.currentVideo?.thumbnailsImages.first?.image{
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 60)
-            }
-            if let duration = editorVM.currentVideo?.rangeDuration{
-                LineSlider(value: $curretTime, range: duration, onEditingChanged: onChangeTimeValue)
-                    .frame(height: 70)
+        Group{
+            if let image = video.thumbnailsImages.first?.image{
+                TimelineSlider(bounds: video.rangeDuration, value: $curretTime, frameWigth: frameWigth) {
+                    image
+                        .resizable()
+                        
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: frameWigth + 10, height: frameWigth)
+                        .clipped()
+                } onChange: {
+                    onChangeTimeValue()
+                }
+                .frame(height: 74)
             }
         }
-        .frame(width: 80, height: 70)
     }
 }
 
 struct TimeLineView_Previews: PreviewProvider {
     static var previews: some View {
-        TimeLineView(editorVM: EditorViewModel(), curretTime: .constant(0), onChangeTimeValue: {})
+        TimeLineView(video: Video.mock, curretTime: .constant(0), onChangeTimeValue: {})
     }
 }
 
-extension TimeLineView{
-    
-    
-
-    
-    
-}

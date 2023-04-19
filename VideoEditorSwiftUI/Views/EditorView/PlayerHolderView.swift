@@ -48,10 +48,14 @@ struct PlayerHolderView_Previews: PreviewProvider {
 extension PlayerHolderView{
     
     
+    @ViewBuilder
     private var timeLineControlSection: some View{
-        TimeLineView(editorVM: editorVM, curretTime: $videoPlayer.currentTime) {
-            videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+        if let video = editorVM.currentVideo{
+            TimeLineView(video: video, curretTime: $videoPlayer.currentTime) {
+                videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+            }
         }
+        
     }
     
     private var playSection: some View{
@@ -69,6 +73,7 @@ extension PlayerHolderView{
         .frame(height: 30)
         .overlay(alignment: .trailing) {
             Button {
+                videoPlayer.pause()
                 withAnimation {
                     isFullScreen.toggle()
                 }

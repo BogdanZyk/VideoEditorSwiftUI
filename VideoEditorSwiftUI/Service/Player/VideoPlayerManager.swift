@@ -95,7 +95,7 @@ final class VideoPlayerManager: ObservableObject{
     }
     
     
-   private func pause(){
+    func pause(){
         if isPlaying{
             player.pause()
         }
