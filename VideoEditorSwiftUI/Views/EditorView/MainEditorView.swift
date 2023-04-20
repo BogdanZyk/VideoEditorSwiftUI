@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct MainEditorView: View {
+    var videoURl: URL?
     @State var isFullScreen: Bool = false
     @State var showRecordView: Bool = false
     @StateObject var editorVM = EditorViewModel()
@@ -46,12 +47,17 @@ struct MainEditorView: View {
                 videoPlayer.loadState = .loaded(url)
             }
         }
+        .onAppear{
+            if let videoURl{
+                videoPlayer.loadState = .loaded(videoURl)
+            }
+        }
     }
 }
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        MainEditorView()
+        MainEditorView(videoURl: URL(string: "file:///Users/bogdanzykov/Library/Developer/CoreSimulator/Devices/86D65E8C-7D49-47AF-A511-BFA631289CB1/data/Containers/Data/Application/52E5EF3C-9E78-4676-B3EA-03BD22CCD09A/Documents/video_copy.mp4"))
     }
 }
 
@@ -68,4 +74,6 @@ extension MainEditorView{
         .padding(.bottom)
     }
 }
+
+
 

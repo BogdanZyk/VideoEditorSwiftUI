@@ -54,19 +54,6 @@ extension AVAsset {
         return duration.seconds
     }
     
-
-//    func resolutionSizeForLocalVideo() -> CGSize? {
-//        var unionRect = CGRect.zero
-//        for track in self.tracks(withMediaCharacteristic: .visual) {
-//            let trackRect = CGRect(x: 0, y: 0, width:
-//                                    track.naturalSize.width, height:
-//                                    track.naturalSize.height).applying(track.preferredTransform)
-//            unionRect = unionRect.union(trackRect)
-//            
-//        }
-//        return unionRect.size
-//    }
-    
     
     func naturalSize() async -> CGSize? {
         guard let tracks = try? await loadTracks(withMediaType: .video) else { return nil }

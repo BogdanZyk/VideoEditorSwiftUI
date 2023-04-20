@@ -9,7 +9,8 @@ import AVKit
 import SwiftUI
 
 
-struct VideoItem: Transferable {
+struct VideoItem: Transferable, Hashable {
+    var id: UUID = UUID()
     let url: URL
 
     static var transferRepresentation: some TransferRepresentation {

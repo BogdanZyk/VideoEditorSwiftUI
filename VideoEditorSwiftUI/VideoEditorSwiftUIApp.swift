@@ -11,7 +11,7 @@ import SwiftUI
 struct VideoEditorSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
                 .preferredColorScheme(.dark)
         }
     }
