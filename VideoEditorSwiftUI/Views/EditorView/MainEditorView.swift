@@ -19,9 +19,10 @@ struct MainEditorView: View {
             VStack(spacing: 0){
                 headerView
                 PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
-                    .frame(height: proxy.size.height / (isFullScreen ?  1.05 : 1.5))
+                    .frame(height: proxy.size.height / (isFullScreen ?  1.05 : 1.45))
                 ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
                     .opacity(isFullScreen ? 0 : 1)
+                    .padding(.top)
             }
             .onChange(of: videoPlayer.loadState) { type in
                 switch type{
@@ -70,7 +71,7 @@ extension MainEditorView{
 
 
 enum ToolEnum: Int, CaseIterable{
-    case cut, speed, crop, audio, text, filters
+    case cut, speed, crop, audio, text, filters, corrections, frames
     
     
     var title: String{
@@ -81,17 +82,21 @@ enum ToolEnum: Int, CaseIterable{
         case .audio: return "Audio"
         case .text: return "Text"
         case .filters: return "Filters"
+        case .corrections: return "Corrections"
+        case .frames: return "Frames"
         }
     }
     
     var image: String{
         switch self {
         case .cut: return "scissors"
-        case .speed: return "scissors"
-        case .crop: return "scissors"
-        case .audio: return "scissors"
-        case .text: return "scissors"
-        case .filters: return "scissors"
+        case .speed: return "timer"
+        case .crop: return "crop"
+        case .audio: return "waveform"
+        case .text: return "t.square.fill"
+        case .filters: return "camera.filters"
+        case .corrections: return "circle.righthalf.filled"
+        case .frames: return "person.crop.artframe"
         }
     }
 }

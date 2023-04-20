@@ -12,9 +12,10 @@ struct Video{
     
     var url: URL
     var asset: AVAsset
-    var originalDuration: Double
+    let originalDuration: Double
     var rangeDuration: ClosedRange<Double>
     var thumbnailsImages = [ThumbnailImage]()
+    var rate: Float = 1.0
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
@@ -46,6 +47,23 @@ struct Video{
         }
     }
     
+    ///reset and update
+    mutating func updateRate(_ rate: Float){
+       
+        let lowerBound = (rangeDuration.lowerBound * Double(self.rate)) / Double(rate)
+        let upperBound = (rangeDuration.upperBound *  Double(self.rate)) / Double(rate)
+        rangeDuration = lowerBound...upperBound
+        
+        self.rate = rate
+    }
+    
+    mutating func resetRangeDuration(){
+        self.rangeDuration = 0...originalDuration
+    }
+    
+    mutating func resetRate(){
+        updateRate(1.0)
+    }
     
     private func thumbnailCount(_ geo: GeometryProxy) -> Int {
         

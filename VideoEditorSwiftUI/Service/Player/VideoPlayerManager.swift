@@ -43,12 +43,12 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
-    func action(_ durationRange: ClosedRange<Double>){
-        self.currentDurationRange = durationRange
+    func action(_ video: Video){
+        self.currentDurationRange = video.rangeDuration
         if isPlaying{
             pause()
         }else{
-            play()
+            play(video.rate)
         }
     }
     
@@ -101,7 +101,8 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
-    private func play(){
+
+    private func play(_ rate: Float?){
         
         if let currentDurationRange{
             if currentTime >= currentDurationRange.upperBound{
@@ -110,8 +111,11 @@ final class VideoPlayerManager: ObservableObject{
                 player.seek(to: CMTime(seconds: player.currentTime().seconds, preferredTimescale: 600))
             }
         }
-    
         player.play()
+        
+        if let rate{
+            player.rate = rate
+        }
         
         if let currentDurationRange, player.currentItem?.duration.seconds ?? 0 >= currentDurationRange.upperBound{
             NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in

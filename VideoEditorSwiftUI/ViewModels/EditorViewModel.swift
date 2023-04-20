@@ -12,13 +12,41 @@ import SwiftUI
 final class EditorViewModel: ObservableObject{
     
     @Published var currentVideo: Video?
+    @Published var toolState: ToolEnum?
+    
     
     func setVideo(_ url: URL, geo: GeometryProxy){
         currentVideo = .init(url: url)
         currentVideo?.updateThumbnails(geo)
     }
  
+    
+    func udateRate(rate: Float){
+        currentVideo?.updateRate(rate)
+    }
   
+    func reset(){
+        guard let toolState else {return}
+        switch toolState{
+            
+        case .cut:
+            currentVideo?.resetRangeDuration()
+        case .speed:
+            currentVideo?.resetRate()
+        case .crop:
+            break
+        case .audio:
+            break
+        case .text:
+            break
+        case .filters:
+            break
+        case .corrections:
+            break
+        case .frames:
+            break
+        }
+    }
     
 }
 

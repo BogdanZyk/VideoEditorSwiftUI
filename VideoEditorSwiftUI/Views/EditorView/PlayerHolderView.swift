@@ -25,7 +25,7 @@ struct PlayerHolderView: View{
                     if let video = editorVM.currentVideo{
                         PlayerView(player: videoPlayer.player)
                             .onTapGesture {
-                                videoPlayer.action(video.rangeDuration)
+                                videoPlayer.action(video)
                             }
                     }
                     timelineLabel
@@ -62,7 +62,7 @@ extension PlayerHolderView{
         
         Button {
             if let video = editorVM.currentVideo{
-                videoPlayer.action(video.rangeDuration)
+                videoPlayer.action(video)
             }
         } label: {
             Image(systemName: videoPlayer.isPlaying ? "pause.fill" : "play.fill")

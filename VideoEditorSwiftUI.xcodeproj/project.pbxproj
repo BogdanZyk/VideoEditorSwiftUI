@@ -10,6 +10,7 @@
 		5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A08FC7129EEB65000AB877C /* TimeLineView.swift */; };
 		5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A08FC7329EFD5E400AB877C /* NewTimelineSlider.swift */; };
 		5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B3FCE29F0360B00FB9858 /* Video.swift */; };
+		5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */; };
 		5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */; };
 		5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF97029E944FA00827A37 /* ContentView.swift */; };
 		5ACFF97329E944FC00827A37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97229E944FC00827A37 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		5A08FC7129EEB65000AB877C /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		5A08FC7329EFD5E400AB877C /* NewTimelineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTimelineSlider.swift; sourceTree = "<group>"; };
 		5A8B3FCE29F0360B00FB9858 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSpeedSlider.swift; sourceTree = "<group>"; };
 		5ACFF96B29E944FA00827A37 /* VideoEditorSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoEditorSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorSwiftUIApp.swift; sourceTree = "<group>"; };
 		5ACFF97029E944FA00827A37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +78,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A9EDCFE29F03D800014A1CF /* ToolsView */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */,
+				5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */,
+				5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */,
+			);
+			path = ToolsView;
+			sourceTree = "<group>";
+		};
 		5ACFF96229E944FA00827A37 = {
 			isa = PBXGroup;
 			children = (
@@ -129,12 +141,10 @@
 		5ACFF97D29E9451100827A37 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5ACFF99B29ED5C3500827A37 /* ViewComponents */,
+				5A9EDCFE29F03D800014A1CF /* ToolsView */,
 				5ACFF9AE29EE8C4700827A37 /* Camera */,
 				5ACFF9AD29EE8C1D00827A37 /* EditorView */,
-				5ACFF99B29ED5C3500827A37 /* ViewComponents */,
-				5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */,
-				5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */,
-				5A08FC7129EEB65000AB877C /* TimeLineView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -222,6 +232,7 @@
 		5ACFF9AD29EE8C1D00827A37 /* EditorView */ = {
 			isa = PBXGroup;
 			children = (
+				5A08FC7129EEB65000AB877C /* TimeLineView.swift */,
 				5ACFF98229E945C300827A37 /* MainEditorView.swift */,
 				5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */,
 			);
@@ -326,6 +337,7 @@
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
 				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
+				5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
 				5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */,
