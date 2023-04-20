@@ -21,20 +21,20 @@ struct ToolsSectionView: View {
     var body: some View {
         ZStack{
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
-                ForEach(ToolEnum.allCases, id: \.self) { tool in
-                    ToolButtonView(label: tool.title, image: tool.image) {
-                        editorVM.toolState = tool
+                ForEach(editorVM.tools) { model in
+                    ToolButtonView(label: model.tool.title, image: model.tool.image, isChange: model.isChange) {
+                        editorVM.selectedTools = model
                     }
                 }
             }
             .padding()
-            .opacity(editorVM.toolState != nil ? 0 : 1)
-            if let toolState = editorVM.toolState, let video = editorVM.currentVideo{
+            .opacity(editorVM.selectedTools != nil ? 0 : 1)
+            if let toolState = editorVM.selectedTools, let video = editorVM.currentVideo{
                 bottomSheet(toolState, video)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .animation(.easeIn(duration: 0.15), value: editorVM.toolState)
+        .animation(.easeIn(duration: 0.15), value: editorVM.selectedTools)
     }
 }
 
@@ -48,19 +48,21 @@ struct ToolsSectionView_Previews: PreviewProvider {
 extension ToolsSectionView{
     
     
-    private func bottomSheet(_ state: ToolEnum, _ video: Video) -> some View{
+    private func bottomSheet(_ model: ToolsModel, _ video: Video) -> some View{
         ZStack(alignment: .bottom){
             VStack{
                 Spacer()
-                switch state {
+                switch model.tool {
                 case .cut:
-                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, resetCounter: editorVM.resetCounter) {
+                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: editorVM.selectedTools?.isChange) {
                         videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+                        editorVM.setToolIsChange(true)
                     }
                 case .speed:
-                    VideoSpeedSlider(value: Double(video.rate), resetCounter: editorVM.resetCounter) {rate in
+                    VideoSpeedSlider(value: Double(video.rate), isChangeState: editorVM.selectedTools?.isChange) {rate in
                         videoPlayer.pause()
                         editorVM.udateRate(rate: rate)
+                        editorVM.setToolIsChange(true)
                     }
                 case .crop:
                     EmptyView()
@@ -77,7 +79,7 @@ extension ToolsSectionView{
                 }
                 
                 Spacer()
-                Text(state.title)
+                Text(model.tool.title)
                     .font(.headline)
             }
         }
@@ -86,7 +88,7 @@ extension ToolsSectionView{
         .overlay(alignment: .topLeading) {
             HStack {
                 Button {
-                    editorVM.toolState = nil
+                    editorVM.selectedTools = nil
                 } label: {
                     Image(systemName: "chevron.down")
                         .imageScale(.small)
@@ -107,3 +109,6 @@ extension ToolsSectionView{
         }
     }
 }
+
+
+

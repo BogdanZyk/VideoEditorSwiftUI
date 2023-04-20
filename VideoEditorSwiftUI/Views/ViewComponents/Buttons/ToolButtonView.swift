@@ -10,7 +10,13 @@ import SwiftUI
 struct ToolButtonView: View {
     let label: String
     let image: String
+    let isChange: Bool
     let action: () -> Void
+    
+    
+    private var bgColor: Color{
+        Color(isChange ? .systemGray5 : .systemGray6)
+    }
     var body: some View {
         Button {
             action()
@@ -23,7 +29,7 @@ struct ToolButtonView: View {
             }
             .frame(height: 65)
             .hCenter()
-            .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .background(bgColor, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
     }
@@ -31,7 +37,11 @@ struct ToolButtonView: View {
 
 struct ToolButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolButtonView(label: "Cut", image: "scissors"){}
-            .padding()
+        VStack {
+            ToolButtonView(label: "Cut", image: "scissors", isChange: false){}
+            ToolButtonView(label: "Cut", image: "scissors", isChange: true){}
+             
+        }
+        .frame(width: 100)
     }
 }

@@ -11,8 +11,9 @@ import SwiftUI
 
 final class EditorViewModel: ObservableObject{
     
+    @Published var tools = ToolsModel.allTools()
     @Published var currentVideo: Video?
-    @Published var toolState: ToolEnum?
+    @Published var selectedTools: ToolsModel?
     @Published var resetCounter: Int = 0
     
     func setVideo(_ url: URL, geo: GeometryProxy){
@@ -24,11 +25,20 @@ final class EditorViewModel: ObservableObject{
     func udateRate(rate: Float){
         currentVideo?.updateRate(rate)
     }
+    
+    
+    func setToolIsChange(_ isChange: Bool){
+        guard let selectedTools,
+                let index = tools.firstIndex(where: {$0.id == selectedTools.id}),
+              self.selectedTools?.isChange != isChange else {return}
+        tools[index].isChange = isChange
+        self.selectedTools?.isChange = isChange
+    }
   
     func reset(){
-        guard let toolState else {return}
-        resetCounter += 1
-        switch toolState{
+        guard let selectedTools else {return}
+       
+        switch selectedTools.tool{
             
         case .cut:
             currentVideo?.resetRangeDuration()
@@ -46,6 +56,9 @@ final class EditorViewModel: ObservableObject{
             break
         case .frames:
             break
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            self.setToolIsChange(false)
         }
     }
     

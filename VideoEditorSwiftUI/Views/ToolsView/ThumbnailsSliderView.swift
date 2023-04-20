@@ -12,7 +12,7 @@ struct ThumbnailsSliderView: View {
     @State var rangeDuration: ClosedRange<Double> = 0...1
     @Binding var curretTime: Double
     @Binding var video: Video?
-    var resetCounter: Int
+    var isChangeState: Bool?
     let onChangeTimeValue: () -> Void
     
     
@@ -60,15 +60,17 @@ struct ThumbnailsSliderView: View {
             .frame(width: getRect().width - 64, height: 70)
             .padding(.vertical, 10)
         }
-        .onChange(of: resetCounter) { _ in
-            setVideoRange()
+        .onChange(of: isChangeState) { isChange in
+            if !(isChange ?? true){
+                setVideoRange()
+            }
         }
     }
 }
 
 struct ThumbnailsSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(Video.mock), resetCounter: 0, onChangeTimeValue: {})
+        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(Video.mock), isChangeState: nil, onChangeTimeValue: {})
     }
 }
 

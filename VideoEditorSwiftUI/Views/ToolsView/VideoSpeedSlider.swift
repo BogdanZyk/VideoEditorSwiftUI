@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VideoSpeedSlider: View {
     @State var value: Double = 1
-    var resetCounter: Int
+    var isChangeState: Bool?
     let onEditingChanged: (Float) -> Void
     private let rateRange = 0.1...12
     var body: some View {
@@ -31,14 +31,16 @@ struct VideoSpeedSlider: View {
                     .shadow(radius: 20 / 1)
             }, thumbSize: CGSize(width: 20, height: 20))
         }
-        .onChange(of: resetCounter) { _ in
-            value = 1
+        .onChange(of: isChangeState) { isChange in
+            if !(isChange ?? true){
+                value = 1
+            }
         }
     }
 }
 
 struct VideoSpeedSlider_Previews: PreviewProvider {
     static var previews: some View {
-        VideoSpeedSlider(resetCounter: 0){_ in}
+        VideoSpeedSlider(isChangeState: false){_ in}
     }
 }
