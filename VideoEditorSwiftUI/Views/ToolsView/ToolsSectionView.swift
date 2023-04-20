@@ -54,11 +54,11 @@ extension ToolsSectionView{
                 Spacer()
                 switch state {
                 case .cut:
-                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo) {
+                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, resetCounter: editorVM.resetCounter) {
                         videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
                     }
                 case .speed:
-                    VideoSpeedSlider(value: Double(video.rate)) {rate in
+                    VideoSpeedSlider(value: Double(video.rate), resetCounter: editorVM.resetCounter) {rate in
                         videoPlayer.pause()
                         editorVM.udateRate(rate: rate)
                     }

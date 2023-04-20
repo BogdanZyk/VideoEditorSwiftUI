@@ -12,6 +12,7 @@ struct ThumbnailsSliderView: View {
     @State var rangeDuration: ClosedRange<Double> = 0...1
     @Binding var curretTime: Double
     @Binding var video: Video?
+    var resetCounter: Int
     let onChangeTimeValue: () -> Void
     
     
@@ -53,25 +54,32 @@ struct ThumbnailsSliderView: View {
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height)
                 .onAppear{
-                    if let video{
-                        rangeDuration = video.rangeDuration
-                    }
+                    setVideoRange()
                 }
             }
             .frame(width: getRect().width - 64, height: 70)
-        .padding(.vertical, 10)
+            .padding(.vertical, 10)
+        }
+        .onChange(of: resetCounter) { _ in
+            setVideoRange()
         }
     }
 }
 
 struct ThumbnailsSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(Video.mock), onChangeTimeValue: {})
+        ThumbnailsSliderView(curretTime: .constant(0), video: .constant(Video.mock), resetCounter: 0, onChangeTimeValue: {})
     }
 }
 
 
 extension ThumbnailsSliderView{
+    
+    private func setVideoRange(){
+        if let video{
+            rangeDuration = video.rangeDuration
+        }
+    }
     
     @ViewBuilder
     private func thumbnailsImagesSection(_ proxy: GeometryProxy) -> some View{

@@ -13,7 +13,7 @@ final class EditorViewModel: ObservableObject{
     
     @Published var currentVideo: Video?
     @Published var toolState: ToolEnum?
-    
+    @Published var resetCounter: Int = 0
     
     func setVideo(_ url: URL, geo: GeometryProxy){
         currentVideo = .init(url: url)
@@ -27,6 +27,7 @@ final class EditorViewModel: ObservableObject{
   
     func reset(){
         guard let toolState else {return}
+        resetCounter += 1
         switch toolState{
             
         case .cut:
