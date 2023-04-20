@@ -16,15 +16,17 @@ struct Video{
     var rangeDuration: ClosedRange<Double>
     var thumbnailsImages = [ThumbnailImage]()
     var rate: Float = 1.0
+    var rotation: Double = 0
+    var frameSize: CGSize = .zero
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
     }
     
-    init(url: URL){
+    init(url: URL) async{
         self.url = url
         self.asset = AVAsset(url: url)
-        self.originalDuration = asset.videoDuration()
+        self.originalDuration = await asset.videoDuration() ?? 0
         self.rangeDuration = 0...originalDuration
     }
     
@@ -47,6 +49,17 @@ struct Video{
         }
     }
     
+//    mutating func updateSize(_ geo: GeometryProxy) async{
+//        let size = await asset.naturalSize()
+//        guard let size else { return }
+//        let width = (size.width / geo.size.width) + 0.5 * geo.size.width
+//        let height = (size.height / geo.size.height) + 0.5 * geo.size.height
+//        print("ASSET SIZE", size)
+//        print("GEO SIZE", geo.size.width, geo.size.height)
+//        print("RESULT", width, height)
+//        self.frameSize = .init(width: width, height: height)
+//    }
+    
     ///reset and update
     mutating func updateRate(_ rate: Float){
        
@@ -65,6 +78,10 @@ struct Video{
         updateRate(1.0)
     }
     
+    mutating func rotate(){
+        rotation = rotation.nextAngle()
+    }
+    
     private func thumbnailCount(_ geo: GeometryProxy) -> Int {
         
         let num = Double(geo.size.width - 32) / Double(70 / 1.5)
@@ -74,4 +91,17 @@ struct Video{
     
     
     static var mock: Video = .init(url:URL(string: "https://www.google.com/")!, asset: AVAsset(url: URL(string: "https://www.google.com/")!), originalDuration: 250, rangeDuration: 0...250)
+}
+
+
+extension Double{
+    func nextAngle() -> Double {
+        var next = Int(self) + 90
+        if next >= 360 {
+            next = 0
+        } else if next < 0 {
+            next = 360 - abs(next % 360)
+        }
+        return Double(next)
+    }
 }

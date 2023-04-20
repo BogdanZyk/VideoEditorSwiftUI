@@ -65,7 +65,9 @@ extension ToolsSectionView{
                         editorVM.setToolIsChange(true)
                     }
                 case .crop:
-                    EmptyView()
+                    
+                   CropSheetView(editorVM: editorVM)
+
                 case .audio:
                     EmptyView()
                 case .text:

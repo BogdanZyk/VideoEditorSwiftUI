@@ -12,28 +12,25 @@ struct PlayerHolderView: View{
     @ObservedObject var editorVM: EditorViewModel
     @ObservedObject var videoPlayer: VideoPlayerManager
     var body: some View{
-        VStack(spacing: 10) {
-            ZStack(alignment: .bottom){
-                switch videoPlayer.loadState{
-                case .loading:
-                    ProgressView()
-                case .unknown:
-                    Text("Add new video")
-                case .failed:
-                    Text("Failed to open video")
-                case .loaded:
-                    if let video = editorVM.currentVideo{
-                        PlayerView(player: videoPlayer.player)
-                            .onTapGesture {
-                                videoPlayer.action(video)
-                            }
+        GeometryReader { proxy in
+            VStack(spacing: 10) {
+                ZStack(alignment: .bottom){
+                    switch videoPlayer.loadState{
+                    case .loading:
+                        ProgressView()
+                    case .unknown:
+                        Text("Add new video")
+                    case .failed:
+                        Text("Failed to open video")
+                    case .loaded:
+                        playerCropView
+                        
                     }
-                    timelineLabel
                 }
+                .allFrame()
+                playSection
+                timeLineControlSection
             }
-            .allFrame()
-            playSection
-            timeLineControlSection
         }
     }
 }
@@ -42,6 +39,24 @@ struct PlayerHolderView_Previews: PreviewProvider {
     static var previews: some View {
         MainEditorView()
             .preferredColorScheme(.dark)
+    }
+}
+
+extension PlayerHolderView{
+
+    private var playerCropView: some View{
+        Group{
+            if let video = editorVM.currentVideo{
+                CropView(rotation: editorVM.currentVideo?.rotation,
+                         isActive: editorVM.selectedTools?.tool == .crop) {
+                    PlayerView(player: videoPlayer.player)
+                }
+                         .onTapGesture {
+                             videoPlayer.action(video)
+                         }
+            }
+            timelineLabel
+        }
     }
 }
 

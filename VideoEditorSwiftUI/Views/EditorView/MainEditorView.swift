@@ -27,7 +27,9 @@ struct MainEditorView: View {
             .onChange(of: videoPlayer.loadState) { type in
                 switch type{
                 case .loaded(let url):
-                    editorVM.setVideo(url, geo: proxy)
+                    Task{
+                        await editorVM.setVideo(url, geo: proxy)
+                    }
                 default:
                     break
                 }

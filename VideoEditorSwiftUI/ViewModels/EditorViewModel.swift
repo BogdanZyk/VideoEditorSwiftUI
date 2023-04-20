@@ -16,9 +16,14 @@ final class EditorViewModel: ObservableObject{
     @Published var selectedTools: ToolsModel?
     @Published var resetCounter: Int = 0
     
-    func setVideo(_ url: URL, geo: GeometryProxy){
-        currentVideo = .init(url: url)
+    
+    @MainActor
+    func setVideo(_ url: URL, geo: GeometryProxy) async{
+        currentVideo = await .init(url: url)
         currentVideo?.updateThumbnails(geo)
+       
+//        await currentVideo?.updateSize(geo)
+        
     }
  
     
@@ -26,6 +31,10 @@ final class EditorViewModel: ObservableObject{
         currentVideo?.updateRate(rate)
     }
     
+    func rotate(){
+        currentVideo?.rotate()
+        setToolIsChange(true)
+    }
     
     func setToolIsChange(_ isChange: Bool){
         guard let selectedTools,

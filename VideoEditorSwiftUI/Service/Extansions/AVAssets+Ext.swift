@@ -48,11 +48,32 @@ extension AVAsset {
     }
     
     
-    func videoDuration() -> Double{
-        self.duration.seconds
+    func videoDuration() async -> Double?{
+        guard let duration = try? await self.load(.duration) else { return nil }
+        
+        return duration.seconds
     }
     
+
+//    func resolutionSizeForLocalVideo() -> CGSize? {
+//        var unionRect = CGRect.zero
+//        for track in self.tracks(withMediaCharacteristic: .visual) {
+//            let trackRect = CGRect(x: 0, y: 0, width:
+//                                    track.naturalSize.width, height:
+//                                    track.naturalSize.height).applying(track.preferredTransform)
+//            unionRect = unionRect.union(trackRect)
+//            
+//        }
+//        return unionRect.size
+//    }
     
+    
+    func naturalSize() async -> CGSize? {
+        guard let tracks = try? await loadTracks(withMediaType: .video) else { return nil }
+        guard let track = tracks.first else { return nil }
+        guard let size = try? await track.load(.naturalSize) else { return nil }
+        return size
+    }
 }
 
 
