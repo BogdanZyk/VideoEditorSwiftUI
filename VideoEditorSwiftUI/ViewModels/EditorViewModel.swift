@@ -19,10 +19,6 @@ class EditorViewModel: ObservableObject{
     var projectEntity: ProjectEntity?
     
     
-    init(){
-        
-    }
-    
 
     func setNewVideo(_ url: URL, geo: GeometryProxy){
         currentVideo = .init(url: url)
@@ -103,7 +99,7 @@ class EditorViewModel: ObservableObject{
 
 struct ThumbnailImage: Identifiable{
     var id: UUID = UUID()
-    var image: Image?
+    var image: UIImage?
 }
 
 

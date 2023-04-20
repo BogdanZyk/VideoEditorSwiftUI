@@ -61,9 +61,9 @@ struct RootView: View {
                     }
                 }
             }
-        }
-        .onAppear{
-            rootVM.fetch()
+            .onAppear{
+                rootVM.fetch()
+            }
         }
     }
 }

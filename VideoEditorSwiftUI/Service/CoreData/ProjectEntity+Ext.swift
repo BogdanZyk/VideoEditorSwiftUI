@@ -15,9 +15,8 @@ extension ProjectEntity{
     
     var videoURL: URL?{
         guard let url else {return nil}
-        return URL(string: url)
+        return FileManager().createVideoPath(with: url)
     }
-    
     
     
     var uiImage: UIImage{
@@ -38,9 +37,13 @@ extension ProjectEntity{
     
     static func create(video: Video, context: NSManagedObjectContext){
         let project = ProjectEntity(context: context)
-        project.id = UUID().uuidString
+        let id = UUID().uuidString
+        if let image = video.thumbnailsImages.first?.image{
+            FileManager.default.saveImage(with: id, image: image)
+        }
+        project.id = id
         project.createAt = Date.now
-        project.url = video.url.absoluteString
+        project.url = video.url.lastPathComponent
         project.rotation = video.rotation
         project.rate = Double(video.rate)
         project.lowerBound = video.rangeDuration.lowerBound

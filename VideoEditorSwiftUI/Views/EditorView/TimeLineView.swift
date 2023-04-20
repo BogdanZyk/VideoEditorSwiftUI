@@ -16,7 +16,7 @@ struct TimeLineView: View {
         Group{
             if let image = video.thumbnailsImages.first?.image{
                 TimelineSlider(bounds: video.rangeDuration, value: $curretTime, frameWigth: frameWigth) {
-                    image
+                    Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: frameWigth + 10, height: frameWigth)

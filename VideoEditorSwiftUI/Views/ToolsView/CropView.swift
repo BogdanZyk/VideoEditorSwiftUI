@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CropView<T: View>: View{
-
+    let originalSize: CGSize
     var rotation: Double?
     var isActive: Bool
     @ViewBuilder
@@ -16,6 +16,8 @@ struct CropView<T: View>: View{
     var body: some View {
         ZStack{
             frameView()
+                .frame(width: originalSize.width, height: originalSize.height)
+                .border(isActive ? Color.white : .clear)
         }
         .scaleEffect(isActive ? 0.9 : 1)
         .rotationEffect(.degrees(rotation ?? 0))
@@ -26,7 +28,7 @@ struct CropView<T: View>: View{
 struct CropView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { proxy in
-            CropView(rotation: nil, isActive: true){
+            CropView(originalSize: .init(width: 300, height: 600), rotation: nil, isActive: true){
                 Rectangle()
             }
             .frame(height: proxy.size.height / 1.45)

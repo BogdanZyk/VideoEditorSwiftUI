@@ -11,26 +11,28 @@ struct PlayerHolderView: View{
     @Binding var isFullScreen: Bool
     @ObservedObject var editorVM: EditorViewModel
     @ObservedObject var videoPlayer: VideoPlayerManager
+    
+    var scale: CGFloat{
+        isFullScreen ? 1.5 : 1
+    }
+    
     var body: some View{
-        GeometryReader { proxy in
-            VStack(spacing: 10) {
-                ZStack(alignment: .bottom){
-                    switch videoPlayer.loadState{
-                    case .loading:
-                        ProgressView()
-                    case .unknown:
-                        Text("Add new video")
-                    case .failed:
-                        Text("Failed to open video")
-                    case .loaded:
-                        playerCropView
-                        
-                    }
+        VStack(spacing: 10) {
+            ZStack(alignment: .bottom){
+                switch videoPlayer.loadState{
+                case .loading:
+                    ProgressView()
+                case .unknown:
+                    Text("Add new video")
+                case .failed:
+                    Text("Failed to open video")
+                case .loaded:
+                    playerCropView
                 }
-                .allFrame()
-                playSection
-                timeLineControlSection
             }
+            .allFrame()
+            playSection
+            timeLineControlSection
         }
     }
 }
@@ -47,13 +49,23 @@ extension PlayerHolderView{
     private var playerCropView: some View{
         Group{
             if let video = editorVM.currentVideo{
-                CropView(rotation: editorVM.currentVideo?.rotation,
-                         isActive: editorVM.selectedTools?.tool == .crop) {
-                    PlayerView(player: videoPlayer.player)
-                }
-                         .onTapGesture {
-                             videoPlayer.action(video)
+                GeometryReader { proxy in
+                    CropView(originalSize: .init(width: video.frameSize.width * scale, height: video.frameSize.height * scale),
+                             rotation: editorVM.currentVideo?.rotation,
+                             isActive: editorVM.selectedTools?.tool == .crop) {
+                        PlayerView(player: videoPlayer.player)
+//                            .onTapGesture {
+//                                videoPlayer.action(video)
+//                            }
+                    }
+                     .allFrame()
+                     .onAppear{
+                         Task{
+                             guard let size = await editorVM.currentVideo?.asset.adjustVideoSize(to: proxy.size) else {return}
+                             editorVM.currentVideo?.frameSize = size
                          }
+                     }
+                }
             }
             timelineLabel
         }

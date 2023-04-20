@@ -39,12 +39,12 @@ extension AVAsset {
         }
     }
     
-    func getImage(_ second: Int, compressionQuality: Double = 0.05) -> Image?{
+    func getImage(_ second: Int, compressionQuality: Double = 0.05) -> UIImage?{
         let imgGenerator = AVAssetImageGenerator(asset: self)
         guard let cgImage = try? imgGenerator.copyCGImage(at: .init(seconds: Double(second), preferredTimescale: 1), actualTime: nil) else { return nil}
         let uiImage = UIImage(cgImage: cgImage)
         guard let imageData = uiImage.jpegData(compressionQuality: compressionQuality), let compressedUIImage = UIImage(data: imageData) else { return nil }
-        return Image(uiImage: compressedUIImage)
+        return compressedUIImage
     }
     
     
@@ -64,6 +64,26 @@ extension AVAsset {
         guard let size = try? await track.load(.naturalSize) else { return nil }
         return size
     }
+    
+    
+    func adjustVideoSize(to viewSize: CGSize) async -> CGSize? {
+        
+        
+        guard let assetSize = await self.naturalSize() else { return nil }
+        
+        
+        let videoRatio = assetSize.width / assetSize.height
+        let viewRatio = viewSize.width / viewSize.height
+        let isPortrait = assetSize.height > assetSize.width
+        var videoSize = viewSize
+        if isPortrait {
+            videoSize = CGSize(width: videoSize.height * videoRatio, height: videoSize.height)
+        } else {
+            videoSize = CGSize(width: videoSize.width, height: videoSize.width / videoRatio)
+        }
+        return videoSize
+    }
+
 }
 
 

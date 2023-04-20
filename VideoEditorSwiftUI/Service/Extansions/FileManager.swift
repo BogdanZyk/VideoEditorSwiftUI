@@ -16,6 +16,11 @@ extension FileManager{
         return url
     }
     
+    func createVideoPath(with name: String) -> URL?{
+        guard let url = self.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(name) else { return nil}
+        return url
+    }
+    
     func retrieveImage(with id: String) -> UIImage?{
         guard let url = createImagePath(with: id) else { return nil }
         do{
