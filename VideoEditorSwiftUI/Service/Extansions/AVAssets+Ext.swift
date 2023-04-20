@@ -48,12 +48,15 @@ extension AVAsset {
     }
     
     
-    func videoDuration() async -> Double?{
-        guard let duration = try? await self.load(.duration) else { return nil }
+    func videoDuration() -> Double{
         
-        return duration.seconds
+        self.duration.seconds
+
     }
     
+//    guard let duration = try? await self.load(.duration) else { return nil }
+//
+//    return duration.seconds
     
     func naturalSize() async -> CGSize? {
         guard let tracks = try? await loadTracks(withMediaType: .video) else { return nil }

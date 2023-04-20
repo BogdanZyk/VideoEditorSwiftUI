@@ -23,19 +23,20 @@ struct Video{
         rangeDuration.upperBound - rangeDuration.lowerBound
     }
     
-    init(url: URL) async{
+    init(url: URL){
         self.url = url
         self.asset = AVAsset(url: url)
-        self.originalDuration = await asset.videoDuration() ?? 0
+        self.originalDuration = asset.videoDuration()
         self.rangeDuration = 0...originalDuration
     }
     
-    init(url: URL, asset: AVAsset = AVAsset(), originalDuration: Double, rangeDuration: ClosedRange<Double>,  thumbnailsImages: [ThumbnailImage] = []){
+    init(url: URL, rangeDuration: ClosedRange<Double>, rate: Float = 1.0, rotation: Double = 0){
         self.url = url
-        self.asset = asset
-        self.originalDuration = originalDuration
+        self.asset = AVAsset(url: url)
+        self.originalDuration = asset.videoDuration()
         self.rangeDuration = rangeDuration
-        self.thumbnailsImages = thumbnailsImages
+        self.rate = rate
+        self.rotation = rotation
     }
     
     mutating func updateThumbnails(_ geo: GeometryProxy){
@@ -90,7 +91,7 @@ struct Video{
     }
     
     
-    static var mock: Video = .init(url:URL(string: "https://www.google.com/")!, asset: AVAsset(url: URL(string: "https://www.google.com/")!), originalDuration: 250, rangeDuration: 0...250)
+    static var mock: Video = .init(url:URL(string: "https://www.google.com/")!, rangeDuration: 0...250)
 }
 
 

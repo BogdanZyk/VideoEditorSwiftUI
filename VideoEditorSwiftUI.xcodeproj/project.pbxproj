@@ -14,6 +14,13 @@
 		5A17E08329F1499400DB4A47 /* ViewCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08229F1499400DB4A47 /* ViewCropper.swift */; };
 		5A17E08629F15BEF00DB4A47 /* CropSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */; };
 		5A17E08929F1744100DB4A47 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08829F1744100DB4A47 /* RootView.swift */; };
+		5A3D13A829F184000027E25E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13A729F184000027E25E /* PersistenceController.swift */; };
+		5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13AA29F184330027E25E /* CoreDataContainer.xcdatamodeld */; };
+		5A3D13AE29F185400027E25E /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13AD29F185400027E25E /* FileManager.swift */; };
+		5A3D13B029F186160027E25E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13AF29F186160027E25E /* CoreDataManager.swift */; };
+		5A3D13B229F187960027E25E /* ProjectEntity+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */; };
+		5A3D13B429F18E4D0027E25E /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B329F18E4D0027E25E /* RootViewModel.swift */; };
+		5A3D13B629F190260027E25E /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B529F190260027E25E /* Preview.swift */; };
 		5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B3FCE29F0360B00FB9858 /* Video.swift */; };
 		5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */; };
 		5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */; };
@@ -50,6 +57,13 @@
 		5A17E08229F1499400DB4A47 /* ViewCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCropper.swift; sourceTree = "<group>"; };
 		5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropSheetView.swift; sourceTree = "<group>"; };
 		5A17E08829F1744100DB4A47 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		5A3D13A729F184000027E25E /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		5A3D13AB29F184330027E25E /* CoreDataContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataContainer.xcdatamodel; sourceTree = "<group>"; };
+		5A3D13AD29F185400027E25E /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		5A3D13AF29F186160027E25E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectEntity+Ext.swift"; sourceTree = "<group>"; };
+		5A3D13B329F18E4D0027E25E /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		5A3D13B529F190260027E25E /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		5A8B3FCE29F0360B00FB9858 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSpeedSlider.swift; sourceTree = "<group>"; };
 		5ACFF96B29E944FA00827A37 /* VideoEditorSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoEditorSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +115,10 @@
 		5A17E08A29F1804B00DB4A47 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				5A3D13A729F184000027E25E /* PersistenceController.swift */,
+				5A3D13AA29F184330027E25E /* CoreDataContainer.xcdatamodeld */,
+				5A3D13AF29F186160027E25E /* CoreDataManager.swift */,
+				5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -195,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				5ACFF98429E945E000827A37 /* EditorViewModel.swift */,
+				5A3D13B329F18E4D0027E25E /* RootViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -220,6 +239,8 @@
 			children = (
 				5ACFF99529EC8A2400827A37 /* AVAssets+Ext.swift */,
 				5ACFF99729ED53FB00827A37 /* View+Ext.swift */,
+				5A3D13AD29F185400027E25E /* FileManager.swift */,
+				5A3D13B529F190260027E25E /* Preview.swift */,
 			);
 			path = Extansions;
 			sourceTree = "<group>";
@@ -361,11 +382,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A17E08629F15BEF00DB4A47 /* CropSheetView.swift in Sources */,
+				5A3D13B429F18E4D0027E25E /* RootViewModel.swift in Sources */,
 				5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */,
 				5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */,
+				5A3D13B629F190260027E25E /* Preview.swift in Sources */,
 				5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */,
 				5A17E08129F1495000DB4A47 /* CropperRatio.swift in Sources */,
 				5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */,
+				5A3D13B229F187960027E25E /* ProjectEntity+Ext.swift in Sources */,
 				5ACFF9AC29EE8B9400827A37 /* PlayerView.swift in Sources */,
 				5ACFF99A29ED57BC00827A37 /* ThumbnailsSliderView.swift in Sources */,
 				5ACFF98529E945E000827A37 /* EditorViewModel.swift in Sources */,
@@ -377,6 +401,7 @@
 				5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
+				5A3D13AE29F185400027E25E /* FileManager.swift in Sources */,
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
 				5A17E07F29F1492A00DB4A47 /* CropperView.swift in Sources */,
 				5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */,
@@ -390,7 +415,10 @@
 				5A17E08329F1499400DB4A47 /* ViewCropper.swift in Sources */,
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
+				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,
 				5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */,
+				5A3D13B029F186160027E25E /* CoreDataManager.swift in Sources */,
+				5A3D13A829F184000027E25E /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,7 +570,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -577,7 +605,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -603,6 +631,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5A3D13AA29F184330027E25E /* CoreDataContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5A3D13AB29F184330027E25E /* CoreDataContainer.xcdatamodel */,
+			);
+			currentVersion = 5A3D13AB29F184330027E25E /* CoreDataContainer.xcdatamodel */;
+			path = CoreDataContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5ACFF96329E944FA00827A37 /* Project object */;
 }

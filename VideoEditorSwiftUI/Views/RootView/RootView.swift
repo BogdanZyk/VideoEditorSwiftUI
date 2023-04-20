@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct RootView: View {
+    @ObservedObject var rootVM: RootViewModel
     @State private var item: PhotosPickerItem?
     @State private var selectedVideoURL: URL?
     @State private var showEditor: Bool = false
@@ -25,11 +26,14 @@ struct RootView: View {
                             .font(.headline)
                         LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
                             newProjectButton
-                            ForEach(1...5, id: \.self) { index in
-                                Text("\(index)")
-                                    .hCenter()
-                                    .frame(height: 150)
-                                    .background(Color.secondary, in: RoundedRectangle(cornerRadius: 5))
+                            
+                            ForEach(rootVM.projects) { project in
+                                
+                                NavigationLink {
+                                    MainEditorView(project: project)
+                                } label: {
+                                    cellView(project)
+                                }
                             }
                         }
                     }
@@ -37,7 +41,7 @@ struct RootView: View {
                 }
             }
             .navigationDestination(isPresented: $showEditor){
-                MainEditorView(videoURl: selectedVideoURL)
+                MainEditorView(selectedVideoURl: selectedVideoURL)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -58,12 +62,15 @@ struct RootView: View {
                 }
             }
         }
+        .onAppear{
+            rootVM.fetch()
+        }
     }
 }
 
 struct RootView_Previews2: PreviewProvider {
     static var previews: some View {
-        RootView()
+        RootView(rootVM: RootViewModel(mainContext: dev.viewContext))
     }
 }
 
@@ -83,6 +90,15 @@ extension RootView{
             .foregroundColor(.white)
         }
     }
-        
+       
+    private func cellView(_ project: ProjectEntity) -> some View{
+        Image(uiImage: project.uiImage)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .hCenter()
+            .frame(height: 150)
+            .background(Color.white, in: RoundedRectangle(cornerRadius: 5))
+            .clipped()
+    }
     
 }

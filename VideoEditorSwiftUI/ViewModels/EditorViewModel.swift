@@ -9,21 +9,47 @@ import Foundation
 import AVKit
 import SwiftUI
 
-final class EditorViewModel: ObservableObject{
+class EditorViewModel: ObservableObject{
     
     @Published var tools = ToolsModel.allTools()
     @Published var currentVideo: Video?
     @Published var selectedTools: ToolsModel?
     @Published var resetCounter: Int = 0
     
+    var projectEntity: ProjectEntity?
     
-    @MainActor
-    func setVideo(_ url: URL, geo: GeometryProxy) async{
-        currentVideo = await .init(url: url)
+    
+    init(){
+        
+    }
+    
+
+    func setNewVideo(_ url: URL, geo: GeometryProxy){
+        currentVideo = .init(url: url)
         currentVideo?.updateThumbnails(geo)
-       
+        
+        createProject()
+       //create project entity!
+        
+        
 //        await currentVideo?.updateSize(geo)
         
+    }
+    
+    func setProject(_ project: ProjectEntity, geo: GeometryProxy){
+        projectEntity = project
+        
+        guard let url = project.videoURL else {return}
+        
+        currentVideo = .init(url: url, rangeDuration: project.lowerBound...project.upperBound, rate: Float(project.rate), rotation: project.rotation)
+        
+        currentVideo?.updateThumbnails(geo)
+    }
+    
+    func createProject(){
+        guard let currentVideo else { return }
+        let context = PersistenceController.shared.viewContext
+        ProjectEntity.create(video: currentVideo, context: context)
     }
  
     
