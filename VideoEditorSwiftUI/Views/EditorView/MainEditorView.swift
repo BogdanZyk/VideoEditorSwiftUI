@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct MainEditorView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dismiss) private var dismiss
     var project: ProjectEntity?
     var selectedVideoURl: URL?
@@ -50,6 +51,9 @@ struct MainEditorView: View {
             }
         }
         .statusBar(hidden: true)
+        .onChange(of: scenePhase) { phase in
+            //saveProject(phase)
+        }
     }
 }
 
@@ -63,6 +67,7 @@ extension MainEditorView{
     private var headerView: some View{
         HStack{
             Button {
+                editorVM.updateProject()
                 dismiss()
             } label: {
                 Image(systemName: "folder.fill")
@@ -81,6 +86,15 @@ extension MainEditorView{
         .padding(.horizontal, 20)
         .frame(height: 50)
         .padding(.bottom)
+    }
+    
+    private func saveProject(_ phase: ScenePhase){
+        switch phase{
+        case .background:
+            saveProject(phase)
+        default:
+            break
+        }
     }
 }
 

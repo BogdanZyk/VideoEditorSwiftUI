@@ -17,7 +17,11 @@ extension ProjectEntity{
         guard let url else {return nil}
         return FileManager().createVideoPath(with: url)
     }
+
     
+    var wrappedTools: [Int]{
+        appliedTools?.components(separatedBy: ",").compactMap({Int($0)}) ?? []
+    }
     
     var uiImage: UIImage{
         if let id, let uImage = FileManager().retrieveImage(with: id){
@@ -52,6 +56,24 @@ extension ProjectEntity{
         context.saveContext()
     }
     
+    
+    static func update(for video: Video, project: ProjectEntity){
+        if let context = project.managedObjectContext {
+            project.lowerBound = video.rangeDuration.lowerBound
+            project.upperBound = video.rangeDuration.upperBound
+            project.appliedTools = video.toolsApplied.map({String($0)}).joined(separator: ",")
+            project.rotation = video.rotation
+            project.rate = Double(video.rate)
+            context.saveContext()
+        }
+    }
+    
+    static func remove(_ item: ProjectEntity){
+        if let context = item.managedObjectContext{
+            context.delete(item)
+            context.saveContext()
+        }
+    }
     
 }
 

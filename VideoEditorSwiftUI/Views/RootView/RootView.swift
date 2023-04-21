@@ -92,13 +92,33 @@ extension RootView{
     }
        
     private func cellView(_ project: ProjectEntity) -> some View{
-        Image(uiImage: project.uiImage)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .hCenter()
-            .frame(height: 150)
-            .background(Color.white, in: RoundedRectangle(cornerRadius: 5))
-            .clipped()
+        ZStack {
+            Color.white
+            Image(uiImage: project.uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            LinearGradient(colors: [.black.opacity(0.35), .black.opacity(0.2), .black.opacity(0.1)], startPoint: .bottom, endPoint: .top)
+        }
+        .hCenter()
+        .frame(height: 150)
+        .cornerRadius(5)
+        .overlay {
+            VStack{
+                Button {
+                    rootVM.removeProject(project)
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .foregroundColor(.gray)
+                }
+                .hTrailing()
+                Spacer()
+                Text(project.createAt?.formatted(date: .abbreviated, time: .omitted) ?? "")
+                    .foregroundColor(.white)
+                    .hLeading()
+            }
+            .font(.footnote.weight(.medium))
+            .padding(10)
+        }
     }
     
 }

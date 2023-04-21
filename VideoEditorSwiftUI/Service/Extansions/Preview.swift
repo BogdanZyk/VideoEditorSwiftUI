@@ -53,6 +53,7 @@ class DeveloperPreview {
         let context = contreller.viewContext
         let project1 = ProjectEntity(context: context)
         project1.id = UUID().uuidString
+        project1.createAt = Date.now
         project1.url = "file:///Users/bogdanzykov/Library/Developer/CoreSimulator/Devices/86D65E8C-7D49-47AF-A511-BFA631289CB1/data/Containers/Data/Application/52E5EF3C-9E78-4676-B3EA-03BD22CCD09A/Documents/video_copy.mp4"
         
         return [project1]

@@ -25,9 +25,9 @@ struct ToolButtonView: View {
                 Image(systemName: image)
                     .imageScale(.medium)
                 Text(label)
-                    .font(.footnote)
+                    .font(.caption)
             }
-            .frame(height: 75)
+            .frame(height: 85)
             .hCenter()
             .background(bgColor, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }

@@ -21,4 +21,9 @@ final class RootViewModel: ObservableObject{
     func fetch(){
         projects = dataManager.fetchProjects()
     }
+    
+    func removeProject(_ project: ProjectEntity){
+        ProjectEntity.remove(project)
+        fetch()
+    }
 }

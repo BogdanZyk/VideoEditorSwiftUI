@@ -21,9 +21,9 @@ struct ToolsSectionView: View {
     var body: some View {
         ZStack{
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
-                ForEach(editorVM.tools) { model in
-                    ToolButtonView(label: model.tool.title, image: model.tool.image, isChange: model.isChange) {
-                        editorVM.selectedTools = model
+                ForEach(ToolEnum.allCases, id: \.self) { tool in
+                    ToolButtonView(label: tool.title, image: tool.image, isChange: editorVM.currentVideo?.isAppliedTool(for: tool) ?? false) {
+                        editorVM.selectedTools = tool
                     }
                 }
             }
@@ -47,22 +47,25 @@ struct ToolsSectionView_Previews: PreviewProvider {
 
 extension ToolsSectionView{
     
-    
-    private func bottomSheet(_ model: ToolsModel, _ video: Video) -> some View{
+    @ViewBuilder
+    private func bottomSheet(_ tool: ToolEnum, _ video: Video) -> some View{
+        
+        let isAppliedTool = video.isAppliedTool(for: tool)
+        
         ZStack(alignment: .bottom){
             VStack{
                 Spacer()
-                switch model.tool {
+                switch tool {
+                    
                 case .cut:
-                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: editorVM.selectedTools?.isChange) {
+                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: isAppliedTool) {
                         videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
-                        editorVM.setToolIsChange(true)
+                        editorVM.setTools()
                     }
                 case .speed:
-                    VideoSpeedSlider(value: Double(video.rate), isChangeState: editorVM.selectedTools?.isChange) {rate in
+                    VideoSpeedSlider(value: Double(video.rate), isChangeState: isAppliedTool) {rate in
                         videoPlayer.pause()
-                        editorVM.udateRate(rate: rate)
-                        editorVM.setToolIsChange(true)
+                        editorVM.updateRate(rate: rate)
                     }
                 case .crop:
                     
@@ -81,7 +84,7 @@ extension ToolsSectionView{
                 }
                 
                 Spacer()
-                Text(model.tool.title)
+                Text(tool.title)
                     .font(.headline)
             }
         }

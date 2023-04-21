@@ -18,6 +18,7 @@ struct Video{
     var rate: Float = 1.0
     var rotation: Double = 0
     var frameSize: CGSize = .zero
+    var toolsApplied = [Int]()
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
@@ -83,6 +84,23 @@ struct Video{
         rotation = rotation.nextAngle()
     }
     
+    mutating func appliedTool(for tool: ToolEnum){
+        if !isAppliedTool(for: tool){
+            toolsApplied.append(tool.rawValue)
+        }
+    }
+    
+    mutating func removeTool(for tool: ToolEnum){
+        if isAppliedTool(for: tool){
+            toolsApplied.removeAll(where: {$0 == tool.rawValue})
+        }
+    }
+    
+    func isAppliedTool(for tool: ToolEnum) -> Bool{
+        toolsApplied.contains(tool.rawValue)
+    }
+    
+    
     private func thumbnailCount(_ geo: GeometryProxy) -> Int {
         
         let num = Double(geo.size.width - 32) / Double(70 / 1.5)
@@ -105,4 +123,11 @@ extension Double{
         }
         return Double(next)
     }
+}
+
+
+
+struct ThumbnailImage: Identifiable{
+    var id: UUID = UUID()
+    var image: UIImage?
 }
