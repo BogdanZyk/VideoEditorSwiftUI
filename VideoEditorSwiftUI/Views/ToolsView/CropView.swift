@@ -13,23 +13,21 @@ struct CropView<T: View>: View{
     @State var clipped: Bool = false
     let originalSize: CGSize
     var rotation: Double?
+    var isMirror: Bool
     var isActiveCrop: Bool
     var setFrameScale: Bool = false
     var frameScale: CGFloat = 1
+    
     @ViewBuilder
     var frameView: () -> T
-    
-    @State private var currentPosition: CGSize = .zero
-    @State private var newPosition: CGSize = .zero
-    
-    let lineWidth: CGFloat = 2
+    private let lineWidth: CGFloat = 2
     
     var body: some View {
         ZStack{
-            VStack {
-                Text("\(currentPosition.width)")
-                Text("\(currentPosition.height)")
-            }
+//            VStack {
+//                Text("\(currentPosition.width)")
+//                Text("\(currentPosition.height)")
+//            }
             frameView()
             
             if isActiveCrop{
@@ -66,11 +64,12 @@ struct CropView<T: View>: View{
         }
         .frame(width: originalSize.width, height: originalSize.height)
         .border(isActiveCrop ? Color.white : .clear)
-        .clipShape(
-            CropFrame(isActive: clipped, currentPosition: currentPosition, size: size)
-        )
+//        .clipShape(
+//            CropFrame(isActive: clipped, currentPosition: position, size: size)
+//        )
         //.scaleEffect(scaleEffect)
         .rotationEffect(.degrees(rotation ?? 0))
+        .rotation3DEffect(.degrees(isMirror ? 180 : 0), axis: (x: 0, y: 1, z: 0))
     }
 }
 
@@ -79,7 +78,7 @@ struct CropView_Previews: PreviewProvider {
     static let originalSize: CGSize = .init(width: 300, height: 600)
     static var previews: some View {
         GeometryReader { proxy in
-            CropView(originalSize: originalSize, rotation: 0, isActiveCrop: true){
+            CropView(originalSize: originalSize, rotation: 0, isMirror: false, isActiveCrop: true){
                 //CropImage(originalSize: originalSize, frameSize: $size){
                     
                     Rectangle()

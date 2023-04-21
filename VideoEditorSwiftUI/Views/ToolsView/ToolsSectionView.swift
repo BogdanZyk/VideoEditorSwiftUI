@@ -40,7 +40,7 @@ struct ToolsSectionView: View {
 
 struct ToolsSectionView_Previews: PreviewProvider {
     static var previews: some View {
-        MainEditorView()
+        MainEditorView(selectedVideoURl: Video.mock.url)
     }
 }
 
@@ -52,45 +52,7 @@ extension ToolsSectionView{
         
         let isAppliedTool = video.isAppliedTool(for: tool)
         
-        ZStack(alignment: .bottom){
-            VStack{
-                Spacer()
-                switch tool {
-                    
-                case .cut:
-                    ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: isAppliedTool) {
-                        videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
-                        editorVM.setTools()
-                    }
-                case .speed:
-                    VideoSpeedSlider(value: Double(video.rate), isChangeState: isAppliedTool) {rate in
-                        videoPlayer.pause()
-                        editorVM.updateRate(rate: rate)
-                    }
-                case .crop:
-                    
-                   CropSheetView(editorVM: editorVM)
-
-                case .audio:
-                    EmptyView()
-                case .text:
-                    EmptyView()
-                case .filters:
-                    EmptyView()
-                case .corrections:
-                    EmptyView()
-                case .frames:
-                    EmptyView()
-                }
-                
-                Spacer()
-                Text(tool.title)
-                    .font(.headline)
-            }
-        }
-        .allFrame()
-        .background(Color(.systemGray6))
-        .overlay(alignment: .topLeading) {
+        VStack(spacing: 5){
             HStack {
                 Button {
                     editorVM.selectedTools = nil
@@ -110,8 +72,42 @@ extension ToolsSectionView{
                 }
                 .buttonStyle(.plain)
             }
-            .padding()
+            
+            switch tool {
+                
+            case .cut:
+                ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: isAppliedTool) {
+                    videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+                    editorVM.setTools()
+                }
+            case .speed:
+                VideoSpeedSlider(value: Double(video.rate), isChangeState: isAppliedTool) {rate in
+                    videoPlayer.pause()
+                    editorVM.updateRate(rate: rate)
+                }
+            case .crop:
+                
+                CropSheetView(editorVM: editorVM)
+                
+            case .audio:
+                EmptyView()
+            case .text:
+                EmptyView()
+            case .filters:
+                EmptyView()
+            case .corrections:
+                EmptyView()
+            case .frames:
+                EmptyView()
+            }
+            
+            Spacer()
+            Text(tool.title)
+                .font(.headline)
         }
+        .padding()
+        .allFrame()
+        .background(Color(.systemGray6))
     }
 }
 

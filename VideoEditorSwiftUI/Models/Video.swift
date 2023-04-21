@@ -18,6 +18,7 @@ struct Video{
     var rate: Float = 1.0
     var rotation: Double = 0
     var frameSize: CGSize = .zero
+    var isMirror: Bool = false
     var toolsApplied = [Int]()
     
     var totalDuration: Double{

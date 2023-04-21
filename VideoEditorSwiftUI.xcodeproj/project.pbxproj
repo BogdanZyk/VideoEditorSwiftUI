@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A08FC7129EEB65000AB877C /* TimeLineView.swift */; };
 		5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A08FC7329EFD5E400AB877C /* NewTimelineSlider.swift */; };
-		5A17E07F29F1492A00DB4A47 /* CropperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E07E29F1492A00DB4A47 /* CropperView.swift */; };
 		5A17E08129F1495000DB4A47 /* CropperRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08029F1495000DB4A47 /* CropperRatio.swift */; };
-		5A17E08329F1499400DB4A47 /* ViewCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08229F1499400DB4A47 /* ViewCropper.swift */; };
 		5A17E08629F15BEF00DB4A47 /* CropSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */; };
 		5A17E08929F1744100DB4A47 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A17E08829F1744100DB4A47 /* RootView.swift */; };
 		5A3D13A829F184000027E25E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13A729F184000027E25E /* PersistenceController.swift */; };
@@ -53,9 +51,7 @@
 /* Begin PBXFileReference section */
 		5A08FC7129EEB65000AB877C /* TimeLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineView.swift; sourceTree = "<group>"; };
 		5A08FC7329EFD5E400AB877C /* NewTimelineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTimelineSlider.swift; sourceTree = "<group>"; };
-		5A17E07E29F1492A00DB4A47 /* CropperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropperView.swift; sourceTree = "<group>"; };
 		5A17E08029F1495000DB4A47 /* CropperRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropperRatio.swift; sourceTree = "<group>"; };
-		5A17E08229F1499400DB4A47 /* ViewCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCropper.swift; sourceTree = "<group>"; };
 		5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropSheetView.swift; sourceTree = "<group>"; };
 		5A17E08829F1744100DB4A47 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5A3D13A729F184000027E25E /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
@@ -306,9 +302,7 @@
 		5AF25B5A29F14907005E0467 /* CropperView */ = {
 			isa = PBXGroup;
 			children = (
-				5A17E07E29F1492A00DB4A47 /* CropperView.swift */,
 				5A17E08029F1495000DB4A47 /* CropperRatio.swift */,
-				5A17E08229F1499400DB4A47 /* ViewCropper.swift */,
 				5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */,
 			);
 			path = CropperView;
@@ -406,7 +400,6 @@
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
 				5A3D13AE29F185400027E25E /* FileManager.swift in Sources */,
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
-				5A17E07F29F1492A00DB4A47 /* CropperView.swift in Sources */,
 				5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */,
 				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
@@ -416,7 +409,6 @@
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
 				5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */,
-				5A17E08329F1499400DB4A47 /* ViewCropper.swift in Sources */,
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
 				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,

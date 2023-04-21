@@ -50,6 +50,7 @@ extension ProjectEntity{
         project.url = video.url.lastPathComponent
         project.rotation = video.rotation
         project.rate = Double(video.rate)
+        project.isMirror = video.isMirror
         project.lowerBound = video.rangeDuration.lowerBound
         project.upperBound = video.rangeDuration.upperBound
         
@@ -59,17 +60,22 @@ extension ProjectEntity{
     
     static func update(for video: Video, project: ProjectEntity){
         if let context = project.managedObjectContext {
+            project.isMirror = video.isMirror
             project.lowerBound = video.rangeDuration.lowerBound
             project.upperBound = video.rangeDuration.upperBound
             project.appliedTools = video.toolsApplied.map({String($0)}).joined(separator: ",")
             project.rotation = video.rotation
             project.rate = Double(video.rate)
+            
             context.saveContext()
         }
     }
     
     static func remove(_ item: ProjectEntity){
-        if let context = item.managedObjectContext{
+        if let context = item.managedObjectContext, let id = item.id, let url = item.url{
+            let manager = FileManager.default
+            manager.deleteImage(with: id)
+            manager.deleteVideo(with: url)
             context.delete(item)
             context.saveContext()
         }

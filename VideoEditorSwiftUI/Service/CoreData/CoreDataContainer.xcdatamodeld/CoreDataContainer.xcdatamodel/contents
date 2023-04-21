@@ -4,6 +4,7 @@
         <attribute name="appliedTools" optional="YES" attributeType="String"/>
         <attribute name="createAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isMirror" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lowerBound" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="rotation" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

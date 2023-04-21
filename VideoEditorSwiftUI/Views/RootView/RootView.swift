@@ -12,6 +12,7 @@ struct RootView: View {
     @ObservedObject var rootVM: RootViewModel
     @State private var item: PhotosPickerItem?
     @State private var selectedVideoURL: URL?
+    @State private var showLoader: Bool = false
     @State private var showEditor: Bool = false
     let columns = [
         GridItem(.adaptive(minimum: 150)),
@@ -50,19 +51,22 @@ struct RootView: View {
                 }
             }
             .onChange(of: item) { newItem in
-                Task {
-                    if let video = try await newItem?.loadTransferable(type: VideoItem.self) {
-                        selectedVideoURL = video.url
-                        try await Task.sleep(for: .milliseconds(50))
-                        showEditor.toggle()
-                        
-                    } else {
-                        print("Failed load video")
-                    }
-                }
+                loadPhotosItem(newItem)
             }
             .onAppear{
                 rootVM.fetch()
+            }
+            .overlay {
+                if showLoader{
+                    Color.secondary.opacity(0.2).ignoresSafeArea()
+                    VStack(spacing: 10){
+                        Text("Loading video")
+                        ProgressView()
+                    }
+                    .padding()
+                    .frame(height: 100)
+                    .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 12))
+                }
             }
         }
     }
@@ -121,4 +125,20 @@ extension RootView{
         }
     }
     
+    
+    private func loadPhotosItem(_ newItem: PhotosPickerItem?){
+        Task {
+            self.showLoader = true
+            if let video = try await newItem?.loadTransferable(type: VideoItem.self) {
+                selectedVideoURL = video.url
+                try await Task.sleep(for: .milliseconds(50))
+                self.showLoader = false
+                self.showEditor.toggle()
+                
+            } else {
+                print("Failed load video")
+                self.showLoader = false
+            }
+        }
+    }
 }

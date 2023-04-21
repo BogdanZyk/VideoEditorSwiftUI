@@ -50,9 +50,11 @@ extension PlayerHolderView{
         Group{
             if let video = editorVM.currentVideo{
                 GeometryReader { proxy in
-                    CropView(originalSize: .init(width: video.frameSize.width * scale, height: video.frameSize.height * scale),
-                             rotation: editorVM.currentVideo?.rotation,
-                             isActiveCrop: editorVM.selectedTools == .crop) {
+                    CropView(
+                        originalSize: .init(width: video.frameSize.width * scale, height: video.frameSize.height * scale),
+                        rotation: editorVM.currentVideo?.rotation,
+                        isMirror: editorVM.currentVideo?.isMirror ?? false,
+                        isActiveCrop: editorVM.selectedTools == .crop) {
                         PlayerView(player: videoPlayer.player)
 //                            .onTapGesture {
 //                                videoPlayer.action(video)

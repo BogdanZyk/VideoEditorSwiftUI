@@ -147,6 +147,7 @@ struct CustomSlider_Previews: PreviewProvider {
     static var previews: some View {
         CustomSlider(value: .constant(10),
                      in: 10...255,
+                     step: 90,
                      minimumValueLabel: Text("Min"),
                      maximumValueLabel: Text("Max"),
                      onEditingChanged: { started in

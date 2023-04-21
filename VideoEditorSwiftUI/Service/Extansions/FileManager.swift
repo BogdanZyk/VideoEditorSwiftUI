@@ -54,4 +54,15 @@ extension FileManager{
             }
         }
     }
+    
+    func deleteVideo(with name: String){
+        guard let url = createVideoPath(with: name) else { return }
+        if fileExists(atPath: url.path){
+            do{
+                try removeItem(at: url)
+            }catch{
+                print("Error to remove item", error.localizedDescription)
+            }
+        }
+    }
 }
