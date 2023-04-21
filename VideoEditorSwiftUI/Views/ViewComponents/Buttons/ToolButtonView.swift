@@ -27,7 +27,7 @@ struct ToolButtonView: View {
                 Text(label)
                     .font(.footnote)
             }
-            .frame(height: 65)
+            .frame(height: 75)
             .hCenter()
             .background(bgColor, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }

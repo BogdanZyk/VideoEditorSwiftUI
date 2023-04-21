@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct MainEditorView: View {
+    @Environment(\.dismiss) private var dismiss
     var project: ProjectEntity?
     var selectedVideoURl: URL?
     @State var isFullScreen: Bool = false
@@ -19,16 +20,15 @@ struct MainEditorView: View {
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0){
-                //headerView
+                headerView
                 PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
-                    .frame(height: proxy.size.height / (isFullScreen ?  1.05 : 1.45))
+                    .frame(height: proxy.size.height / (isFullScreen ?  1.1 : 1.5))
                 ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
                     .opacity(isFullScreen ? 0 : 1)
-                    .padding(.top)
+                    .padding(.top, 5)
             }
             
             .onAppear{
-                
                 if let selectedVideoURl{
                     videoPlayer.loadState = .loaded(selectedVideoURl)
                     editorVM.setNewVideo(selectedVideoURl, geo: proxy)
@@ -39,22 +39,17 @@ struct MainEditorView: View {
                     editorVM.setProject(project, geo: proxy)
                 }
             }
-            
-//            .onChange(of: videoPlayer.loadState) { type in
-//                switch type{
-//                case .loaded(let url):
-//
-//                default:
-//                    break
-//                }
-//            }
         }
         .background(Color.black)
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .ignoresSafeArea(.all, edges: .top)
         .fullScreenCover(isPresented: $showRecordView) {
             RecordVideoView{ url in
                 videoPlayer.loadState = .loaded(url)
             }
         }
+        .statusBar(hidden: true)
     }
 }
 
@@ -65,17 +60,28 @@ struct RootView_Previews: PreviewProvider {
 }
 
 extension MainEditorView{
-//    private var headerView: some View{
-//        HStack{
-//            PhotosPicker(selection: $videoPlayer.selectedItem, matching: .videos) {
-//                Image(systemName: "plus")
-//            }
-//            Spacer()
-//        }
-//        .foregroundColor(.white)
-//        .padding(.horizontal)
-//        .padding(.bottom)
-//    }
+    private var headerView: some View{
+        HStack{
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "folder.fill")
+            }
+
+            Spacer()
+            
+            
+            Button {
+                
+            } label: {
+                Image(systemName: "square.and.arrow.up.fill")
+            }
+        }
+        .foregroundColor(.white)
+        .padding(.horizontal, 20)
+        .frame(height: 50)
+        .padding(.bottom)
+    }
 }
 
 

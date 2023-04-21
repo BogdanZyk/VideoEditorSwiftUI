@@ -24,11 +24,6 @@ struct CropView<T: View>: View{
     
     let lineWidth: CGFloat = 2
     
-    var scaleEffect: CGFloat{
-        isActiveCrop ? 0.9 : 1
-    }
-    
-    
     var body: some View {
         ZStack{
             VStack {
@@ -74,7 +69,7 @@ struct CropView<T: View>: View{
         .clipShape(
             CropFrame(isActive: clipped, currentPosition: currentPosition, size: size)
         )
-        .scaleEffect(scaleEffect)
+        //.scaleEffect(scaleEffect)
         .rotationEffect(.degrees(rotation ?? 0))
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct TimeLineView: View {
     var video: Video
     @Binding var curretTime: Double
-    let frameWigth: CGFloat = 64
+    let frameWigth: CGFloat = 55
     let onChangeTimeValue: () -> Void
     var body: some View {
         Group{
@@ -24,7 +24,7 @@ struct TimeLineView: View {
                 } onChange: {
                     onChangeTimeValue()
                 }
-                .frame(height: 74)
+                .frame(height: 60)
             }
         }
     }

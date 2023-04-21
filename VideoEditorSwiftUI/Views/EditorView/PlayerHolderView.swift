@@ -13,11 +13,11 @@ struct PlayerHolderView: View{
     @ObservedObject var videoPlayer: VideoPlayerManager
     
     var scale: CGFloat{
-        isFullScreen ? 1.5 : 1
+        isFullScreen ? 1.4 : 1
     }
     
     var body: some View{
-        VStack(spacing: 10) {
+        VStack(spacing: 6) {
             ZStack(alignment: .bottom){
                 switch videoPlayer.loadState{
                 case .loading:
