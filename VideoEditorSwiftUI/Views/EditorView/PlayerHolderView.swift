@@ -52,7 +52,7 @@ extension PlayerHolderView{
                 GeometryReader { proxy in
                     CropView(originalSize: .init(width: video.frameSize.width * scale, height: video.frameSize.height * scale),
                              rotation: editorVM.currentVideo?.rotation,
-                             isActive: editorVM.selectedTools?.tool == .crop) {
+                             isActiveCrop: editorVM.selectedTools?.tool == .crop) {
                         PlayerView(player: videoPlayer.player)
 //                            .onTapGesture {
 //                                videoPlayer.action(video)

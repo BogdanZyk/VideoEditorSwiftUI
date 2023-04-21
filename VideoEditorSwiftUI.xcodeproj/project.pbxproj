@@ -21,6 +21,7 @@
 		5A3D13B229F187960027E25E /* ProjectEntity+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */; };
 		5A3D13B429F18E4D0027E25E /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B329F18E4D0027E25E /* RootViewModel.swift */; };
 		5A3D13B629F190260027E25E /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B529F190260027E25E /* Preview.swift */; };
+		5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */; };
 		5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B3FCE29F0360B00FB9858 /* Video.swift */; };
 		5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */; };
 		5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */; };
@@ -64,6 +65,7 @@
 		5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectEntity+Ext.swift"; sourceTree = "<group>"; };
 		5A3D13B329F18E4D0027E25E /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		5A3D13B529F190260027E25E /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCroppedView.swift; sourceTree = "<group>"; };
 		5A8B3FCE29F0360B00FB9858 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSpeedSlider.swift; sourceTree = "<group>"; };
 		5ACFF96B29E944FA00827A37 /* VideoEditorSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoEditorSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,6 +309,7 @@
 				5A17E07E29F1492A00DB4A47 /* CropperView.swift */,
 				5A17E08029F1495000DB4A47 /* CropperRatio.swift */,
 				5A17E08229F1499400DB4A47 /* ViewCropper.swift */,
+				5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */,
 			);
 			path = CropperView;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
 				5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */,
+				5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
