@@ -11,12 +11,13 @@ struct VideoSpeedSlider: View {
     @State var value: Double = 1
     var isChangeState: Bool?
     let onEditingChanged: (Float) -> Void
-    private let rateRange = 0.1...12
+    private let rateRange = 0.1...8
     var body: some View {
         VStack {
             Text(String(format: "%.1fx", value))
             CustomSlider(value: $value,
                          in: rateRange,
+                         step: 0.2,
                          onEditingChanged: { started in
                 if !started{
                     onEditingChanged(Float(value))

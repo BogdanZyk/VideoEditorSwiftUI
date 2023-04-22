@@ -6,17 +6,6 @@
 //
 
 import Foundation
-//
-//struct ToolsModel: Identifiable, Equatable{
-//    var id: Int{ tool.rawValue }
-//    let tool: ToolEnum
-//    var isChange: Bool = false
-//    
-//    
-//    static func allTools() -> [ToolsModel]{
-//        ToolEnum.allCases.map({.init(tool: $0)})
-//    }
-//}
 
 
 enum ToolEnum: Int, CaseIterable{
