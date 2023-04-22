@@ -43,6 +43,7 @@
 		5ACFF9AC29EE8B9400827A37 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9AB29EE8B9400827A37 /* PlayerView.swift */; };
 		5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */; };
 		5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */; };
+		5AE2A2A029F465BD003D217F /* AssetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A29F29F465BD003D217F /* AssetHelper.swift */; };
 		5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5629F13EC7005E0467 /* ToolModel.swift */; };
 		5AF25B5929F14270005E0467 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5829F14270005E0467 /* CropView.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +86,7 @@
 		5ACFF9AB29EE8B9400827A37 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerHolderView.swift; sourceTree = "<group>"; };
 		5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsSectionView.swift; sourceTree = "<group>"; };
+		5AE2A29F29F465BD003D217F /* AssetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetHelper.swift; sourceTree = "<group>"; };
 		5AF25B5629F13EC7005E0467 /* ToolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModel.swift; sourceTree = "<group>"; };
 		5AF25B5829F14270005E0467 /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -308,6 +310,7 @@
 		5AE2A29E29F46578003D217F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5AE2A29F29F465BD003D217F /* AssetHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */,
 				5ACFF99629EC8A2400827A37 /* AVAssets+Ext.swift in Sources */,
 				5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */,
+				5AE2A2A029F465BD003D217F /* AssetHelper.swift in Sources */,
 				5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,

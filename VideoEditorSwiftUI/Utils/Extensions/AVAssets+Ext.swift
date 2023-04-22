@@ -71,9 +71,7 @@ extension AVAsset {
         
         guard let assetSize = await self.naturalSize() else { return nil }
         
-        
         let videoRatio = assetSize.width / assetSize.height
-        let viewRatio = viewSize.width / viewSize.height
         let isPortrait = assetSize.height > assetSize.width
         var videoSize = viewSize
         if isPortrait {

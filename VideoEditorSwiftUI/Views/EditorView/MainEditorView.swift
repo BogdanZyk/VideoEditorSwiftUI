@@ -77,7 +77,7 @@ extension MainEditorView{
             
             
             Button {
-                
+                editorVM.createVideo()
             } label: {
                 Image(systemName: "square.and.arrow.up.fill")
             }

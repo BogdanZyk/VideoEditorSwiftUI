@@ -46,6 +46,11 @@ extension FileManager{
     
     func deleteImage(with id: String){
         guard let url = createImagePath(with: id) else { return }
+        removefileExists(for: url)
+    }
+    
+    func deleteVideo(with name: String){
+        guard let url = createVideoPath(with: name) else { return }
         if fileExists(atPath: url.path){
             do{
                 try removeItem(at: url)
@@ -55,8 +60,7 @@ extension FileManager{
         }
     }
     
-    func deleteVideo(with name: String){
-        guard let url = createVideoPath(with: name) else { return }
+    func removefileExists(for url: URL){
         if fileExists(atPath: url.path){
             do{
                 try removeItem(at: url)

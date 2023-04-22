@@ -34,6 +34,20 @@ class EditorViewModel: ObservableObject{
         
         currentVideo?.updateThumbnails(geo)
     }
+    
+    func createVideo(){
+        guard let currentVideo else {return}
+        let size = currentVideo.asset.tracks(withMediaType: .video)[0].naturalSize
+        AssetHelper().applyVideoTransforms(asset: currentVideo.asset, originalDuration: currentVideo.originalDuration, rotationAngle: currentVideo.rotation, rate: currentVideo.rate, timeInterval: currentVideo.rangeDuration, mirror: currentVideo.isMirror, size: size) { result in
+            switch result {
+            case .success(let success):
+                print(success)
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+        
+    }
         
 }
 
