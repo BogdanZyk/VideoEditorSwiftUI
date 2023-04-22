@@ -33,7 +33,6 @@
 		5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98829E98EE700827A37 /* CameraManager.swift */; };
 		5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */; };
 		5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */; };
-		5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF98E29E9A63000827A37 /* CameraManager2.swift */; };
 		5ACFF99629EC8A2400827A37 /* AVAssets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF99529EC8A2400827A37 /* AVAssets+Ext.swift */; };
 		5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF99729ED53FB00827A37 /* View+Ext.swift */; };
 		5ACFF99A29ED57BC00827A37 /* ThumbnailsSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */; };
@@ -76,7 +75,6 @@
 		5ACFF98829E98EE700827A37 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		5ACFF98A29E99A5600827A37 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVideoView.swift; sourceTree = "<group>"; };
-		5ACFF98E29E9A63000827A37 /* CameraManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager2.swift; sourceTree = "<group>"; };
 		5ACFF99529EC8A2400827A37 /* AVAssets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAssets+Ext.swift"; sourceTree = "<group>"; };
 		5ACFF99729ED53FB00827A37 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailsSliderView.swift; sourceTree = "<group>"; };
@@ -153,6 +151,7 @@
 		5ACFF96D29E944FA00827A37 /* VideoEditorSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				5AE2A29D29F4656C003D217F /* Utils */,
 				5ACFF97F29E9451B00827A37 /* ViewModels */,
 				5ACFF97E29E9451800827A37 /* Models */,
 				5ACFF97D29E9451100827A37 /* Views */,
@@ -177,10 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				5A17E08A29F1804B00DB4A47 /* CoreData */,
-				5ACFF99429EC8A0F00827A37 /* Extansions */,
 				5ACFF99329EC89FD00827A37 /* Player */,
 				5ACFF99229EC89F800827A37 /* Camera */,
-				5ACFF98E29E9A63000827A37 /* CameraManager2.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -232,7 +229,7 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		5ACFF99429EC8A0F00827A37 /* Extansions */ = {
+		5ACFF99429EC8A0F00827A37 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				5ACFF99529EC8A2400827A37 /* AVAssets+Ext.swift */,
@@ -240,7 +237,7 @@
 				5A3D13AD29F185400027E25E /* FileManager.swift */,
 				5A3D13B529F190260027E25E /* Preview.swift */,
 			);
-			path = Extansions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		5ACFF99B29ED5C3500827A37 /* ViewComponents */ = {
@@ -297,6 +294,22 @@
 				5ACFF98C29E99C7F00827A37 /* RecordVideoView.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		5AE2A29D29F4656C003D217F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5AE2A29E29F46578003D217F /* Helpers */,
+				5ACFF99429EC8A0F00827A37 /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5AE2A29E29F46578003D217F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		5AF25B5A29F14907005E0467 /* CropperView */ = {
@@ -408,7 +421,6 @@
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
-				5ACFF98F29E9A63000827A37 /* CameraManager2.swift in Sources */,
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
 				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,
