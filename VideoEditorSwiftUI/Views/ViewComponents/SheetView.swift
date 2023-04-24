@@ -22,7 +22,7 @@ struct SheetView<Content: View>: View {
     }
     var body: some View {
         ZStack(alignment: .bottom){
-            Color.secondary.opacity(bgOpacity)
+            Color.black.opacity(bgOpacity)
                 .onTapGesture {
                     closeSheet()
                 }

@@ -44,8 +44,8 @@ struct MainEditorView: View {
                 }
             }
             
-            if showVideoQualitySheet{
-                VideoQualityBottomSheetView(isPresented: $showVideoQualitySheet, editorVM: editorVM)
+            if showVideoQualitySheet, let video = editorVM.currentVideo{
+                VideoExporterBottomSheetView(isPresented: $showVideoQualitySheet, video: video)
             }
         }
         .background(Color.black)

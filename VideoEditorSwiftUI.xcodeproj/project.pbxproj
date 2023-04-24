@@ -44,9 +44,10 @@
 		5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */; };
 		5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */; };
 		5AE2A2A029F465BD003D217F /* VideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A29F29F465BD003D217F /* VideoEditor.swift */; };
-		5AE2A2A229F66EE9003D217F /* VideoQualityBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A129F66EE9003D217F /* VideoQualityBottomSheetView.swift */; };
+		5AE2A2A229F66EE9003D217F /* VideoExporterBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A129F66EE9003D217F /* VideoExporterBottomSheetView.swift */; };
 		5AE2A2A429F67B96003D217F /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A329F67B96003D217F /* SheetView.swift */; };
 		5AE2A2A629F6A949003D217F /* VideoQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A529F6A949003D217F /* VideoQuality.swift */; };
+		5AE2A2A829F6BA29003D217F /* ExporterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A729F6BA29003D217F /* ExporterViewModel.swift */; };
 		5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5629F13EC7005E0467 /* ToolModel.swift */; };
 		5AF25B5929F14270005E0467 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5829F14270005E0467 /* CropView.swift */; };
 /* End PBXBuildFile section */
@@ -90,9 +91,10 @@
 		5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerHolderView.swift; sourceTree = "<group>"; };
 		5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsSectionView.swift; sourceTree = "<group>"; };
 		5AE2A29F29F465BD003D217F /* VideoEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditor.swift; sourceTree = "<group>"; };
-		5AE2A2A129F66EE9003D217F /* VideoQualityBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityBottomSheetView.swift; sourceTree = "<group>"; };
+		5AE2A2A129F66EE9003D217F /* VideoExporterBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporterBottomSheetView.swift; sourceTree = "<group>"; };
 		5AE2A2A329F67B96003D217F /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		5AE2A2A529F6A949003D217F /* VideoQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQuality.swift; sourceTree = "<group>"; };
+		5AE2A2A729F6BA29003D217F /* ExporterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExporterViewModel.swift; sourceTree = "<group>"; };
 		5AF25B5629F13EC7005E0467 /* ToolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModel.swift; sourceTree = "<group>"; };
 		5AF25B5829F14270005E0467 /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -218,6 +220,7 @@
 			children = (
 				5ACFF98429E945E000827A37 /* EditorViewModel.swift */,
 				5A3D13B329F18E4D0027E25E /* RootViewModel.swift */,
+				5AE2A2A729F6BA29003D217F /* ExporterViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -293,7 +296,7 @@
 				5A08FC7129EEB65000AB877C /* TimeLineView.swift */,
 				5ACFF98229E945C300827A37 /* MainEditorView.swift */,
 				5ACFF9AF29EE8C6C00827A37 /* PlayerHolderView.swift */,
-				5AE2A2A129F66EE9003D217F /* VideoQualityBottomSheetView.swift */,
+				5AE2A2A129F66EE9003D217F /* VideoExporterBottomSheetView.swift */,
 			);
 			path = EditorView;
 			sourceTree = "<group>";
@@ -438,8 +441,9 @@
 				5AE2A2A429F67B96003D217F /* SheetView.swift in Sources */,
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
-				5AE2A2A229F66EE9003D217F /* VideoQualityBottomSheetView.swift in Sources */,
+				5AE2A2A229F66EE9003D217F /* VideoExporterBottomSheetView.swift in Sources */,
 				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,
+				5AE2A2A829F6BA29003D217F /* ExporterViewModel.swift in Sources */,
 				5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */,
 				5A3D13B029F186160027E25E /* CoreDataManager.swift in Sources */,
 				5A3D13A829F184000027E25E /* PersistenceController.swift in Sources */,
