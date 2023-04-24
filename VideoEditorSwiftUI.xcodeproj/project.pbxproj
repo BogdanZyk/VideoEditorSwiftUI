@@ -46,6 +46,7 @@
 		5AE2A2A029F465BD003D217F /* VideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A29F29F465BD003D217F /* VideoEditor.swift */; };
 		5AE2A2A229F66EE9003D217F /* VideoQualityBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A129F66EE9003D217F /* VideoQualityBottomSheetView.swift */; };
 		5AE2A2A429F67B96003D217F /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A329F67B96003D217F /* SheetView.swift */; };
+		5AE2A2A629F6A949003D217F /* VideoQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2A529F6A949003D217F /* VideoQuality.swift */; };
 		5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5629F13EC7005E0467 /* ToolModel.swift */; };
 		5AF25B5929F14270005E0467 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5829F14270005E0467 /* CropView.swift */; };
 /* End PBXBuildFile section */
@@ -91,6 +92,7 @@
 		5AE2A29F29F465BD003D217F /* VideoEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditor.swift; sourceTree = "<group>"; };
 		5AE2A2A129F66EE9003D217F /* VideoQualityBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQualityBottomSheetView.swift; sourceTree = "<group>"; };
 		5AE2A2A329F67B96003D217F /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		5AE2A2A529F6A949003D217F /* VideoQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQuality.swift; sourceTree = "<group>"; };
 		5AF25B5629F13EC7005E0467 /* ToolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModel.swift; sourceTree = "<group>"; };
 		5AF25B5829F14270005E0467 /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +208,7 @@
 				5ACFF98629E949A900827A37 /* VideoItem.swift */,
 				5A8B3FCE29F0360B00FB9858 /* Video.swift */,
 				5AF25B5629F13EC7005E0467 /* ToolModel.swift */,
+				5AE2A2A529F6A949003D217F /* VideoQuality.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
+				5AE2A2A629F6A949003D217F /* VideoQuality.swift in Sources */,
 				5A3D13AE29F185400027E25E /* FileManager.swift in Sources */,
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
 				5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */,

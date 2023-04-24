@@ -12,7 +12,15 @@ import UIKit
 class VideoEditor{
     
     
-    func applyVideoTransforms(asset: AVAsset,
+    private func createTempPath() -> URL{
+        let tempPath = "\(NSTemporaryDirectory())temp_video.mp4"
+        let tempURL = URL(fileURLWithPath: tempPath)
+        FileManager.default.removefileExists(for: tempURL)
+        return tempURL
+    }
+    
+    
+    func renderVideo(asset: AVAsset,
                               originalDuration: Double,
                               rotationAngle: Double,
                               rate: Float,
@@ -23,16 +31,8 @@ class VideoEditor{
         
         
         
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: videoQuality.exportPresetName) else {
-            completion(.failure(.cannotCreateExportSession))
-            return
-        }
-        
         //Create file path
-        let tempPath = "\(NSTemporaryDirectory())temp_video.mp4"
-        let tempURL = URL(fileURLWithPath: tempPath)
-        FileManager.default.removefileExists(for: tempURL)
-        
+        let tempURL = createTempPath()
         
         let timeRange = getTimeRange(for: originalDuration, with: timeInterval)
         let videoTrack = asset.tracks(withMediaType: .video).first!
@@ -55,21 +55,37 @@ class VideoEditor{
     
         // Create video composition
         let videoComposition = AVMutableVideoComposition()
-        
         videoComposition.renderSize = outputSize
         videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
         
         
-        // Set transformer, create new video layer size
-        let transformer = videoCompositionInstructionForTrackWithSizeandTime(track: videoTrack, asset: asset, standardSize: outputSize, atTime: .zero)
         
+        // 1. Set size video
+        let layerInstruction = videoCompositionInstructionForTrackWithSizeandTime(track: videoTrack, asset: asset, standardSize: outputSize, atTime: .zero)
+        
+        
+        // 2. Mirror video if needed
+        if mirror {
+            var transform: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+            transform = transform.translatedBy(x: -outputSize.width, y: 0.0)
+            layerInstruction.setTransform(transform, at: .zero)
+        }
+        
+        
+//        layerInstruction.setCropRectangle(.init(x: 100, y: 100, width: 250, height: 250), at: .zero)
         
         //Set Video Composition Instruction
         let instruction = AVMutableVideoCompositionInstruction()
-        instruction.layerInstructions = [transformer]
+        instruction.layerInstructions = [layerInstruction]
         instruction.timeRange = timeRange
 
         videoComposition.instructions = [instruction]
+        
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: videoQuality.exportPresetName) else {
+            completion(.failure(.cannotCreateExportSession))
+            return
+        }
         
         exportSession.videoComposition = videoComposition
         
@@ -87,7 +103,7 @@ class VideoEditor{
             case .exporting, .waiting:
                 break
             case .completed:
-                completion(.success(tempURL))
+                self.videoScaleAssetSpeed(fromURL: tempURL, by: Float64(rate), completion: completion)
             case .failed:
                 completion(.failure(.failed))
             case .cancelled:
@@ -100,31 +116,186 @@ class VideoEditor{
     }
     
 
-    enum ExporterError: Error, LocalizedError{
-        case unknow
-        case cancelled
-        case cannotCreateExportSession
-        case failed
+
+    
+//    //MARK: Add filter to video
+//    func addfiltertoVideo(strfiltername : String, strUrl : URL, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+//        
+//        //FilterName
+//        let filter = CIFilter(name:strfiltername)
+//        
+//        //Asset
+//        let asset = AVAsset(url: strUrl)
+//        
+//        //Create Directory path for Save
+//        let tempPath = createTempPath()
+//        
+//        //AVVideoComposition
+//        let composition = AVVideoComposition(asset: asset, applyingCIFiltersWithHandler: { request in
+//            
+//            // Clamp to avoid blurring transparent pixels at the image edges
+//            let source = request.sourceImage.clampedToExtent()
+//            filter?.setValue(source, forKey: kCIInputImageKey)
+//            
+//            // Crop the blurred output to the bounds of the original image
+//            let output = filter?.outputImage!.cropped(to: request.sourceImage.extent)
+//            
+//            // Provide the filter output to the composition
+//            request.finish(with: output!, context: nil)
+//            
+//        })
+//        
+//        
+//        //export the video to as per your requirement conversion
+//        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+//        exportSession.outputFileType = AVFileType.mp4
+//        exportSession.outputURL = tempPath
+//        exportSession.videoComposition = composition
+//        
+//        exportSession.exportAsynchronously(completionHandler: {
+//            switch exportSession.status{
+//                
+//            case .exporting, .waiting:
+//                break
+//            case .completed:
+//                completion(.success(tempPath))
+//            case .failed:
+//                completion(.failure(.failed))
+//            case .cancelled:
+//                completion(.failure(.cancelled))
+//            default:
+//                completion(.failure(.unknow))
+//            }
+//        })
+//    }
+
+    
+
+    
+   private func videoScaleAssetSpeed(fromURL url: URL,  by scale: Float64, completion: @escaping (Result<URL, ExporterError>) -> Void) {
         
+        /// Asset
+        let asset = AVPlayerItem(url: url).asset
         
+        // Composition Audio Video
+        let mixComposition = AVMutableComposition()
+        
+        //TotalTimeRange
+        let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
+        
+        /// Video Tracks
+        let videoTracks = asset.tracks(withMediaType: AVMediaType.video)
+        if videoTracks.count == 0 {
+            /// Can not find any video track
+            return
+        }
+        
+        /// Video track
+        let videoTrack = videoTracks.first!
+        
+        let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)
+        
+        /// Audio Tracks
+        let audioTracks = asset.tracks(withMediaType: AVMediaType.audio)
+        if audioTracks.count > 0 {
+            /// Use audio if video contains the audio track
+            let compositionAudioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+            
+            /// Audio track
+            let audioTrack = audioTracks.first!
+            do {
+                try compositionAudioTrack?.insertTimeRange(timeRange, of: audioTrack, at: CMTime.zero)
+                let destinationTimeRange = CMTimeMultiplyByFloat64(asset.duration, multiplier:(1/scale))
+                compositionAudioTrack?.scaleTimeRange(timeRange, toDuration: destinationTimeRange)
+                
+                compositionAudioTrack?.preferredTransform = audioTrack.preferredTransform
+                
+            } catch _ {
+                /// Ignore audio error
+            }
+        }
+        
+        do {
+            try compositionVideoTrack?.insertTimeRange(timeRange, of: videoTrack, at: CMTime.zero)
+            let destinationTimeRange = CMTimeMultiplyByFloat64(asset.duration, multiplier:(1/scale))
+            compositionVideoTrack?.scaleTimeRange(timeRange, toDuration: destinationTimeRange)
+            
+            /// Keep original transformation
+            compositionVideoTrack?.preferredTransform = videoTrack.preferredTransform
+            
+            //Create Directory path for Save
+            let tempPath = createTempPath()
+            
+            //export the video to as per your requirement conversion
+            if let exportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality) {
+                exportSession.outputURL = tempPath
+                exportSession.outputFileType = AVFileType.mp4
+                exportSession.shouldOptimizeForNetworkUse = true
+                /// try to export the file and handle the status cases
+                exportSession.exportAsynchronously(completionHandler: {
+                    switch exportSession.status{
+                    case .exporting, .waiting:
+                        break
+                    case .completed:
+                        completion(.success(tempPath))
+//                        self.addfiltertoVideo(strfiltername: "CIPhotoEffectChrome", strUrl: tempPath, completion: completion)
+                    case .failed:
+                        completion(.failure(.failed))
+                    case .cancelled:
+                        completion(.failure(.cancelled))
+                    default:
+                        completion(.failure(.unknow))
+                    }
+                })
+            } else {
+                completion(.failure(.failed))
+            }
+        } catch {
+            completion(.failure(.failed))
+        }
     }
     
-   private func orientationFromTransform(_ transform: CGAffineTransform) -> (orientation: UIImage.Orientation, isPortrait: Bool) {
-        var assetOrientation = UIImage.Orientation.up
-        var isPortrait = false
-        if transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0 {
-            assetOrientation = .right
-            isPortrait = true
-        } else if transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0 {
-            assetOrientation = .left
-            isPortrait = true
-        } else if transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0 {
-            assetOrientation = .up
-        } else if transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0 {
-            assetOrientation = .down
-        }
-        return (assetOrientation, isPortrait)
-    }
+    
+    var CIFilterNames = [
+        "CISharpenLuminance",
+        "CIPhotoEffectChrome",
+        "CIPhotoEffectFade",
+        "CIPhotoEffectInstant",
+        "CIPhotoEffectNoir",
+        "CIPhotoEffectProcess",
+        "CIPhotoEffectTonal",
+        "CIPhotoEffectTransfer",
+        "CISepiaTone",
+        "CIColorClamp",
+        "CIColorInvert",
+        "CIColorMonochrome",
+        "CISpotLight",
+        "CIColorPosterize",
+        "CIBoxBlur",
+        "CIDiscBlur",
+        "CIGaussianBlur",
+        "CIMaskedVariableBlur",
+        "CIMedianFilter",
+        "CIMotionBlur",
+        "CINoiseReduction"
+    ]
+}
+
+
+///Helpers
+extension VideoEditor{
+    
+    ///create CMTimeRange
+    private func getTimeRange(for duration: Double, with timeRange: ClosedRange<Double>) -> CMTimeRange {
+          let start = timeRange.lowerBound.clamped(to: 0...duration)
+          let end = timeRange.upperBound.clamped(to: start...duration)
+  
+          let startTime = CMTimeMakeWithSeconds(start, preferredTimescale: 1000)
+          let endTime = CMTimeMakeWithSeconds(end, preferredTimescale: 1000)
+  
+          let timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
+          return timeRange
+      }
     
     
     ///set video size for AVMutableVideoCompositionLayerInstruction
@@ -168,21 +339,35 @@ class VideoEditor{
         }
         return instruction
     }
+    
+   private func orientationFromTransform(_ transform: CGAffineTransform) -> (orientation: UIImage.Orientation, isPortrait: Bool) {
+        var assetOrientation = UIImage.Orientation.up
+        var isPortrait = false
+        if transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0 {
+            assetOrientation = .right
+            isPortrait = true
+        } else if transform.a == 0 && transform.b == -1.0 && transform.c == 1.0 && transform.d == 0 {
+            assetOrientation = .left
+            isPortrait = true
+        } else if transform.a == 1.0 && transform.b == 0 && transform.c == 0 && transform.d == 1.0 {
+            assetOrientation = .up
+        } else if transform.a == -1.0 && transform.b == 0 && transform.c == 0 && transform.d == -1.0 {
+            assetOrientation = .down
+        }
+        return (assetOrientation, isPortrait)
+    }
 
-    ///create CMTimeRange
-    private func getTimeRange(for duration: Double, with timeRange: ClosedRange<Double>) -> CMTimeRange {
-          let start = timeRange.lowerBound.clamped(to: 0...duration)
-          let end = timeRange.upperBound.clamped(to: start...duration)
-  
-          let startTime = CMTimeMakeWithSeconds(start, preferredTimescale: 1000)
-          let endTime = CMTimeMakeWithSeconds(end, preferredTimescale: 1000)
-  
-          let timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
-          return timeRange
-      }
 }
 
 
+
+enum ExporterError: Error, LocalizedError{
+    case unknow
+    case cancelled
+    case cannotCreateExportSession
+    case failed
+    
+}
 
 
 extension Double {
@@ -197,79 +382,3 @@ extension Double {
 }
 
 
-
-enum VideoQuality: Int, CaseIterable{
-    
-    case low, medium, high
-    
-    
-    var exportPresetName:  String {
-        switch self {
-        case .low:
-            return AVAssetExportPresetMediumQuality
-        case .high, .medium:
-            return AVAssetExportPresetHighestQuality
-        }
-    }
-    
-    var title: String{
-        switch self {
-        case .low: return "qHD - 480"
-        case .medium: return "HD - 720p"
-        case .high: return "Full HD - 1080p"
-        }
-    }
-    
-    var size: CGSize{
-        switch self {
-        case .low: return .init(width: 854, height: 480)
-        case .medium: return .init(width: 1280, height: 720)
-        case .high: return .init(width: 1920, height: 1080)
-        }
-    }
-    
-    var frameRate: Double{
-        switch self {
-        case .low, .medium: return 30
-        case .high: return 60
-        }
-    }
-    
-    var bitrate: Double{
-        switch self {
-        case .low: return 2.5
-        case .medium: return 5
-        case .high: return 8
-        }
-    }
-    
-//    func calculateVideoSize(duration: Double) -> Double? {
-//
-//        let width = Double(self.size.width)
-//        let height = Double(self.size.height)
-//
-//        let totalPixels = width * height
-//
-//        let totalBits = totalPixels * self.bitrate * duration * self.frameRate
-//
-//        let totalMegabits = totalBits / 1000000.0
-//
-//        return totalMegabits/8.0  // convert from bits to bytes
-//    }
-    
-    
-    
-    var megaBytesPerSecond: Double {
-        let totalPixels = self.size.width * self.size.height
-        let bitsPerSecond = bitrate * Double(totalPixels)
-        let bytesPerSecond = bitsPerSecond / 8.0 // Convert to bytes
-       
-        return  bytesPerSecond / (1024 * 1024)
-    }
-
-    
-    func calculateVideoSize(duration: Double) -> Double? {
-       duration * megaBytesPerSecond
-    }
-
-}

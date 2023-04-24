@@ -41,12 +41,13 @@ class EditorViewModel: ObservableObject{
     private func renderVideo(_ videoQuality: VideoQuality, completion: @escaping (URL) -> Void){
         guard let currentVideo, !showLoader else {return}
         showLoader = true
-        VideoEditor().applyVideoTransforms(asset: currentVideo.asset, originalDuration: currentVideo.originalDuration, rotationAngle: currentVideo.rotation, rate: currentVideo.rate, timeInterval: currentVideo.rangeDuration, mirror: currentVideo.isMirror, videoQuality: videoQuality) { result in
+        VideoEditor().renderVideo(asset: currentVideo.asset, originalDuration: currentVideo.originalDuration, rotationAngle: currentVideo.rotation, rate: currentVideo.rate, timeInterval: currentVideo.rangeDuration, mirror: currentVideo.isMirror, videoQuality: videoQuality) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let success):
                     completion(success)
                     self.showLoader = false
+                    print(success)
                 case .failure(let failure):
                     print(failure.localizedDescription)
                     self.showLoader = false
