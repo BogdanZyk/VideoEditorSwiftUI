@@ -14,31 +14,38 @@ struct MainEditorView: View {
     var project: ProjectEntity?
     var selectedVideoURl: URL?
     @State var isFullScreen: Bool = false
+    @State var showVideoQualitySheet: Bool = false
     @State var showRecordView: Bool = false
     @StateObject var editorVM = EditorViewModel()
     @StateObject var videoPlayer = VideoPlayerManager()
         
     var body: some View {
-        GeometryReader { proxy in
-            VStack(spacing: 0){
-                headerView
-                PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
-                    .frame(height: proxy.size.height / (isFullScreen ?  1.1 : 1.5))
-                ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
-                    .opacity(isFullScreen ? 0 : 1)
-                    .padding(.top, 5)
-            }
-            
-            .onAppear{
-                if let selectedVideoURl{
-                    videoPlayer.loadState = .loaded(selectedVideoURl)
-                    editorVM.setNewVideo(selectedVideoURl, geo: proxy)
+        ZStack{
+            GeometryReader { proxy in
+                VStack(spacing: 0){
+                    headerView
+                    PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
+                        .frame(height: proxy.size.height / (isFullScreen ?  1.1 : 1.5))
+                    ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
+                        .opacity(isFullScreen ? 0 : 1)
+                        .padding(.top, 5)
                 }
                 
-                if let project, let url = project.videoURL{
-                    videoPlayer.loadState = .loaded(url)
-                    editorVM.setProject(project, geo: proxy)
+                .onAppear{
+                    if let selectedVideoURl{
+                        videoPlayer.loadState = .loaded(selectedVideoURl)
+                        editorVM.setNewVideo(selectedVideoURl, geo: proxy)
+                    }
+                    
+                    if let project, let url = project.videoURL{
+                        videoPlayer.loadState = .loaded(url)
+                        editorVM.setProject(project, geo: proxy)
+                    }
                 }
+            }
+            
+            if showVideoQualitySheet{
+                VideoQualityBottomSheetView(isPresented: $showVideoQualitySheet, editorVM: editorVM)
             }
         }
         .background(Color.black)
@@ -75,9 +82,8 @@ extension MainEditorView{
 
             Spacer()
             
-            
             Button {
-                editorVM.createVideo()
+                showVideoQualitySheet.toggle()
             } label: {
                 Image(systemName: "square.and.arrow.up.fill")
             }

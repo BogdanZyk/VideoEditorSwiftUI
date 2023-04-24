@@ -8,12 +8,15 @@
 import Foundation
 import AVKit
 import SwiftUI
+import Photos
 
 class EditorViewModel: ObservableObject{
     
     @Published var currentVideo: Video?
     @Published var selectedTools: ToolEnum?
     @Published var resetCounter: Int = 0
+    @Published var showLoader: Bool = false
+    @Published var showAlert: Bool = false
     
     private var projectEntity: ProjectEntity?
     
@@ -35,18 +38,54 @@ class EditorViewModel: ObservableObject{
         currentVideo?.updateThumbnails(geo)
     }
     
-    func createVideo(){
-        guard let currentVideo else {return}
-        let size = currentVideo.asset.tracks(withMediaType: .video)[0].naturalSize
-        AssetHelper().applyVideoTransforms(asset: currentVideo.asset, originalDuration: currentVideo.originalDuration, rotationAngle: currentVideo.rotation, rate: currentVideo.rate, timeInterval: currentVideo.rangeDuration, mirror: currentVideo.isMirror, size: size) { result in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let failure):
-                print(failure.localizedDescription)
+    private func renderVideo(_ videoQuality: VideoQuality, completion: @escaping (URL) -> Void){
+        guard let currentVideo, !showLoader else {return}
+        showLoader = true
+        VideoEditor().applyVideoTransforms(asset: currentVideo.asset, originalDuration: currentVideo.originalDuration, rotationAngle: currentVideo.rotation, rate: currentVideo.rate, timeInterval: currentVideo.rangeDuration, mirror: currentVideo.isMirror, videoQuality: videoQuality) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let success):
+                    completion(success)
+                    self.showLoader = false
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                    self.showLoader = false
+                }
             }
         }
-        
+    }
+    
+    func saveVideo(for videoQuality: VideoQuality){
+        renderVideo(videoQuality){url in
+            self.saveVideoInLib(url)
+        }
+    }
+    
+    func shareVideo(for videoQuality: VideoQuality){
+        renderVideo(videoQuality){url in
+            self.showShareSheet(data: [url])
+        }
+    }
+    
+    
+    private func showShareSheet(data: Any){
+        UIActivityViewController(activityItems: [data], applicationActivities: nil).presentInKeyWindow()
+    }
+    
+    private func saveVideoInLib(_ url: URL){
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+        }) { saved, error in
+            if saved {
+                DispatchQueue.main.async {
+                    self.showAlert = true
+                }
+//                let alertController = UIAlertController(title: "Your video was successfully saved", message: nil, preferredStyle: .alert)
+//                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//                alertController.addAction(defaultAction)
+//                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
         
 }
