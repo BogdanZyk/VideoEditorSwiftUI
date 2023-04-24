@@ -179,6 +179,19 @@ extension VideoPlayerManager{
     }
 }
 
+
+extension VideoPlayerManager{
+    
+    
+    func setFilter(){
+        guard let composition = player.currentItem?.asset.setFilter(CIFilter(name: "CIGaussianBlur")!) else {return}
+        
+        player.currentItem?.videoComposition = composition
+        
+    }
+    
+}
+
 enum LoadState: Identifiable, Equatable {
     case unknown, loading, loaded(URL), failed
     
@@ -197,4 +210,30 @@ enum PlayerScrubState{
     case reset
     case scrubStarted
     case scrubEnded(Double)
+}
+
+
+extension AVAsset{
+    
+    func setFilter(_ filter: CIFilter) -> AVVideoComposition{
+        let composition = AVVideoComposition(asset: self, applyingCIFiltersWithHandler: { request in
+
+            // Clamp to avoid blurring transparent pixels at the image edges
+            let source = request.sourceImage.clampedToExtent()
+            filter.setValue(source, forKey: kCIInputImageKey)
+
+            // Vary filter parameters based on video timing
+            let seconds = CMTimeGetSeconds(request.compositionTime)
+            filter.setValue(seconds * 10.0, forKey: kCIInputRadiusKey)
+
+            // Crop the blurred output to the bounds of the original image
+            let output = filter.outputImage!.cropped(to: request.sourceImage.extent)
+
+            // Provide the filter output to the composition
+            request.finish(with: output, context: nil)
+        })
+        
+        return composition
+    }
+    
 }

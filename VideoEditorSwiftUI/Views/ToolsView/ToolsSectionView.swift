@@ -94,7 +94,12 @@ extension ToolsSectionView{
             case .text:
                 EmptyView()
             case .filters:
-                EmptyView()
+                Button {
+                    videoPlayer.setFilter()
+                } label: {
+                    Text("Set filter")
+                }
+
             case .corrections:
                 EmptyView()
             case .frames:
