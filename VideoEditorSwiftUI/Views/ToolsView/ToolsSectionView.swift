@@ -94,10 +94,16 @@ extension ToolsSectionView{
             case .text:
                 EmptyView()
             case .filters:
-                Button {
-                    videoPlayer.setFilter()
-                } label: {
-                    Text("Set filter")
+                if let image = editorVM.currentVideo?.thumbnailsImages.first?.image{
+                    FiltersView(image: image) { filter in
+                        if let filter{
+                            videoPlayer.setFilter(filter)
+                        }else{
+                            videoPlayer.removeFilter()
+                        }
+                        
+                        editorVM.currentVideo?.setFilter(filter)
+                    }
                 }
 
             case .corrections:

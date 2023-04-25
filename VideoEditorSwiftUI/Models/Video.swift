@@ -20,6 +20,7 @@ struct Video{
     var frameSize: CGSize = .zero
     var isMirror: Bool = false
     var toolsApplied = [Int]()
+    var filterName: String? = nil
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
@@ -95,6 +96,10 @@ struct Video{
         if isAppliedTool(for: tool){
             toolsApplied.removeAll(where: {$0 == tool.rawValue})
         }
+    }
+    
+    mutating func setFilter(_ filter: CIFilter?){
+        filterName = filter?.name
     }
     
     func isAppliedTool(for tool: ToolEnum) -> Bool{

@@ -23,6 +23,7 @@ final class VideoPlayerManager: ObservableObject{
     private var timeObserver: Any?
     private var currentDurationRange: ClosedRange<Double>?
     
+    
     deinit {
         removeTimeObserver()
     }
@@ -183,13 +184,17 @@ extension VideoPlayerManager{
 extension VideoPlayerManager{
     
     
-    func setFilter(){
-        guard let composition = player.currentItem?.asset.setFilter(CIFilter(name: "CIGaussianBlur")!) else {return}
-        
+    func setFilter(_ filter: CIFilter){
+        guard let composition = player.currentItem?.asset.setFilter(filter) else {return}
+        pause()
         player.currentItem?.videoComposition = composition
         
     }
     
+    func removeFilter(){
+        pause()
+        player.currentItem?.videoComposition = nil
+    }
 }
 
 enum LoadState: Identifiable, Equatable {
@@ -217,23 +222,15 @@ extension AVAsset{
     
     func setFilter(_ filter: CIFilter) -> AVVideoComposition{
         let composition = AVVideoComposition(asset: self, applyingCIFiltersWithHandler: { request in
-
-            // Clamp to avoid blurring transparent pixels at the image edges
-            let source = request.sourceImage.clampedToExtent()
-            filter.setValue(source, forKey: kCIInputImageKey)
-
-            // Vary filter parameters based on video timing
-            let seconds = CMTimeGetSeconds(request.compositionTime)
-            filter.setValue(seconds * 10.0, forKey: kCIInputRadiusKey)
-
-            // Crop the blurred output to the bounds of the original image
-            let output = filter.outputImage!.cropped(to: request.sourceImage.extent)
-
-            // Provide the filter output to the composition
+            filter.setValue(request.sourceImage, forKey: kCIInputImageKey)
+            
+            guard let output = filter.outputImage else {return}
+            
             request.finish(with: output, context: nil)
         })
         
         return composition
     }
     
+
 }

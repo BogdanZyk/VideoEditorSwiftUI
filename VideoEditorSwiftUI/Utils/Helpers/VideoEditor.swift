@@ -21,13 +21,14 @@ class VideoEditor{
     
     
     func renderVideo(asset: AVAsset,
-                              originalDuration: Double,
-                              rotationAngle: Double,
-                              rate: Float,
-                              timeInterval: ClosedRange<Double>,
-                              mirror: Bool,
-                              videoQuality: VideoQuality,
-                              completion: @escaping (Result<URL, ExporterError>) -> Void){
+                     originalDuration: Double,
+                     rotationAngle: Double,
+                     rate: Float,
+                     timeInterval: ClosedRange<Double>,
+                     mirror: Bool,
+                     videoQuality: VideoQuality,
+                     filterName: String?,
+                     completion: @escaping (Result<URL, ExporterError>) -> Void){
         
         
         
@@ -78,7 +79,6 @@ class VideoEditor{
         let instruction = AVMutableVideoCompositionInstruction()
         instruction.layerInstructions = [layerInstruction]
         instruction.timeRange = timeRange
-
         videoComposition.instructions = [instruction]
         
         
@@ -103,7 +103,7 @@ class VideoEditor{
             case .exporting, .waiting:
                 break
             case .completed:
-                self.videoScaleAssetSpeed(fromURL: tempURL, by: Float64(rate), completion: completion)
+                self.videoScaleAssetSpeed(asset: asset, fromURL: tempURL, by: Float64(rate), filterName: filterName, completion: completion)
             case .failed:
                 completion(.failure(.failed))
             case .cancelled:
@@ -118,64 +118,58 @@ class VideoEditor{
 
 
     
-//    //MARK: Add filter to video
-//    func addfiltertoVideo(strfiltername : String, strUrl : URL, completion: @escaping (Result<URL, ExporterError>) -> Void) {
-//        
-//        //FilterName
-//        let filter = CIFilter(name:strfiltername)
-//        
-//        //Asset
-//        let asset = AVAsset(url: strUrl)
-//        
-//        //Create Directory path for Save
-//        let tempPath = createTempPath()
-//        
-//        //AVVideoComposition
-//        let composition = AVVideoComposition(asset: asset, applyingCIFiltersWithHandler: { request in
-//            
-//            // Clamp to avoid blurring transparent pixels at the image edges
-//            let source = request.sourceImage.clampedToExtent()
-//            filter?.setValue(source, forKey: kCIInputImageKey)
-//            
-//            // Crop the blurred output to the bounds of the original image
-//            let output = filter?.outputImage!.cropped(to: request.sourceImage.extent)
-//            
-//            // Provide the filter output to the composition
-//            request.finish(with: output!, context: nil)
-//            
-//        })
-//        
-//        
-//        //export the video to as per your requirement conversion
-//        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
-//        exportSession.outputFileType = AVFileType.mp4
-//        exportSession.outputURL = tempPath
-//        exportSession.videoComposition = composition
-//        
-//        exportSession.exportAsynchronously(completionHandler: {
-//            switch exportSession.status{
-//                
-//            case .exporting, .waiting:
-//                break
-//            case .completed:
-//                completion(.success(tempPath))
-//            case .failed:
-//                completion(.failure(.failed))
-//            case .cancelled:
-//                completion(.failure(.cancelled))
-//            default:
-//                completion(.failure(.unknow))
-//            }
-//        })
-//    }
-
-    
-
-    
-   private func videoScaleAssetSpeed(fromURL url: URL,  by scale: Float64, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+    //MARK: Add filter to video
+    func addfilterToVideo(filterName: String?, strUrl: URL, asset: AVAsset, completion: @escaping (Result<URL, ExporterError>) -> Void) {
         
-        /// Asset
-        let asset = AVPlayerItem(url: url).asset
+        guard let filterName, let filter = CIFilter(name: filterName) else {
+            completion(.success(strUrl))
+            return
+        }
+       
+        //AVVideoComposition
+        let composition = AVVideoComposition(asset: asset, applyingCIFiltersWithHandler: { request in
+
+            let source = request.sourceImage.clampedToExtent()
+            filter.setValue(source, forKey: kCIInputImageKey)
+
+            guard let output = filter.outputImage?.cropped(to: request.sourceImage.extent) else {
+                completion(.success(strUrl))
+                return
+            }
+            request.finish(with: output, context: nil)
+
+        })
+        
+        
+        let tempPath = createTempPath()
+        //export the video to as per your requirement conversion
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        exportSession.outputFileType = AVFileType.mp4
+        exportSession.outputURL = tempPath
+        exportSession.videoComposition = composition
+        
+        exportSession.exportAsynchronously(completionHandler: {
+            switch exportSession.status{
+                
+            case .exporting, .waiting:
+                break
+            case .completed:
+                completion(.success(tempPath))
+            case .failed:
+                completion(.failure(.failed))
+            case .cancelled:
+                completion(.failure(.cancelled))
+            default:
+                completion(.failure(.unknow))
+            }
+        })
+    }
+
+    
+
+    
+    private func videoScaleAssetSpeed(asset: AVAsset, fromURL url: URL, by scale: Float64, filterName: String?, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+        
         
         // Composition Audio Video
         let mixComposition = AVMutableComposition()
@@ -238,7 +232,7 @@ class VideoEditor{
                         break
                     case .completed:
                         completion(.success(tempPath))
-//                        self.addfiltertoVideo(strfiltername: "CIPhotoEffectChrome", strUrl: tempPath, completion: completion)
+                        self.addfilterToVideo(filterName: filterName, strUrl: tempPath, asset: asset, completion: completion)
                     case .failed:
                         completion(.failure(.failed))
                     case .cancelled:
