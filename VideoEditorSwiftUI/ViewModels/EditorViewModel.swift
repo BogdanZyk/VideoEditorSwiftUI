@@ -55,6 +55,16 @@ extension EditorViewModel{
 //MARK: - Tools logic
 extension EditorViewModel{
     
+    
+    func setFilter(_ filter: String?){
+        currentVideo?.setFilter(filter)
+        if filter != nil{
+            setTools()
+        }else{
+            removeTool()
+        }
+    }
+    
     func updateRate(rate: Float){
         currentVideo?.updateRate(rate)
         setTools()
@@ -74,6 +84,11 @@ extension EditorViewModel{
         guard let selectedTools else { return }
         currentVideo?.appliedTool(for: selectedTools)
     }
+    
+    func removeTool(){
+        guard let selectedTools else { return }
+        self.currentVideo?.removeTool(for: selectedTools)
+    }
   
     func reset(){
         guard let selectedTools else {return}
@@ -91,14 +106,14 @@ extension EditorViewModel{
         case .text:
             break
         case .filters:
-            break
+            currentVideo?.setFilter(nil)
         case .corrections:
             break
         case .frames:
             break
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            self.currentVideo?.removeTool(for: selectedTools)
+            self.removeTool()
         }
     }
 }

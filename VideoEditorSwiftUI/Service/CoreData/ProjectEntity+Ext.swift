@@ -51,6 +51,7 @@ extension ProjectEntity{
         project.rotation = video.rotation
         project.rate = Double(video.rate)
         project.isMirror = video.isMirror
+        project.filterName = video.filterName
         project.lowerBound = video.rangeDuration.lowerBound
         project.upperBound = video.rangeDuration.upperBound
         
@@ -63,6 +64,7 @@ extension ProjectEntity{
             project.isMirror = video.isMirror
             project.lowerBound = video.rangeDuration.lowerBound
             project.upperBound = video.rangeDuration.upperBound
+            project.filterName = video.filterName
             project.appliedTools = video.toolsApplied.map({String($0)}).joined(separator: ",")
             project.rotation = video.rotation
             project.rate = Double(video.rate)

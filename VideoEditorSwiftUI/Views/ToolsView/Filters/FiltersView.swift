@@ -10,35 +10,41 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct FiltersView: View {
+    @State var selectedFilterName: String? = nil
     @StateObject var viewModel: FiltersViewModel
     
-    init(image: UIImage, filter: String? = nil, onChangeFilter: @escaping (CIFilter?) -> Void) {
-        self._viewModel = StateObject(wrappedValue: FiltersViewModel(image: image, filterName: filter))
+    init(image: UIImage, filterName: String?, onChangeFilter: @escaping (String?) -> Void) {
+        self.selectedFilterName = filterName
+        self._viewModel = StateObject(wrappedValue: FiltersViewModel(image: image))
         self.onChangeFilter = onChangeFilter
     }
     
-    let onChangeFilter: (CIFilter?) -> Void
+    let onChangeFilter: (String?) -> Void
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(alignment: .center, spacing: 5) {
                 resetButton
-                ForEach(viewModel.images) { filterImage in
-                    imageView(filterImage.image, isSelected: filterImage.filter.name == viewModel.selectedFilter?.name)
+                ForEach(viewModel.images.sorted(by: {$0.filter.name < $1.filter.name})) { filterImage in
+                    imageView(filterImage.image, isSelected: selectedFilterName == filterImage.filter.name)
                         .onTapGesture {
-                            viewModel.selectedFilter = filterImage.filter
-                            onChangeFilter(filterImage.filter)
+                            selectedFilterName = filterImage.filter.name
                         }
                 }
             }
             .frame(height: 60)
             .padding(.horizontal)
         }
+        .onChange(of: selectedFilterName) { newValue in
+            onChangeFilter(newValue)
+        }
+        .padding(.horizontal, -16)
     }
 }
 
 struct FiltersView_Previews: PreviewProvider {
     static var previews: some View {
-        FiltersView( image: UIImage(named: "simpleImage")!, onChangeFilter: {_ in})
+        FiltersView(image: UIImage(named: "simpleImage")!, filterName: nil, onChangeFilter: {_ in})
+            .padding()
     }
 }
 
@@ -50,19 +56,13 @@ extension FiltersView{
             .frame(width: 55, height: 55)
             .clipped()
             .border(.white, width: isSelected ? 2 : 0)
-//            .background{
-//                Rectangle()
-//                    .frame(width: 70, height: 70)
-//                    .border(Color.white)
-//            }
     }
     
     
     private var resetButton: some View{
-        imageView(viewModel.image, isSelected: viewModel.selectedFilter == nil)
+        imageView(viewModel.image, isSelected: selectedFilterName == nil)
             .onTapGesture {
-                viewModel.selectedFilter = nil
-                onChangeFilter(nil)
+                selectedFilterName = nil
             }
             .padding(.trailing, 30)
     }
@@ -72,17 +72,12 @@ class FiltersViewModel: ObservableObject{
     
     @Published var images = [FilteredImage]()
     
-    @Published var selectedFilter: CIFilter?
-    
     @Published var value: Double = 1.0
     
     let image: UIImage
     
     init(image: UIImage, filterName: String? = nil){
         self.image = image
-        if let filterName{
-            self.selectedFilter = CIFilter(name: filterName)
-        }
         load(for: image)
     }
     
@@ -124,22 +119,4 @@ class FiltersViewModel: ObservableObject{
         }
     }
     
-//    func updateEffect(){
-//        let context = CIContext()
-//        filters.forEach { filter in
-//            DispatchQueue.global(qos: .userInteractive).async {
-//
-//                guard let CiImage = CIImage(image: image) else {return}
-//                filter.setValue(CiImage, forKey: kCIInputImageKey)
-//
-//                guard let newImage = filter.outputImage, let cgImage = context.createCGImage(newImage, from: CiImage.extent) else {return}
-//
-//                let filterImage = FilteredImage(image: UIImage(cgImage: cgImage), filter: filter)
-//
-//                DispatchQueue.main.async {
-//                    self.images.append(filterImage)
-//                }
-//            }
-//        }
-//    }
 }

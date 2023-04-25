@@ -98,8 +98,8 @@ struct Video{
         }
     }
     
-    mutating func setFilter(_ filter: CIFilter?){
-        filterName = filter?.name
+    mutating func setFilter(_ filter: String?){
+        filterName = filter
     }
     
     func isAppliedTool(for tool: ToolEnum) -> Bool{

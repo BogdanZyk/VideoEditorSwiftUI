@@ -184,8 +184,8 @@ extension VideoPlayerManager{
 extension VideoPlayerManager{
     
     
-    func setFilter(_ filter: CIFilter){
-        guard let composition = player.currentItem?.asset.setFilter(filter) else {return}
+    func setFilter(_ filterName: String){
+        guard let filter = CIFilter(name: filterName), let composition = player.currentItem?.asset.setFilter(filter) else {return}
         pause()
         player.currentItem?.videoComposition = composition
         

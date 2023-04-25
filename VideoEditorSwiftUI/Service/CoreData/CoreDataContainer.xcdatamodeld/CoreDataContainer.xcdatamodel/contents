@@ -3,6 +3,7 @@
     <entity name="ProjectEntity" representedClassName="ProjectEntity" syncable="YES" codeGenerationType="class">
         <attribute name="appliedTools" optional="YES" attributeType="String"/>
         <attribute name="createAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="filterName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isMirror" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lowerBound" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

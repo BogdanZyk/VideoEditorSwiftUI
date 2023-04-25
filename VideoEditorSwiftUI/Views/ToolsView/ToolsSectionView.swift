@@ -64,13 +64,15 @@ extension ToolsSectionView{
                         .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 5))
                 }
                 Spacer()
-                Button {
-                    editorVM.reset()
-                } label: {
-                    Text("Reset")
-                        .font(.subheadline)
+                if tool != .filters{
+                    Button {
+                        editorVM.reset()
+                    } label: {
+                        Text("Reset")
+                            .font(.subheadline)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
             
             switch tool {
@@ -94,16 +96,17 @@ extension ToolsSectionView{
             case .text:
                 EmptyView()
             case .filters:
-                if let image = editorVM.currentVideo?.thumbnailsImages.first?.image{
-                    FiltersView(image: image) { filter in
+                if let image = video.thumbnailsImages.first?.image{
+                    FiltersView(image: image, filterName: video.filterName) { filter in
                         if let filter{
                             videoPlayer.setFilter(filter)
                         }else{
                             videoPlayer.removeFilter()
                         }
                         
-                        editorVM.currentVideo?.setFilter(filter)
+                        editorVM.setFilter(filter)
                     }
+                    .padding(.top)
                 }
 
             case .corrections:
