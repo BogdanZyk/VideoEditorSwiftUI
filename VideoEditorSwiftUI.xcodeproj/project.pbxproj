@@ -132,12 +132,12 @@
 		5A9EDCFE29F03D800014A1CF /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
+				5AE2A2AC29F880B6003D217F /* Filters */,
+				5AE2A2AB29F8808F003D217F /* Crop */,
+				5AE2A2AA29F88077003D217F /* Speed */,
+				5AE2A2A929F8806E003D217F /* CutView */,
 				5AF25B5A29F14907005E0467 /* CropperView */,
 				5ACFF9B129EEA93400827A37 /* ToolsSectionView.swift */,
-				5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */,
-				5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */,
-				5AF25B5829F14270005E0467 /* CropView.swift */,
-				5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */,
 			);
 			path = ToolsView;
 			sourceTree = "<group>";
@@ -325,6 +325,38 @@
 				5AE2A29F29F465BD003D217F /* VideoEditor.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5AE2A2A929F8806E003D217F /* CutView */ = {
+			isa = PBXGroup;
+			children = (
+				5ACFF99929ED57BC00827A37 /* ThumbnailsSliderView.swift */,
+			);
+			path = CutView;
+			sourceTree = "<group>";
+		};
+		5AE2A2AA29F88077003D217F /* Speed */ = {
+			isa = PBXGroup;
+			children = (
+				5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */,
+			);
+			path = Speed;
+			sourceTree = "<group>";
+		};
+		5AE2A2AB29F8808F003D217F /* Crop */ = {
+			isa = PBXGroup;
+			children = (
+				5AF25B5829F14270005E0467 /* CropView.swift */,
+				5A17E08529F15BEF00DB4A47 /* CropSheetView.swift */,
+			);
+			path = Crop;
+			sourceTree = "<group>";
+		};
+		5AE2A2AC29F880B6003D217F /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Filters;
 			sourceTree = "<group>";
 		};
 		5AF25B5A29F14907005E0467 /* CropperView */ = {
