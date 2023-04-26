@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CorrectionsToolView: View {
-    @State var currentTab: CorrectionFilter.CorrectionType = .brightness
-    @ObservedObject var viewModel: FiltersViewModel
-    let onChange: (CIFilter?) -> Void
+    @State var currentTab: CorrectionType = .brightness
+    @Binding var correction: ColorCorrection
+    let onChange: (ColorCorrection) -> Void
     var body: some View {
-        VStack(spacing: 50){
+        VStack(spacing: 0){
             
             HStack{
-                ForEach(CorrectionFilter.CorrectionType.allCases, id: \.self) { type in
+                ForEach(CorrectionType.allCases, id: \.self) { type in
                     Text(type.rawValue)
                         .font(.subheadline)
                         .hCenter()
@@ -25,6 +25,7 @@ struct CorrectionsToolView: View {
                         }
                 }
             }
+            Spacer()
             slider
         }
     }
@@ -32,44 +33,39 @@ struct CorrectionsToolView: View {
 
 struct CorrectionsToolView_Previews: PreviewProvider {
     static var previews: some View {
-        CorrectionsToolView(viewModel: FiltersViewModel(), onChange: {_ in})
+        CorrectionsToolView(correction: .constant(Video.mock.colorCorrection), onChange: {_ in})
     }
 }
 
 
 extension CorrectionsToolView{
     
-    @ViewBuilder
+   
+    
     private var slider: some View{
         
-        if let index = viewModel.corrections.firstIndex(where: {$0.type == currentTab}){
-            let correction = $viewModel.corrections[index]
+        let value = getValue(currentTab)
             
-            CustomSlider(value: correction.value,
-                         in: -1...1,
-                         step: 0.1,
-                         onEditingChanged: { change in
+        return VStack {
+            Text(String(format: "%.1f",  value.wrappedValue))
+                .font(.subheadline)
+            Slider(value: value, in: -1...1) { change in
                 if !change{
-                    viewModel.updateColorFilter(correction.wrappedValue)
-                    onChange(viewModel.colorCorrectionFilter)
+                    onChange(correction)
                 }
-            }, track: {
-                Capsule()
-                    .foregroundColor(.secondary)
-                    .frame(width: 300, height: 2)
-            }, thumb: {
-                
-                ZStack{
-                    Text(String(format: "%.1f",  correction.value.wrappedValue))
-                        .font(.footnote)
-                        .frame(width: 30)
-                        .offset(y: -25)
-                    Circle()
-                        .foregroundColor(.white)
-                }
-                
-            }, thumbSize: CGSize(width: 20, height: 20))
+            }
+            .tint(Color.white)
         }
     }
     
+    func getValue(_ type: CorrectionType) -> Binding<Double>{
+        switch type {
+        case .brightness:
+            return $correction.brightness
+        case .contrast:
+            return $correction.contrast
+        case .saturation:
+            return $correction.saturation
+        }
+    }
 }

@@ -32,20 +32,7 @@ struct MainEditorView: View {
                 }
                 
                 .onAppear{
-                    if let selectedVideoURl{
-                        videoPlayer.loadState = .loaded(selectedVideoURl)
-                        editorVM.setNewVideo(selectedVideoURl, geo: proxy)
-                    }
-                    
-                    if let project, let url = project.videoURL{
-                        videoPlayer.loadState = .loaded(url)
-                        editorVM.setProject(project, geo: proxy)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                            if let filter = project.filterName{
-                                videoPlayer.setFilter(CIFilter(name: filter))
-                            }
-                        }
-                    }
+                    setVideo(proxy)
                 }
             }
             
@@ -105,6 +92,26 @@ extension MainEditorView{
             editorVM.updateProject()
         default:
             break
+        }
+    }
+    
+    private func setVideo(_ proxy: GeometryProxy){
+        if let selectedVideoURl{
+            videoPlayer.loadState = .loaded(selectedVideoURl)
+            editorVM.setNewVideo(selectedVideoURl, geo: proxy)
+        }
+        
+        if let project, let url = project.videoURL{
+            videoPlayer.loadState = .loaded(url)
+            editorVM.setProject(project, geo: proxy)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                if let filter = project.filterName{
+                    videoPlayer.setFilter(CIFilter(name: filter))
+                }
+                if let video = editorVM.currentVideo{
+                    videoPlayer.setColorCorrectionFilter(video.colorCorrection)
+                }
+            }
         }
     }
 }

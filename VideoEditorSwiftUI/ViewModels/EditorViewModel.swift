@@ -32,6 +32,7 @@ class EditorViewModel: ObservableObject{
         currentVideo = .init(url: url, rangeDuration: project.lowerBound...project.upperBound, rate: Float(project.rate), rotation: project.rotation)
         currentVideo?.toolsApplied = project.wrappedTools
         currentVideo?.filterName = project.filterName
+        currentVideo?.colorCorrection = .init(brightness: project.brightness, contrast: project.contrast, saturation: project.saturation)
         
         currentVideo?.updateThumbnails(geo)
     }
@@ -64,6 +65,11 @@ extension EditorViewModel{
         }else{
             removeTool()
         }
+    }
+    
+    func setCorrections(_ correction: ColorCorrection){
+        currentVideo?.colorCorrection = correction
+        setTools()
     }
     
     func updateRate(rate: Float){
@@ -109,7 +115,7 @@ extension EditorViewModel{
         case .filters:
             currentVideo?.setFilter(nil)
         case .corrections:
-            break
+            currentVideo?.colorCorrection = ColorCorrection()
         case .frames:
             break
         }

@@ -193,6 +193,14 @@ extension VideoPlayerManager{
         }
     }
     
+    func setColorCorrectionFilter(_ colorCorrection: ColorCorrection){
+        let colorCorrectionFilter = CIFilter(name: "CIColorControls")
+        colorCorrectionFilter?.setValue(colorCorrection.brightness, forKey: CorrectionType.brightness.key)
+        colorCorrectionFilter?.setValue(colorCorrection.contrast + 1, forKey: CorrectionType.contrast.key)
+        colorCorrectionFilter?.setValue(colorCorrection.saturation + 1, forKey: CorrectionType.saturation.key)
+        setFilter(colorCorrectionFilter)
+    }
+    
     func removeFilter(){
         pause()
         player.currentItem?.videoComposition = nil

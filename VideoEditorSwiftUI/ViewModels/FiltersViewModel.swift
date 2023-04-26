@@ -11,11 +11,8 @@ import CoreImage.CIFilterBuiltins
 
 class FiltersViewModel: ObservableObject{
     
-    let colorCorrectionFilter = CIFilter(name: "CIColorControls")
-    @Published var corrections: [CorrectionFilter] = CorrectionFilter.allFilters
-    @Published var selectedCorrectionType: CorrectionFilter.CorrectionType = .brightness
     @Published var images = [FilteredImage]()
-    
+    @Published var colorCorrection = ColorCorrection()
     @Published var value: Double = 1.0
     
     var image: UIImage?
@@ -58,22 +55,6 @@ class FiltersViewModel: ObservableObject{
                 }
             }
         }
-    }
-    
-    func updateColorFilter(_ correction: CorrectionFilter){
-        
-        
-        switch correction.type{
-        case .brightness:
-            colorCorrectionFilter?.setValue(correction.value, forKey: correction.type.key)
-        case .contrast, .saturation:
-            let value = correction.value == 0 ? 1 : correction.value
-            colorCorrectionFilter?.setValue(value, forKey: correction.type.key)
-        }
-    }
-    
-    func recetAllCorrectionFilters(){
-        
     }
 }
 

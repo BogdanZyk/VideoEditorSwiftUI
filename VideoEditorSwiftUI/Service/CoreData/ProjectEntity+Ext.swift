@@ -65,6 +65,9 @@ extension ProjectEntity{
             project.lowerBound = video.rangeDuration.lowerBound
             project.upperBound = video.rangeDuration.upperBound
             project.filterName = video.filterName
+            project.saturation = video.colorCorrection.saturation
+            project.contrast = video.colorCorrection.contrast
+            project.brightness = video.colorCorrection.brightness
             project.appliedTools = video.toolsApplied.map({String($0)}).joined(separator: ",")
             project.rotation = video.rotation
             project.rate = Double(video.rate)

@@ -31,8 +31,9 @@ struct ToolsSectionView: View {
         }
         .animation(.easeIn(duration: 0.15), value: editorVM.selectedTools)
         .onChange(of: editorVM.currentVideo){ newValue in
-            if let image = newValue?.thumbnailsImages.first?.image{
+            if let video = newValue, let image = video.thumbnailsImages.first?.image{
                 filtersVM.loadFilters(for: image)
+                filtersVM.colorCorrection = video.colorCorrection
             }
         }
     }
@@ -105,8 +106,9 @@ extension ToolsSectionView{
                     editorVM.setFilter(filterName)
                 }
             case .corrections:
-                CorrectionsToolView(viewModel: filtersVM) { filter in
-                    videoPlayer.setFilter(filter)
+                CorrectionsToolView(correction: $filtersVM.colorCorrection) { corrections in
+                    videoPlayer.setColorCorrectionFilter(corrections)
+                    editorVM.setCorrections(corrections)
                 }
             case .frames:
                 EmptyView()

@@ -21,22 +21,30 @@ struct CorrectionFilter: Identifiable {
     var value: Double = 0
     
     
-    enum CorrectionType: String, CaseIterable{
-        case brightness = "Brightness"
-        case contrast = "Contrast"
-        case saturation = "Saturation"
-        
-        var key: String{
-            switch self {
-            case .brightness: return kCIInputBrightnessKey
-            case .contrast: return kCIInputContrastKey
-            case .saturation: return kCIInputSaturationKey
-            }
-        }
-    }
+
     
     static let allFilters: [CorrectionFilter] = CorrectionType.allCases.map({.init(type: $0)})
 
 }
 
+
+enum CorrectionType: String, CaseIterable{
+    case brightness = "Brightness"
+    case contrast = "Contrast"
+    case saturation = "Saturation"
+    
+    var key: String{
+        switch self {
+        case .brightness: return kCIInputBrightnessKey
+        case .contrast: return kCIInputContrastKey
+        case .saturation: return kCIInputSaturationKey
+        }
+    }
+}
+
+struct ColorCorrection{
+    var brightness: Double = 0
+    var contrast: Double = 0
+    var saturation: Double = 0
+}
 
