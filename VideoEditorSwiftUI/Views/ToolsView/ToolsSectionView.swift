@@ -9,6 +9,7 @@ import SwiftUI
 import AVKit
 
 struct ToolsSectionView: View {
+    @StateObject var filtersVM = FiltersViewModel()
     @ObservedObject var videoPlayer: VideoPlayerManager
     @ObservedObject var editorVM: EditorViewModel
     
@@ -35,6 +36,11 @@ struct ToolsSectionView: View {
             }
         }
         .animation(.easeIn(duration: 0.15), value: editorVM.selectedTools)
+        .onChange(of: editorVM.currentVideo){ newValue in
+            if let image = newValue?.thumbnailsImages.first?.image{
+                filtersVM.loadFilters(for: image)
+            }
+        }
     }
 }
 
@@ -96,19 +102,15 @@ extension ToolsSectionView{
             case .text:
                 EmptyView()
             case .filters:
-                if let image = video.thumbnailsImages.first?.image{
-                    FiltersView(image: image, filterName: video.filterName) { filter in
-                        if let filter{
-                            videoPlayer.setFilter(filter)
-                        }else{
-                            videoPlayer.removeFilter()
-                        }
-                        
-                        editorVM.setFilter(filter)
+                FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filter in
+                    if let filter{
+                        videoPlayer.setFilter(filter)
+                    }else{
+                        videoPlayer.removeFilter()
                     }
-                    .padding(.top)
+                    editorVM.setFilter(filter)
                 }
-
+                .padding(.top)
             case .corrections:
                 EmptyView()
             case .frames:

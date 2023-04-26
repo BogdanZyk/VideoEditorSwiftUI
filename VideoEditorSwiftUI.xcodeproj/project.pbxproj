@@ -22,6 +22,7 @@
 		5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */; };
 		5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B3FCE29F0360B00FB9858 /* Video.swift */; };
 		5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */; };
+		5AADA50329F919800064EA7E /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AADA50229F919800064EA7E /* FiltersViewModel.swift */; };
 		5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */; };
 		5ACFF97129E944FA00827A37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFF97029E944FA00827A37 /* ContentView.swift */; };
 		5ACFF97329E944FC00827A37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACFF97229E944FC00827A37 /* Assets.xcassets */; };
@@ -70,6 +71,7 @@
 		5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCroppedView.swift; sourceTree = "<group>"; };
 		5A8B3FCE29F0360B00FB9858 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSpeedSlider.swift; sourceTree = "<group>"; };
+		5AADA50229F919800064EA7E /* FiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
 		5ACFF96B29E944FA00827A37 /* VideoEditorSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoEditorSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACFF96E29E944FA00827A37 /* VideoEditorSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorSwiftUIApp.swift; sourceTree = "<group>"; };
 		5ACFF97029E944FA00827A37 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				5ACFF98429E945E000827A37 /* EditorViewModel.swift */,
 				5A3D13B329F18E4D0027E25E /* RootViewModel.swift */,
 				5AE2A2A729F6BA29003D217F /* ExporterViewModel.swift */,
+				5AADA50229F919800064EA7E /* FiltersViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				5ACFF99A29ED57BC00827A37 /* ThumbnailsSliderView.swift in Sources */,
 				5ACFF98529E945E000827A37 /* EditorViewModel.swift in Sources */,
 				5ACFF9A929EE878500827A37 /* ToolButtonView.swift in Sources */,
+				5AADA50329F919800064EA7E /* FiltersViewModel.swift in Sources */,
 				5ACFF98329E945C300827A37 /* MainEditorView.swift in Sources */,
 				5ACFF98929E98EE700827A37 /* CameraManager.swift in Sources */,
 				5ACFF99629EC8A2400827A37 /* AVAssets+Ext.swift in Sources */,

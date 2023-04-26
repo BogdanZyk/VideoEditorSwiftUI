@@ -8,8 +8,9 @@
 import SwiftUI
 import AVKit
 
-struct Video{
+struct Video: Identifiable{
     
+    var id: UUID = UUID()
     var url: URL
     var asset: AVAsset
     let originalDuration: Double
@@ -118,6 +119,13 @@ struct Video{
     static var mock: Video = .init(url:URL(string: "https://www.google.com/")!, rangeDuration: 0...250)
 }
 
+
+extension Video: Equatable{
+    
+    static func == (lhs: Video, rhs: Video) -> Bool {
+        lhs.id == rhs.id
+    }
+}
 
 extension Double{
     func nextAngle() -> Double {
