@@ -41,7 +41,9 @@ struct MainEditorView: View {
                         videoPlayer.loadState = .loaded(url)
                         editorVM.setProject(project, geo: proxy)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                            videoPlayer.setFilter(project.filterName)
+                            if let filter = project.filterName{
+                                videoPlayer.setFilter(CIFilter(name: filter))
+                            }
                         }
                     }
                 }

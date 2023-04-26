@@ -21,7 +21,7 @@ struct ThumbnailsSliderView: View {
     }
     
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 6) {
             Text(totalDuration.formatterTimeString())
                 .foregroundColor(.white)
                 .font(.subheadline)
@@ -58,7 +58,6 @@ struct ThumbnailsSliderView: View {
                 }
             }
             .frame(width: getRect().width - 64, height: 70)
-            .padding(.vertical, 10)
         }
         .onChange(of: isChangeState) { isChange in
             if !(isChange ?? true){

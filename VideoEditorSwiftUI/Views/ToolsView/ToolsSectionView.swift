@@ -52,7 +52,7 @@ extension ToolsSectionView{
         
         let isAppliedTool = video.isAppliedTool(for: tool)
         
-        VStack(spacing: 5){
+        VStack(spacing: 16){
             HStack {
                 Button {
                     editorVM.selectedTools = nil
@@ -96,17 +96,18 @@ extension ToolsSectionView{
             case .text:
                 EmptyView()
             case .filters:
-                FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filter in
-                    if let filter{
-                        videoPlayer.setFilter(filter)
+                FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filterName in
+                    if let filterName{
+                        videoPlayer.setFilter(CIFilter(name: filterName))
                     }else{
                         videoPlayer.removeFilter()
                     }
-                    editorVM.setFilter(filter)
+                    editorVM.setFilter(filterName)
                 }
-                .padding(.top)
             case .corrections:
-                EmptyView()
+                CorrectionsToolView(viewModel: filtersVM) { filter in
+                    videoPlayer.setFilter(filter)
+                }
             case .frames:
                 EmptyView()
             }
@@ -115,7 +116,7 @@ extension ToolsSectionView{
             Text(tool.title)
                 .font(.headline)
         }
-        .padding()
+        .padding([.horizontal, .top])
         .allFrame()
         .background(Color(.systemGray6))
     }

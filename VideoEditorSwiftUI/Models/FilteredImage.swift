@@ -15,16 +15,28 @@ struct FilteredImage: Identifiable{
     var filter: CIFilter
 }
 
-struct CorrectionFilter {
+struct CorrectionFilter: Identifiable {
+    var id: String { type.key }
+    var type: CorrectionType
+    var value: Double = 0
     
-    var key: String
-    var value: Double
-//    var colorCorrectionFilter: CIFilter
-//    var value: Double
-//
-//
-//    mutating func changeValue(_ value: Double, for key: String){
-//
-//    }
+    
+    enum CorrectionType: String, CaseIterable{
+        case brightness = "Brightness"
+        case contrast = "Contrast"
+        case saturation = "Saturation"
+        
+        var key: String{
+            switch self {
+            case .brightness: return kCIInputBrightnessKey
+            case .contrast: return kCIInputContrastKey
+            case .saturation: return kCIInputSaturationKey
+            }
+        }
+    }
+    
+    static let allFilters: [CorrectionFilter] = CorrectionType.allCases.map({.init(type: $0)})
+
 }
+
 
