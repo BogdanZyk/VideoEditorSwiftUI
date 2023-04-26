@@ -12,13 +12,7 @@ struct ToolsSectionView: View {
     @StateObject var filtersVM = FiltersViewModel()
     @ObservedObject var videoPlayer: VideoPlayerManager
     @ObservedObject var editorVM: EditorViewModel
-    
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
+    private let columns = Array(repeating: GridItem(.flexible()), count: 4)
     var body: some View {
         ZStack{
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {

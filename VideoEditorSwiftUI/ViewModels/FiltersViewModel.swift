@@ -17,7 +17,7 @@ class FiltersViewModel: ObservableObject{
     
     var image: UIImage?
         
-    let filters: [CIFilter] = [
+    private let filters: [CIFilter] = [
         
         .photoEffectChrome(),
         .photoEffectFade(),

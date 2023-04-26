@@ -40,6 +40,9 @@ struct MainEditorView: View {
                     if let project, let url = project.videoURL{
                         videoPlayer.loadState = .loaded(url)
                         editorVM.setProject(project, geo: proxy)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                            videoPlayer.setFilter(project.filterName)
+                        }
                     }
                 }
             }
@@ -59,7 +62,7 @@ struct MainEditorView: View {
         }
         .statusBar(hidden: true)
         .onChange(of: scenePhase) { phase in
-            //saveProject(phase)
+            saveProject(phase)
         }
     }
 }
@@ -96,8 +99,8 @@ extension MainEditorView{
     
     private func saveProject(_ phase: ScenePhase){
         switch phase{
-        case .background:
-            saveProject(phase)
+        case .background, .inactive:
+            editorVM.updateProject()
         default:
             break
         }

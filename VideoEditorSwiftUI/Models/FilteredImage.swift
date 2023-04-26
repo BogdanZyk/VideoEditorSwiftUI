@@ -14,3 +14,17 @@ struct FilteredImage: Identifiable{
     var image: UIImage
     var filter: CIFilter
 }
+
+struct CorrectionFilter {
+    
+    var key: String
+    var value: Double
+//    var colorCorrectionFilter: CIFilter
+//    var value: Double
+//
+//
+//    mutating func changeValue(_ value: Double, for key: String){
+//
+//    }
+}
+
