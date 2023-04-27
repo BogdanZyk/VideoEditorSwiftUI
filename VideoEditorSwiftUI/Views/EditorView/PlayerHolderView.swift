@@ -15,7 +15,7 @@ struct PlayerHolderView: View{
     var scale: CGFloat{
         isFullScreen ? 1.4 : 1
     }
-    
+
     var body: some View{
         VStack(spacing: 6) {
             ZStack(alignment: .bottom){
@@ -55,15 +55,20 @@ extension PlayerHolderView{
                         rotation: editorVM.currentVideo?.rotation,
                         isMirror: editorVM.currentVideo?.isMirror ?? false,
                         isActiveCrop: editorVM.selectedTools == .crop) {
-                        PlayerView(player: videoPlayer.player)
-//                            .onTapGesture {
-//                                videoPlayer.action(video)
-//                            }
-                    }
-                     .allFrame()
-                     .onAppear{
-                         Task{
-                             guard let size = await editorVM.currentVideo?.asset.adjustVideoSize(to: proxy.size) else {return}
+                            ZStack{
+                                editorVM.frames.frameColor
+                                PlayerView(player: videoPlayer.player)
+                                    .scaleEffect(editorVM.frames.scale)
+                            }
+                            
+                            //                            .onTapGesture {
+                            //                                videoPlayer.action(video)
+                            //                            }
+                        }
+                        .allFrame()
+                        .onAppear{
+                            Task{
+                                guard let size = await editorVM.currentVideo?.asset.adjustVideoSize(to: proxy.size) else {return}
                              editorVM.currentVideo?.frameSize = size
                          }
                      }

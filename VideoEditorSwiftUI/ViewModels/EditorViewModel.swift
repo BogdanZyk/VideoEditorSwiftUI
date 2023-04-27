@@ -15,7 +15,10 @@ class EditorViewModel: ObservableObject{
     
     @Published var currentVideo: Video?
     @Published var selectedTools: ToolEnum?
+    @Published var frames = VideoFrames()
+    
     private var projectEntity: ProjectEntity?
+    
     
 
     func setNewVideo(_ url: URL, geo: GeometryProxy){
@@ -33,7 +36,9 @@ class EditorViewModel: ObservableObject{
         currentVideo?.toolsApplied = project.wrappedTools
         currentVideo?.filterName = project.filterName
         currentVideo?.colorCorrection = .init(brightness: project.brightness, contrast: project.contrast, saturation: project.saturation)
-        
+        let frame = VideoFrames(scaleValue: project.frameScale, frameColor: project.wrappedColor)
+        currentVideo?.videoFrames = frame
+        self.frames = frame
         currentVideo?.updateThumbnails(geo)
     }
         
@@ -65,6 +70,12 @@ extension EditorViewModel{
         }else{
             removeTool()
         }
+    }
+    
+    
+    func setFrames(){
+        currentVideo?.videoFrames = frames
+        setTools()
     }
     
     func setCorrections(_ correction: ColorCorrection){
@@ -117,7 +128,8 @@ extension EditorViewModel{
         case .corrections:
             currentVideo?.colorCorrection = ColorCorrection()
         case .frames:
-            break
+            frames.reset()
+            currentVideo?.videoFrames = nil
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
             self.removeTool()

@@ -6,6 +6,8 @@
         <attribute name="contrast" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="createAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="filterName" optional="YES" attributeType="String"/>
+        <attribute name="frameColor" optional="YES" attributeType="String"/>
+        <attribute name="frameScale" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isMirror" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lowerBound" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

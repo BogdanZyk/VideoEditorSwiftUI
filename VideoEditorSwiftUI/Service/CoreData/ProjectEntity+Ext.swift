@@ -23,6 +23,11 @@ extension ProjectEntity{
         appliedTools?.components(separatedBy: ",").compactMap({Int($0)}) ?? []
     }
     
+    var wrappedColor: Color{
+        guard let frameColor else { return .blue }
+        return Color(hex: frameColor)
+    }
+    
     var uiImage: UIImage{
         if let id, let uImage = FileManager().retrieveImage(with: id){
             return uImage
@@ -54,7 +59,7 @@ extension ProjectEntity{
         project.filterName = video.filterName
         project.lowerBound = video.rangeDuration.lowerBound
         project.upperBound = video.rangeDuration.upperBound
-        
+    
         context.saveContext()
     }
     
@@ -71,6 +76,8 @@ extension ProjectEntity{
             project.appliedTools = video.toolsApplied.map({String($0)}).joined(separator: ",")
             project.rotation = video.rotation
             project.rate = Double(video.rate)
+            project.frameColor = video.videoFrames?.frameColor.toHex()
+            project.frameScale = video.videoFrames?.scaleValue ?? 0
             
             context.saveContext()
         }

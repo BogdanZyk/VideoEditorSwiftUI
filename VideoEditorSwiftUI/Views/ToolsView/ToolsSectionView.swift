@@ -89,9 +89,7 @@ extension ToolsSectionView{
                     editorVM.updateRate(rate: rate)
                 }
             case .crop:
-                
                 CropSheetView(editorVM: editorVM)
-                
             case .audio:
                 EmptyView()
             case .text:
@@ -111,9 +109,8 @@ extension ToolsSectionView{
                     editorVM.setCorrections(corrections)
                 }
             case .frames:
-                EmptyView()
+                FramesToolView(selectedColor: $editorVM.frames.frameColor, scaleValue: $editorVM.frames.scaleValue, onChange: editorVM.setFrames)
             }
-            
             Spacer()
             Text(tool.title)
                 .font(.headline)

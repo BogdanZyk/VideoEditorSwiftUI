@@ -23,6 +23,7 @@ struct Video: Identifiable{
     var toolsApplied = [Int]()
     var filterName: String? = nil
     var colorCorrection = ColorCorrection()
+    var videoFrames: VideoFrames? = nil
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
@@ -54,18 +55,7 @@ struct Video: Identifiable{
             thumbnailsImages.append(thumbnailImage)
         }
     }
-    
-//    mutating func updateSize(_ geo: GeometryProxy) async{
-//        let size = await asset.naturalSize()
-//        guard let size else { return }
-//        let width = (size.width / geo.size.width) + 0.5 * geo.size.width
-//        let height = (size.height / geo.size.height) + 0.5 * geo.size.height
-//        print("ASSET SIZE", size)
-//        print("GEO SIZE", geo.size.width, geo.size.height)
-//        print("RESULT", width, height)
-//        self.frameSize = .init(width: width, height: height)
-//    }
-    
+        
     ///reset and update
     mutating func updateRate(_ rate: Float){
        
@@ -145,4 +135,23 @@ extension Double{
 struct ThumbnailImage: Identifiable{
     var id: UUID = UUID()
     var image: UIImage?
+}
+
+
+struct VideoFrames{
+    var scaleValue: Double = 0
+    var frameColor: Color = .white
+    
+    var scale: Double{
+        1 - scaleValue
+    }
+    
+    var isActive: Bool{
+        scaleValue > 0
+    }
+    
+    mutating func reset(){
+        scaleValue = 0
+        frameColor = .white
+    }
 }

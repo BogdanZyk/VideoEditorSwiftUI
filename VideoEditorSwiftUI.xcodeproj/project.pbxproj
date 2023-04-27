@@ -55,6 +55,8 @@
 		5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5629F13EC7005E0467 /* ToolModel.swift */; };
 		5AF25B5929F14270005E0467 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5829F14270005E0467 /* CropView.swift */; };
 		5AFA25C129FA68B700B820D0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C029FA68B700B820D0 /* Helpers.swift */; };
+		5AFA25C429FA727C00B820D0 /* FramesToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C329FA727C00B820D0 /* FramesToolView.swift */; };
+		5AFA25C629FA7D9300B820D0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C529FA7D9300B820D0 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +109,8 @@
 		5AF25B5629F13EC7005E0467 /* ToolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModel.swift; sourceTree = "<group>"; };
 		5AF25B5829F14270005E0467 /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
 		5AFA25C029FA68B700B820D0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		5AFA25C329FA727C00B820D0 /* FramesToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesToolView.swift; sourceTree = "<group>"; };
+		5AFA25C529FA7D9300B820D0 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,7 @@
 		5A9EDCFE29F03D800014A1CF /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
+				5AFA25C229FA726900B820D0 /* Frames */,
 				5AADA50429F920350064EA7E /* Corrections */,
 				5AE2A2AC29F880B6003D217F /* Filters */,
 				5AE2A2AB29F8808F003D217F /* Crop */,
@@ -269,6 +274,7 @@
 				5ACFF99729ED53FB00827A37 /* View+Ext.swift */,
 				5A3D13AD29F185400027E25E /* FileManager.swift */,
 				5A3D13B529F190260027E25E /* Preview.swift */,
+				5AFA25C529FA7D9300B820D0 /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -391,6 +397,14 @@
 			path = CropperView;
 			sourceTree = "<group>";
 		};
+		5AFA25C229FA726900B820D0 /* Frames */ = {
+			isa = PBXGroup;
+			children = (
+				5AFA25C329FA727C00B820D0 /* FramesToolView.swift */,
+			);
+			path = Frames;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -466,6 +480,8 @@
 				5ACFF98B29E99A5600827A37 /* CameraPreviewView.swift in Sources */,
 				5A08FC7229EEB65000AB877C /* TimeLineView.swift in Sources */,
 				5A3D13B629F190260027E25E /* Preview.swift in Sources */,
+				5AFA25C629FA7D9300B820D0 /* Color.swift in Sources */,
+				5AFA25C429FA727C00B820D0 /* FramesToolView.swift in Sources */,
 				5ACFF98729E949A900827A37 /* VideoItem.swift in Sources */,
 				5A17E08129F1495000DB4A47 /* CropperRatio.swift in Sources */,
 				5ACFF98D29E99C7F00827A37 /* RecordVideoView.swift in Sources */,
