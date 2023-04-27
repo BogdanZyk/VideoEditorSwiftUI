@@ -15,18 +15,6 @@ struct FilteredImage: Identifiable{
     var filter: CIFilter
 }
 
-struct CorrectionFilter: Identifiable {
-    var id: String { type.key }
-    var type: CorrectionType
-    var value: Double = 0
-    
-    
-
-    
-    static let allFilters: [CorrectionFilter] = CorrectionType.allCases.map({.init(type: $0)})
-
-}
-
 
 enum CorrectionType: String, CaseIterable{
     case brightness = "Brightness"

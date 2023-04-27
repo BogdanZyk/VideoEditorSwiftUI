@@ -27,7 +27,8 @@ class VideoEditor{
                      timeInterval: ClosedRange<Double>,
                      mirror: Bool,
                      videoQuality: VideoQuality,
-                     filterName: String?,
+                     mainFilterName: String?,
+                     colorCorrection: ColorCorrection,
                      completion: @escaping (Result<URL, ExporterError>) -> Void){
         
         
@@ -103,7 +104,7 @@ class VideoEditor{
             case .exporting, .waiting:
                 break
             case .completed:
-                self.videoScaleAssetSpeed(asset: asset, fromURL: tempURL, by: Float64(rate), filterName: filterName, completion: completion)
+                self.videoScaleAssetSpeed(asset: asset, fromURL: tempURL, by: Float64(rate), filterName: mainFilterName, colorCorrection: colorCorrection, completion: completion)
             case .failed:
                 completion(.failure(.failed))
             case .cancelled:
@@ -112,34 +113,23 @@ class VideoEditor{
                 completion(.failure(.unknow))
             }
         }
-        
     }
     
 
 
     
     //MARK: Add filter to video
-    func addfilterToVideo(filterName: String?, strUrl: URL, asset: AVAsset, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+    func addFiltersToVideo(mainFilterName: String?, colorCorrection: ColorCorrection, strUrl: URL, asset: AVAsset, completion: @escaping (Result<URL, ExporterError>) -> Void) {
         
-        guard let filterName, let filter = CIFilter(name: filterName) else {
+        
+        let filters = Helpers.createFilters(mainFilter: CIFilter(name: mainFilterName ?? ""), colorCorrection)
+        
+        if filters.isEmpty{
             completion(.success(strUrl))
             return
         }
-       
-        //AVVideoComposition
-        let composition = AVVideoComposition(asset: asset, applyingCIFiltersWithHandler: { request in
-
-            let source = request.sourceImage.clampedToExtent()
-            filter.setValue(source, forKey: kCIInputImageKey)
-
-            guard let output = filter.outputImage?.cropped(to: request.sourceImage.extent) else {
-                completion(.success(strUrl))
-                return
-            }
-            request.finish(with: output, context: nil)
-
-        })
         
+        let composition = asset.setFilters(filters)
         
         let tempPath = createTempPath()
         //export the video to as per your requirement conversion
@@ -168,11 +158,13 @@ class VideoEditor{
     
 
     
-    private func videoScaleAssetSpeed(asset: AVAsset, fromURL url: URL, by scale: Float64, filterName: String?, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+    private func videoScaleAssetSpeed(asset: AVAsset, fromURL url: URL, by scale: Float64, filterName: String?, colorCorrection: ColorCorrection, completion: @escaping (Result<URL, ExporterError>) -> Void) {
         
         
         // Composition Audio Video
         let mixComposition = AVMutableComposition()
+    
+        
         
         //TotalTimeRange
         let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
@@ -232,7 +224,7 @@ class VideoEditor{
                         break
                     case .completed:
                         completion(.success(tempPath))
-                        self.addfilterToVideo(filterName: filterName, strUrl: tempPath, asset: asset, completion: completion)
+                        self.addFiltersToVideo(mainFilterName: filterName, colorCorrection: colorCorrection, strUrl: tempPath, asset: asset, completion: completion)
                     case .failed:
                         completion(.failure(.failed))
                     case .cancelled:
@@ -248,31 +240,6 @@ class VideoEditor{
             completion(.failure(.failed))
         }
     }
-    
-    
-    var CIFilterNames = [
-        "CISharpenLuminance",
-        "CIPhotoEffectChrome",
-        "CIPhotoEffectFade",
-        "CIPhotoEffectInstant",
-        "CIPhotoEffectNoir",
-        "CIPhotoEffectProcess",
-        "CIPhotoEffectTonal",
-        "CIPhotoEffectTransfer",
-        "CISepiaTone",
-        "CIColorClamp",
-        "CIColorInvert",
-        "CIColorMonochrome",
-        "CISpotLight",
-        "CIColorPosterize",
-        "CIBoxBlur",
-        "CIDiscBlur",
-        "CIGaussianBlur",
-        "CIMaskedVariableBlur",
-        "CIMedianFilter",
-        "CIMotionBlur",
-        "CINoiseReduction"
-    ]
 }
 
 

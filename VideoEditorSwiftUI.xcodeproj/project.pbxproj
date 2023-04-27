@@ -54,6 +54,7 @@
 		5AE2A2B029F88113003D217F /* FilteredImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE2A2AF29F88113003D217F /* FilteredImage.swift */; };
 		5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5629F13EC7005E0467 /* ToolModel.swift */; };
 		5AF25B5929F14270005E0467 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF25B5829F14270005E0467 /* CropView.swift */; };
+		5AFA25C129FA68B700B820D0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C029FA68B700B820D0 /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		5AE2A2AF29F88113003D217F /* FilteredImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredImage.swift; sourceTree = "<group>"; };
 		5AF25B5629F13EC7005E0467 /* ToolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolModel.swift; sourceTree = "<group>"; };
 		5AF25B5829F14270005E0467 /* CropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
+		5AFA25C029FA68B700B820D0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE2A29F29F465BD003D217F /* VideoEditor.swift */,
+				5AFA25C029FA68B700B820D0 /* Helpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				5AE2A2A629F6A949003D217F /* VideoQuality.swift in Sources */,
 				5A3D13AE29F185400027E25E /* FileManager.swift in Sources */,
 				5ACFF9A129ED9C4000827A37 /* CustomSlider.swift in Sources */,
+				5AFA25C129FA68B700B820D0 /* Helpers.swift in Sources */,
 				5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */,
 				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,

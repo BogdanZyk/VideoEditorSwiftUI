@@ -105,12 +105,7 @@ extension MainEditorView{
             videoPlayer.loadState = .loaded(url)
             editorVM.setProject(project, geo: proxy)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                if let filter = project.filterName{
-                    videoPlayer.setFilter(CIFilter(name: filter))
-                }
-                if let video = editorVM.currentVideo{
-                    videoPlayer.setColorCorrectionFilter(video.colorCorrection)
-                }
+                videoPlayer.setFilters(mainFilter: CIFilter(name: project.filterName ?? ""), colorCorrection: editorVM.currentVideo?.colorCorrection)
             }
         }
     }

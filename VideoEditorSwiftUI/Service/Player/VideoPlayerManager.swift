@@ -183,24 +183,21 @@ extension VideoPlayerManager{
 
 extension VideoPlayerManager{
     
-    
-    func setFilter(_ filter: CIFilter?){
-        guard let filter else {return}
+
+    func setFilters(mainFilter: CIFilter?, colorCorrection: ColorCorrection?){
+       
+        let filters = Helpers.createFilters(mainFilter: mainFilter, colorCorrection)
+        
+        if filters.isEmpty{
+            return
+        }
         self.pause()
         DispatchQueue.global(qos: .userInteractive).async {
-            let composition = self.player.currentItem?.asset.setFilter(filter)
+            let composition = self.player.currentItem?.asset.setFilters(filters)
             self.player.currentItem?.videoComposition = composition
         }
     }
-    
-    func setColorCorrectionFilter(_ colorCorrection: ColorCorrection){
-        let colorCorrectionFilter = CIFilter(name: "CIColorControls")
-        colorCorrectionFilter?.setValue(colorCorrection.brightness, forKey: CorrectionType.brightness.key)
-        colorCorrectionFilter?.setValue(colorCorrection.contrast + 1, forKey: CorrectionType.contrast.key)
-        colorCorrectionFilter?.setValue(colorCorrection.saturation + 1, forKey: CorrectionType.saturation.key)
-        setFilter(colorCorrectionFilter)
-    }
-    
+        
     func removeFilter(){
         pause()
         player.currentItem?.videoComposition = nil
@@ -242,5 +239,23 @@ extension AVAsset{
         return composition
     }
     
+    func setFilters(_ filters: [CIFilter]) -> AVVideoComposition{
+        let composition = AVVideoComposition(asset: self, applyingCIFiltersWithHandler: { request in
+            
+            let source = request.sourceImage
+            var output = source
+            
+            filters.forEach { filter in
+                filter.setValue(output, forKey: kCIInputImageKey)
+                if let image = filter.outputImage{
+                    output = image
+                }
+            }
+            
+            request.finish(with: output, context: nil)
+        })
+        
+        return composition
+    }
 
 }

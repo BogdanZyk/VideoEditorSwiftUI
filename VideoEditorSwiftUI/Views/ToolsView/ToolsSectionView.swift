@@ -99,7 +99,7 @@ extension ToolsSectionView{
             case .filters:
                 FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filterName in
                     if let filterName{
-                        videoPlayer.setFilter(CIFilter(name: filterName))
+                        videoPlayer.setFilters(mainFilter: CIFilter(name: filterName), colorCorrection: filtersVM.colorCorrection)
                     }else{
                         videoPlayer.removeFilter()
                     }
@@ -107,7 +107,7 @@ extension ToolsSectionView{
                 }
             case .corrections:
                 CorrectionsToolView(correction: $filtersVM.colorCorrection) { corrections in
-                    videoPlayer.setColorCorrectionFilter(corrections)
+                    videoPlayer.setFilters(mainFilter: CIFilter(name: video.filterName ?? ""), colorCorrection: corrections)
                     editorVM.setCorrections(corrections)
                 }
             case .frames:
