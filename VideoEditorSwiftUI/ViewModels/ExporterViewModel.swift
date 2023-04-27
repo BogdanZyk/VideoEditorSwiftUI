@@ -34,16 +34,8 @@ class ExporterViewModel: ObservableObject{
     private func renderVideo(){
         
         renderState = .loading
-        VideoEditor().renderVideo(asset: video.asset,
-                                  originalDuration: video.originalDuration,
-                                  rotationAngle: video.rotation,
-                                  rate: video.rate,
-                                  timeInterval: video.rangeDuration,
-                                  mirror: video.isMirror,
-                                  videoQuality: selectedQuality,
-                                  mainFilterName: video.filterName,
-                                  colorCorrection: video.colorCorrection
-        ) {[weak self] result in
+        VideoEditor().startRender(video: video, videoQuality: selectedQuality)
+         {[weak self] result in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch result {

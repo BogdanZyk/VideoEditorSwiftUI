@@ -40,5 +40,6 @@ struct FramesToolView: View {
 struct FramesToolView_Previews: PreviewProvider {
     static var previews: some View {
         FramesToolView(selectedColor: .constant(.white), scaleValue: .constant(0.3)){}
+            .frame(height: 300)
     }
 }

@@ -12,38 +12,39 @@ import UIKit
 class VideoEditor{
     
     
-    private func createTempPath() -> URL{
-        let tempPath = "\(NSTemporaryDirectory())temp_video.mp4"
-        let tempURL = URL(fileURLWithPath: tempPath)
-        FileManager.default.removefileExists(for: tempURL)
-        return tempURL
+    ///The renderer is made up of half-sequential operations:
+    ///1. Cut, resizing and rotate and set quality
+    ///2. Adding filters
+    ///3. Adding frames
+    ///4. Changing time of video
+    
+    
+    func startRender(video: Video, videoQuality: VideoQuality, completion: @escaping (Result<URL, ExporterError>) -> Void){
+        /// Starting with the first operation
+        resizeVideo(video: video, videoQuality: videoQuality, completion: completion)
     }
     
     
-    func renderVideo(asset: AVAsset,
-                     originalDuration: Double,
-                     rotationAngle: Double,
-                     rate: Float,
-                     timeInterval: ClosedRange<Double>,
-                     mirror: Bool,
-                     videoQuality: VideoQuality,
-                     mainFilterName: String?,
-                     colorCorrection: ColorCorrection,
-                     completion: @escaping (Result<URL, ExporterError>) -> Void){
+    
+    
+    ///1. Cut, resizing, rotate and set quality
+    private func resizeVideo(video: Video,
+                             videoQuality: VideoQuality,
+                             completion: @escaping (Result<URL, ExporterError>) -> Void){
         
         
         
         //Create file path
         let tempURL = createTempPath()
         
-        let timeRange = getTimeRange(for: originalDuration, with: timeInterval)
-        let videoTrack = asset.tracks(withMediaType: .video).first!
+        let timeRange = getTimeRange(for: video.originalDuration, with: video.rangeDuration)
+        let videoTrack = video.asset.tracks(withMediaType: .video).first!
         var outputSize = videoQuality.size
         let naturalSize = videoTrack.naturalSize
         
         // Determine video output size
         let assetInfo = self.orientationFromTransform(videoTrack.preferredTransform)
-
+        
         var videoSize = naturalSize
         if assetInfo.isPortrait == true {
             videoSize.width = naturalSize.height
@@ -54,7 +55,7 @@ class VideoEditor{
             outputSize = videoSize
         }
         
-    
+        
         // Create video composition
         let videoComposition = AVMutableVideoComposition()
         videoComposition.renderSize = outputSize
@@ -63,18 +64,18 @@ class VideoEditor{
         
         
         // 1. Set size video
-        let layerInstruction = videoCompositionInstructionForTrackWithSizeandTime(track: videoTrack, asset: asset, standardSize: outputSize, atTime: .zero)
+        let layerInstruction = videoCompositionInstructionForTrackWithSizeandTime(track: videoTrack, asset: video.asset, standardSize: outputSize, atTime: .zero)
         
         
         // 2. Mirror video if needed
-        if mirror {
+        if video.isMirror {
             var transform: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
             transform = transform.translatedBy(x: -outputSize.width, y: 0.0)
             layerInstruction.setTransform(transform, at: .zero)
         }
         
         
-//        layerInstruction.setCropRectangle(.init(x: 100, y: 100, width: 250, height: 250), at: .zero)
+        //        layerInstruction.setCropRectangle(.init(x: 100, y: 100, width: 250, height: 250), at: .zero)
         
         //Set Video Composition Instruction
         let instruction = AVMutableVideoCompositionInstruction()
@@ -83,7 +84,7 @@ class VideoEditor{
         videoComposition.instructions = [instruction]
         
         
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: videoQuality.exportPresetName) else {
+        guard let exportSession = AVAssetExportSession(asset: video.asset, presetName: videoQuality.exportPresetName) else {
             completion(.failure(.cannotCreateExportSession))
             return
         }
@@ -104,7 +105,7 @@ class VideoEditor{
             case .exporting, .waiting:
                 break
             case .completed:
-                self.videoScaleAssetSpeed(asset: asset, fromURL: tempURL, by: Float64(rate), filterName: mainFilterName, colorCorrection: colorCorrection, completion: completion)
+                self.addFiltersToVideo(video, renderSize: outputSize, fromUrl: tempURL, completion: completion)
             case .failed:
                 completion(.failure(.failed))
             case .cancelled:
@@ -115,20 +116,18 @@ class VideoEditor{
         }
     }
     
-
-
     
-    //MARK: Add filter to video
-    func addFiltersToVideo(mainFilterName: String?, colorCorrection: ColorCorrection, strUrl: URL, asset: AVAsset, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+    ///2. Adding filters
+    private func addFiltersToVideo(_ video: Video, renderSize: CGSize, fromUrl: URL, completion: @escaping (Result<URL, ExporterError>) -> Void) {
         
         
-        let filters = Helpers.createFilters(mainFilter: CIFilter(name: mainFilterName ?? ""), colorCorrection)
+        let filters = Helpers.createFilters(mainFilter: CIFilter(name: video.filterName ?? ""), video.colorCorrection)
         
         if filters.isEmpty{
-            completion(.success(strUrl))
+            self.setFrameInVideo(video, renderSize: renderSize, fromURL: fromUrl, completion: completion)
             return
         }
-        
+        let asset = AVAsset(url: fromUrl)
         let composition = asset.setFilters(filters)
         
         let tempPath = createTempPath()
@@ -144,7 +143,7 @@ class VideoEditor{
             case .exporting, .waiting:
                 break
             case .completed:
-                completion(.success(tempPath))
+                self.setFrameInVideo(video, renderSize: composition.renderSize, fromURL: fromUrl, completion: completion)
             case .failed:
                 completion(.failure(.failed))
             case .cancelled:
@@ -154,20 +153,90 @@ class VideoEditor{
             }
         })
     }
-
     
-
-    
-    private func videoScaleAssetSpeed(asset: AVAsset, fromURL url: URL, by scale: Float64, filterName: String?, colorCorrection: ColorCorrection, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+    ///3. Adding frames
+    private func setFrameInVideo(_ video: Video, renderSize: CGSize, fromURL: URL, completion: @escaping (Result<URL, ExporterError>) -> Void){
         
+        guard let frame = video.videoFrames else {
+            print("FRAME IS NILL")
+            videoTimeScale(video, fromURL: fromURL, completion: completion)
+            return
+        }
+        let asset = AVAsset(url: fromURL)
+        let videoTrack = asset.tracks(withMediaType: .video).first!
+        let naturalSize = renderSize
+        //Create video composition
+        let videoComposition = AVMutableVideoComposition()
+        videoComposition.renderSize = naturalSize
+        videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
+    
+        let scaledSize = CGSize(width: naturalSize.width * frame.scale, height: naturalSize.height * frame.scale)
+        let centerPoint = CGPoint(x: (naturalSize.width - scaledSize.width)/2, y: (naturalSize.height - scaledSize.height)/2)
+        
+        var scaleTransform = CGAffineTransform(scaleX: frame.scale, y: frame.scale)
+        scaleTransform = scaleTransform.translatedBy(x: centerPoint.x, y: centerPoint.y)
+      
+        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        layerInstruction.setTransform(scaleTransform, at: .zero)
+        
+
+        let videoCompositionInstruction = AVMutableVideoCompositionInstruction()
+        videoCompositionInstruction.timeRange = CMTimeRangeMake(start: .zero, duration: asset.duration)
+        videoCompositionInstruction.backgroundColor = UIColor(frame.frameColor).cgColor
+
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else {
+            completion(.failure(.cannotCreateExportSession))
+            return
+        }
+        
+        let tempURL = createTempPath()
+        
+        
+        videoCompositionInstruction.layerInstructions = [layerInstruction]
+        videoComposition.instructions = [videoCompositionInstruction]
+        exportSession.videoComposition = videoComposition
+        exportSession.outputURL = tempURL
+        exportSession.outputFileType = .mp4
+        
+        
+        exportSession.exportAsynchronously {
+            
+            switch exportSession.status{
+                
+            case .exporting, .waiting:
+                break
+            case .completed:
+                self.videoTimeScale(video, fromURL: tempURL, completion: completion)
+            case .failed:
+                completion(.failure(.failed))
+            case .cancelled:
+                completion(.failure(.cancelled))
+            default:
+                completion(.failure(.unknow))
+            }
+        }
+        
+    }
+    
+    
+    /// 4. Changing time of video
+    private func videoTimeScale(_ video: Video, fromURL url: URL, completion: @escaping (Result<URL, ExporterError>) -> Void) {
+        
+        if video.rate == 1{
+            completion(.success(url))
+            return
+        }
         
         // Composition Audio Video
         let mixComposition = AVMutableComposition()
-    
+        let asset = AVAsset(url: url)
+        let timeScale = Float64(video.rate)
+        let duration = asset.duration
         
         
         //TotalTimeRange
-        let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
+        let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: duration)
         
         /// Video Tracks
         let videoTracks = asset.tracks(withMediaType: AVMediaType.video)
@@ -191,7 +260,7 @@ class VideoEditor{
             let audioTrack = audioTracks.first!
             do {
                 try compositionAudioTrack?.insertTimeRange(timeRange, of: audioTrack, at: CMTime.zero)
-                let destinationTimeRange = CMTimeMultiplyByFloat64(asset.duration, multiplier:(1/scale))
+                let destinationTimeRange = CMTimeMultiplyByFloat64(duration, multiplier:(1/timeScale))
                 compositionAudioTrack?.scaleTimeRange(timeRange, toDuration: destinationTimeRange)
                 
                 compositionAudioTrack?.preferredTransform = audioTrack.preferredTransform
@@ -203,7 +272,7 @@ class VideoEditor{
         
         do {
             try compositionVideoTrack?.insertTimeRange(timeRange, of: videoTrack, at: CMTime.zero)
-            let destinationTimeRange = CMTimeMultiplyByFloat64(asset.duration, multiplier:(1/scale))
+            let destinationTimeRange = CMTimeMultiplyByFloat64(duration, multiplier:(1/timeScale))
             compositionVideoTrack?.scaleTimeRange(timeRange, toDuration: destinationTimeRange)
             
             /// Keep original transformation
@@ -224,7 +293,6 @@ class VideoEditor{
                         break
                     case .completed:
                         completion(.success(tempPath))
-                        self.addFiltersToVideo(mainFilterName: filterName, colorCorrection: colorCorrection, strUrl: tempPath, asset: asset, completion: completion)
                     case .failed:
                         completion(.failure(.failed))
                     case .cancelled:
@@ -248,19 +316,19 @@ extension VideoEditor{
     
     ///create CMTimeRange
     private func getTimeRange(for duration: Double, with timeRange: ClosedRange<Double>) -> CMTimeRange {
-          let start = timeRange.lowerBound.clamped(to: 0...duration)
-          let end = timeRange.upperBound.clamped(to: start...duration)
-  
-          let startTime = CMTimeMakeWithSeconds(start, preferredTimescale: 1000)
-          let endTime = CMTimeMakeWithSeconds(end, preferredTimescale: 1000)
-  
-          let timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
-          return timeRange
-      }
+        let start = timeRange.lowerBound.clamped(to: 0...duration)
+        let end = timeRange.upperBound.clamped(to: start...duration)
+        
+        let startTime = CMTimeMakeWithSeconds(start, preferredTimescale: 1000)
+        let endTime = CMTimeMakeWithSeconds(end, preferredTimescale: 1000)
+        
+        let timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
+        return timeRange
+    }
     
     
     ///set video size for AVMutableVideoCompositionLayerInstruction
-   private func videoCompositionInstructionForTrackWithSizeandTime(track: AVAssetTrack, asset: AVAsset, standardSize:CGSize, atTime: CMTime) -> AVMutableVideoCompositionLayerInstruction {
+    private func videoCompositionInstructionForTrackWithSizeandTime(track: AVAssetTrack, asset: AVAsset, standardSize:CGSize, atTime: CMTime) -> AVMutableVideoCompositionLayerInstruction {
         
         let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
         let assetTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
@@ -301,7 +369,8 @@ extension VideoEditor{
         return instruction
     }
     
-   private func orientationFromTransform(_ transform: CGAffineTransform) -> (orientation: UIImage.Orientation, isPortrait: Bool) {
+    
+    private func orientationFromTransform(_ transform: CGAffineTransform) -> (orientation: UIImage.Orientation, isPortrait: Bool) {
         var assetOrientation = UIImage.Orientation.up
         var isPortrait = false
         if transform.a == 0 && transform.b == 1.0 && transform.c == -1.0 && transform.d == 0 {
@@ -317,7 +386,14 @@ extension VideoEditor{
         }
         return (assetOrientation, isPortrait)
     }
-
+    
+    
+    private func createTempPath() -> URL{
+        let tempPath = "\(NSTemporaryDirectory())temp_video.mp4"
+        let tempURL = URL(fileURLWithPath: tempPath)
+        FileManager.default.removefileExists(for: tempURL)
+        return tempURL
+    }
 }
 
 
