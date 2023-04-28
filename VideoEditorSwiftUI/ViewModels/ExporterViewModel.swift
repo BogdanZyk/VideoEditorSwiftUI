@@ -9,6 +9,8 @@ import Foundation
 import Combine
 import Photos
 import UIKit
+import SwiftUI
+
 
 class ExporterViewModel: ObservableObject{
     
@@ -16,9 +18,12 @@ class ExporterViewModel: ObservableObject{
     
     @Published var renderState: ExportState = .unknown
     @Published var showAlert: Bool = false
+    @Published var progressTimer: TimeInterval = .zero
     @Published var selectedQuality: VideoQuality = .medium
     private var cancellable = Set<AnyCancellable>()
     private var action: ActionEnum = .save
+    private let editorHelper = VideoEditor()
+    private var timer: Timer?
     
     init(video: Video){
         self.video = video
@@ -28,45 +33,44 @@ class ExporterViewModel: ObservableObject{
     
     deinit{
         cancellable.forEach({$0.cancel()})
+        resetTimer()
     }
     
     
-    private func renderVideo(){
-        
+    @MainActor
+    private func renderVideo() async{
         renderState = .loading
-        VideoEditor().startRender(video: video, videoQuality: selectedQuality)
-         {[weak self] result in
-            guard let self = self else {return}
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let url):
-                    self.renderState = .loaded(url)
-                    print(url)
-                case .failure(let failure):
-                    print(failure.localizedDescription)
-                    self.renderState = .failed
-                }
-            }
+        do{
+            let url = try await editorHelper.startRender(video: video, videoQuality: selectedQuality)
+            renderState = .loaded(url)
+        }catch{
+            renderState = .failed(error)
         }
     }
     
     
-    func action(_ action: ActionEnum){
+   
+    func action(_ action: ActionEnum) async{
         self.action = action
-        renderVideo()
+        await renderVideo()
     }
 
-    func startRenderStateSubs(){
+  private func startRenderStateSubs(){
         $renderState
             .sink {[weak self] state in
                 guard let self = self else {return}
                 switch state {
+                case .loading:
+                    self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { time in
+                        self.progressTimer += 1
+                    }
                 case .loaded(let url):
                     if self.action == .save{
                         self.saveVideoInLib(url)
                     }else{
                         self.showShareSheet(data: url)
                     }
+                    self.resetTimer()
                 default:
                     break
                 }
@@ -74,6 +78,12 @@ class ExporterViewModel: ObservableObject{
             .store(in: &cancellable)
     }
     
+    
+    private func resetTimer(){
+        timer?.invalidate()
+        timer = nil
+        progressTimer = .zero
+    }
     
     private func showShareSheet(data: Any){
         DispatchQueue.main.async {
@@ -102,7 +112,8 @@ class ExporterViewModel: ObservableObject{
     
     
     enum ExportState: Identifiable, Equatable {
-        case unknown, loading, loaded(URL), failed, saved
+        
+        case unknown, loading, loaded(URL), failed(Error), saved
         
         var id: Int{
             switch self {
@@ -112,6 +123,10 @@ class ExporterViewModel: ObservableObject{
             case .failed: return 3
             case .saved: return 4
             }
+        }
+        
+        static func == (lhs: ExporterViewModel.ExportState, rhs: ExporterViewModel.ExportState) -> Bool {
+            lhs.id == rhs.id
         }
     }
     

@@ -68,6 +68,7 @@ extension VideoExporterBottomSheetView{
         VStack(spacing: 30){
             ProgressView()
                 .scaleEffect(2)
+            Text(viewModel.progressTimer.formatted())
             Text("Video export in progress")
                 .font(.headline)
             Text("Do not close the app or lock the screen")
@@ -125,8 +126,7 @@ extension VideoExporterBottomSheetView{
     
     private var saveButton: some View{
         Button {
-            viewModel.action(.save)
-            
+            mainAction(.save)
         } label: {
             buttonLabel("Save", icon: "square.and.arrow.down")
         }
@@ -135,7 +135,7 @@ extension VideoExporterBottomSheetView{
     
     private var shareButton: some View{
         Button {
-            viewModel.action(.share)
+            mainAction(.share)
         } label: {
             buttonLabel("Share", icon: "square.and.arrow.up")
         }
@@ -154,6 +154,12 @@ extension VideoExporterBottomSheetView{
         .foregroundColor(.white)
     }
     
+    
+    private func mainAction(_ action: ExporterViewModel.ActionEnum){
+        Task{
+           await viewModel.action(action)
+        }
+    }
 
 }
 

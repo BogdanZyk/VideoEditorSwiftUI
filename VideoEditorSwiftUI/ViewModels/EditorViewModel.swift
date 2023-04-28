@@ -57,6 +57,8 @@ extension EditorViewModel{
         guard let projectEntity, let currentVideo else { return }
         ProjectEntity.update(for: currentVideo, project: projectEntity)
     }
+    
+    func updateImage(){}
 }
 
 //MARK: - Tools logic
