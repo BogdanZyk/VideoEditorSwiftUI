@@ -57,6 +57,7 @@
 		5AFA25C129FA68B700B820D0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C029FA68B700B820D0 /* Helpers.swift */; };
 		5AFA25C429FA727C00B820D0 /* FramesToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C329FA727C00B820D0 /* FramesToolView.swift */; };
 		5AFA25C629FA7D9300B820D0 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C529FA7D9300B820D0 /* Color.swift */; };
+		5AFA25C829FC186F00B820D0 /* VideoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFA25C729FC186F00B820D0 /* VideoText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		5AFA25C029FA68B700B820D0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5AFA25C329FA727C00B820D0 /* FramesToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FramesToolView.swift; sourceTree = "<group>"; };
 		5AFA25C529FA7D9300B820D0 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		5AFA25C729FC186F00B820D0 /* VideoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +238,7 @@
 				5AF25B5629F13EC7005E0467 /* ToolModel.swift */,
 				5AE2A2A529F6A949003D217F /* VideoQuality.swift */,
 				5AE2A2AF29F88113003D217F /* FilteredImage.swift */,
+				5AFA25C729FC186F00B820D0 /* VideoText.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
 				5AE2A2A229F66EE9003D217F /* VideoExporterBottomSheetView.swift in Sources */,
+				5AFA25C829FC186F00B820D0 /* VideoText.swift in Sources */,
 				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,
 				5AE2A2A829F6BA29003D217F /* ExporterViewModel.swift in Sources */,
 				5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */,

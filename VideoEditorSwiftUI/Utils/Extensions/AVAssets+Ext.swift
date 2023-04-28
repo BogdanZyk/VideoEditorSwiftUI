@@ -10,24 +10,6 @@ import AVKit
 import SwiftUI
 
 extension AVAsset {
-    func assetByTrimming(startTime: CMTime, endTime: CMTime) throws -> AVAsset {
-        let duration = CMTimeSubtract(endTime, startTime)
-        let timeRange = CMTimeRange(start: startTime, duration: duration)
-        
-        let composition = AVMutableComposition()
-        
-        do {
-            for track in tracks {
-                let compositionTrack = composition.addMutableTrack(withMediaType: track.mediaType, preferredTrackID: track.trackID)
-                compositionTrack?.preferredTransform = track.preferredTransform
-                try compositionTrack?.insertTimeRange(timeRange, of: track, at: CMTime.zero)
-            }
-        } catch let error {
-            throw TrimError("error during composition", underlyingError: error)
-        }
-        
-        return composition
-    }
     
     struct TrimError: Error {
         let description: String
