@@ -1,5 +1,5 @@
 //
-//  VideoText.swift
+//  TextBox.swift
 //  VideoEditorSwiftUI
 //
 //  Created by Bogdan Zykov on 28.04.2023.
@@ -9,19 +9,21 @@ import Foundation
 import SwiftUI
 
 
-struct VideoText: Identifiable{
+struct TextBox: Identifiable{
     
     var id: UUID = UUID()
-    var text: String
+    var text: String = ""
     var position: CGPoint = .zero
     var fontSize: CGFloat = 20
-    var bgColor: Color = .black
-    var fontColor: Color = .white
-    var timeRange: ClosedRange<Double>
+    var lastFontSize: CGFloat = .zero
+    var bgColor: Color = .white
+    var fontColor: Color = .black
+    var timeRange: ClosedRange<Double> = 0...10
+    var offset: CGSize = .zero
+    var lastOffset: CGSize = .zero
     
     
-    
-    static let texts: [VideoText] =
+    static let texts: [TextBox] =
     
     [
     
@@ -32,5 +34,5 @@ struct VideoText: Identifiable{
         .init(text: "Test5", position: .init(x: 300, y: 400), fontSize: 38, bgColor: .black, fontColor: .white, timeRange: 1...6),
     ]
     
-    static let simple = VideoText(text: "Test", position: .init(x: 200, y: 400), fontSize: 38, bgColor: .black, fontColor: .white, timeRange: 1...3)
+    static let simple = TextBox(text: "Test", position: .init(x: 200, y: 400), fontSize: 38, bgColor: .black, fontColor: .white, timeRange: 1...3)
 }

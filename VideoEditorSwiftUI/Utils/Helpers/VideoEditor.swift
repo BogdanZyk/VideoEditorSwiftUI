@@ -184,7 +184,7 @@ extension VideoEditor{
        
         
         
-        VideoText.texts.forEach { text in
+        TextBox.texts.forEach { text in
             let textLayer = createTextLayer(with: text, size: size)
             outputLayer.addSublayer(textLayer)
         }
@@ -202,7 +202,6 @@ extension VideoEditor{
         let audioTracks = try await asset.loadTracks(withMediaType: .audio)
         
         let duration = try await asset.load(.duration)
-        
         //TotalTimeRange
         let oldTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: duration)
         let destinationTimeRange = CMTimeMultiplyByFloat64(duration, multiplier:(1/timeScale))
@@ -356,7 +355,7 @@ extension VideoEditor{
     }
     
 
-    private func createTextLayer(with model: VideoText, size: CGSize) -> CATextLayer {
+    private func createTextLayer(with model: TextBox, size: CGSize) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.string = model.text
         textLayer.font = "Helvetica-Bold" as CFTypeRef
