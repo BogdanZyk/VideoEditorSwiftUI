@@ -9,17 +9,17 @@ import SwiftUI
 
 struct TimeLineView: View {
     var video: Video
-    @Binding var curretTime: Double
-    let frameWigth: CGFloat = 55
+    @Binding var currentTime: Double
+    let frameWight: CGFloat = 55
     let onChangeTimeValue: () -> Void
     var body: some View {
         Group{
             if let image = video.thumbnailsImages.first?.image{
-                TimelineSlider(bounds: video.rangeDuration, value: $curretTime, frameWigth: frameWigth) {
+                TimelineSlider(bounds: video.rangeDuration, value: $currentTime, frameWigth: frameWight) {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: frameWigth + 10, height: frameWigth)
+                        .frame(width: frameWight + 10, height: frameWight)
                         .clipped()
                 } onChange: {
                     onChangeTimeValue()
@@ -32,7 +32,7 @@ struct TimeLineView: View {
 
 struct TimeLineView_Previews: PreviewProvider {
     static var previews: some View {
-        TimeLineView(video: Video.mock, curretTime: .constant(0), onChangeTimeValue: {})
+        TimeLineView(video: Video.mock, currentTime: .constant(0), onChangeTimeValue: {})
     }
 }
 

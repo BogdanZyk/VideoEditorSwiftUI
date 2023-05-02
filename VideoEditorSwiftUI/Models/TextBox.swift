@@ -36,3 +36,6 @@ struct TextBox: Identifiable{
     
     static let simple = TextBox(text: "Test", position: .init(x: 200, y: 400), fontSize: 38, bgColor: .black, fontColor: .white, timeRange: 1...3)
 }
+
+
+extension TextBox: Equatable{}

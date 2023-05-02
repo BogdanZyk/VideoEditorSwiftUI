@@ -12,6 +12,7 @@ struct ToolsSectionView: View {
     @StateObject var filtersVM = FiltersViewModel()
     @ObservedObject var videoPlayer: VideoPlayerManager
     @ObservedObject var editorVM: EditorViewModel
+    @ObservedObject var textEditor: TextEditorViewModel
     private let columns = Array(repeating: GridItem(.flexible()), count: 4)
     var body: some View {
         ZStack{
@@ -34,6 +35,15 @@ struct ToolsSectionView: View {
             if let video = newValue, let image = video.thumbnailsImages.first?.image{
                 filtersVM.loadFilters(for: image)
                 filtersVM.colorCorrection = video.colorCorrection
+            }
+        }
+        .onChange(of: textEditor.selectedTextBox) { box in
+            if box != nil{
+                if editorVM.selectedTools != .text{
+                    editorVM.selectedTools = .text
+                }
+            }else{
+                editorVM.selectedTools = nil
             }
         }
     }
@@ -93,7 +103,7 @@ extension ToolsSectionView{
             case .audio:
                 EmptyView()
             case .text:
-                EmptyView()
+                TextToolsView(editor: textEditor)
             case .filters:
                 FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filterName in
                     if let filterName{

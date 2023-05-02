@@ -11,7 +11,7 @@ struct PlayerHolderView: View{
     @Binding var isFullScreen: Bool
     @ObservedObject var editorVM: EditorViewModel
     @ObservedObject var videoPlayer: VideoPlayerManager
-    
+    @ObservedObject var textEditor: TextEditorViewModel
     var scale: CGFloat{
         isFullScreen ? 1.4 : 1
     }
@@ -57,13 +57,13 @@ extension PlayerHolderView{
                         isActiveCrop: editorVM.selectedTools == .crop) {
                             ZStack{
                                 editorVM.frames.frameColor
-                                PlayerView(player: videoPlayer.player)
-                                    .scaleEffect(editorVM.frames.scale)
+                                ZStack{
+                                    PlayerView(player: videoPlayer.player)
+                                    TextOverlayView(viewModel: textEditor)
+                                }
+                                .scaleEffect(editorVM.frames.scale)
+                                .disabled(isFullScreen)
                             }
-                            
-                            //                            .onTapGesture {
-                            //                                videoPlayer.action(video)
-                            //                            }
                         }
                         .allFrame()
                         .onAppear{
@@ -85,7 +85,7 @@ extension PlayerHolderView{
     @ViewBuilder
     private var timeLineControlSection: some View{
         if let video = editorVM.currentVideo{
-            TimeLineView(video: video, curretTime: $videoPlayer.currentTime) {
+            TimeLineView(video: video, currentTime: $videoPlayer.currentTime) {
                 videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
             }
         }

@@ -18,19 +18,18 @@ struct MainEditorView: View {
     @State var showRecordView: Bool = false
     @StateObject var editorVM = EditorViewModel()
     @StateObject var videoPlayer = VideoPlayerManager()
-        
+    @StateObject var textEditor = TextEditorViewModel()
     var body: some View {
         ZStack{
             GeometryReader { proxy in
                 VStack(spacing: 0){
                     headerView
-                    PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer)
+                    PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
                         .frame(height: proxy.size.height / (isFullScreen ?  1.1 : 1.5))
-                    ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM)
+                    ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM, textEditor: textEditor)
                         .opacity(isFullScreen ? 0 : 1)
                         .padding(.top, 5)
                 }
-                
                 .onAppear{
                     setVideo(proxy)
                 }
@@ -52,6 +51,13 @@ struct MainEditorView: View {
         .statusBar(hidden: true)
         .onChange(of: scenePhase) { phase in
             saveProject(phase)
+        }
+        .blur(radius: textEditor.showEditor ? 10 : 0)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .overlay {
+            if textEditor.showEditor{
+                TextEditorView(viewModel: textEditor)
+            }
         }
     }
 }

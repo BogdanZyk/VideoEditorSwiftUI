@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TextOverlayView: View {
-    @ObservedObject var viewModel: TextToolViewModel
+    @ObservedObject var viewModel: TextEditorViewModel
     var body: some View {
         ZStack{
             ForEach(viewModel.textBoxes) { textBox in
@@ -18,10 +18,7 @@ struct TextOverlayView: View {
                         textBoxButtons(textBox)
                     }
                    
-                    Text(textBox.text)
-                        .foregroundColor(textBox.fontColor)
-                        .font(.system(size: textBox.fontSize, weight: .medium))
-                        .background(textBox.bgColor)
+                    Text(createAttr(textBox))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                         .overlay {
@@ -69,25 +66,20 @@ struct TextOverlayView: View {
                     viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
                 }
             }))
-        .blur(radius: viewModel.showEditor ? 10 : 0)
-        .overlay {
-            if viewModel.showEditor{
-                TextEditorView(viewModel: viewModel)
-            }
-        }
-        .overlay(alignment: .topLeading) {
-            Button {
-                viewModel.openTextEditor(isEdit: false)
-            } label: {
-                Text("Add")
-            }
-        }
+    }
+    
+    private func createAttr(_ textBox: TextBox) -> AttributedString{
+        var result = AttributedString(textBox.text)
+        result.font = .systemFont(ofSize: textBox.fontSize, weight: .medium)
+        result.foregroundColor = UIColor(textBox.fontColor)
+        result.backgroundColor = UIColor(textBox.bgColor)
+        return result
     }
 }
 
 struct TextOverlayView_Previews: PreviewProvider {
     static var previews: some View {
-        TextOverlayView(viewModel: TextToolViewModel())
+        MainEditorView(selectedVideoURl: Video.mock.url)
     }
 }
 
@@ -133,18 +125,20 @@ extension TextOverlayView{
 
 
 struct TextEditorView: View{
-    @ObservedObject var viewModel: TextToolViewModel
-    @State var textHeight: CGFloat = 100
+    @ObservedObject var viewModel: TextEditorViewModel
+    @State private var textHeight: CGFloat = 100
+    @State private var isFocused: Bool = true
     var body: some View{
         Color.secondary.opacity(0.1)
                 .ignoresSafeArea()
         VStack{
             Spacer()
-            TextView(textBox: $viewModel.currentTextBox, minHeight: textHeight, calculatedHeight: $textHeight)
+            TextView(textBox: $viewModel.currentTextBox, isFirstResponder: $isFocused, minHeight: textHeight, calculatedHeight: $textHeight)
                 .frame(maxHeight: textHeight)
             Spacer()
             
             Button {
+                closeKeyboard()
                 viewModel.saveTapped()
             } label: {
                 Text("Save")
@@ -153,18 +147,18 @@ struct TextEditorView: View{
                     .foregroundColor(.black)
                     .background(Color.white, in: RoundedRectangle(cornerRadius: 20))
             }
-            
-            
             .hCenter()
             .overlay(alignment: .leading) {
                 HStack {
-                    Button(action: viewModel.cancelTextEditor,
-                           label: {
+                    Button{
+                        closeKeyboard()
+                        viewModel.cancelTextEditor()
+                    } label: {
                         Image(systemName: "xmark")
                             .padding(12)
                             .foregroundColor(.white)
                             .background(Color.secondary, in: Circle())
-                    })
+                    }
                     
                     Spacer()
                     HStack(spacing: 20){
@@ -177,12 +171,18 @@ struct TextEditorView: View{
                 }
             }
         }
+        .padding(.bottom)
         .padding(.horizontal)
+    }
+    
+    
+    private func closeKeyboard(){
+        isFocused = false
     }
 }
 
 
-class TextToolViewModel: ObservableObject{
+class TextEditorViewModel: ObservableObject{
     
     @Published var textBoxes: [TextBox] = [.init(text: "Test")]
     @Published var showEditor: Bool = false
@@ -235,20 +235,23 @@ class TextToolViewModel: ObservableObject{
         }else{
             textBoxes.append(currentTextBox)
         }
+        selectedTextBox = currentTextBox
         cancelTextEditor()
     }
 }
 
 
 struct TextView: UIViewRepresentable {
-
+    
+    @Binding var isFirstResponder: Bool
     @Binding var textBox: TextBox
 
     var minHeight: CGFloat
     @Binding var calculatedHeight: CGFloat
 
-    init(textBox: Binding<TextBox>, minHeight: CGFloat, calculatedHeight: Binding<CGFloat>) {
+    init(textBox: Binding<TextBox>, isFirstResponder: Binding<Bool>, minHeight: CGFloat, calculatedHeight: Binding<CGFloat>) {
         self._textBox = textBox
+        self._isFirstResponder = isFirstResponder
         self.minHeight = minHeight
         self._calculatedHeight = calculatedHeight
     }
@@ -274,11 +277,14 @@ struct TextView: UIViewRepresentable {
     }
 
     func updateUIView(_ textView: UITextView, context: Context) {
+        
+        focused(textView)
         recalculateHeight(view: textView)
         setTextAttrs(textView)
+    
     }
     
-    func setTextAttrs(_ textView: UITextView){
+    private func setTextAttrs(_ textView: UITextView){
         
         let attrStr = NSMutableAttributedString(string: textView.text)
         let range = NSRange(location: 0, length: attrStr.length)
@@ -291,7 +297,7 @@ struct TextView: UIViewRepresentable {
         textView.textAlignment = .center
     }
 
-    func recalculateHeight(view: UIView) {
+   private func recalculateHeight(view: UIView) {
         let newSize = view.sizeThatFits(CGSize(width: view.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         if minHeight < newSize.height && $calculatedHeight.wrappedValue != newSize.height {
             DispatchQueue.main.async {
@@ -300,6 +306,15 @@ struct TextView: UIViewRepresentable {
         } else if minHeight >= newSize.height && $calculatedHeight.wrappedValue != minHeight {
             DispatchQueue.main.async {
                 self.$calculatedHeight.wrappedValue = self.minHeight // !! must be called asynchronously
+            }
+        }
+    }
+    
+    private func focused(_ textView: UITextView){
+        DispatchQueue.main.async {
+            switch isFirstResponder {
+            case true: textView.becomeFirstResponder()
+            case false: textView.resignFirstResponder()
             }
         }
     }
@@ -318,5 +333,9 @@ struct TextView: UIViewRepresentable {
                 parent.recalculateHeight(view: textView)
             }
         }
+        
+//        func textViewDidBeginEditing(_ textView: UITextView) {
+//            parent.isFirstResponder = true
+//        }
     }
 }
