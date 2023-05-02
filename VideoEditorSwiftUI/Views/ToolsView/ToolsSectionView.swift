@@ -50,7 +50,7 @@ struct ToolsSectionView: View {
         .onChange(of: editorVM.selectedTools) { newValue in
             
             if newValue == .text, textEditor.textBoxes.isEmpty{
-                textEditor.openTextEditor(isEdit: false)
+                textEditor.openTextEditor(isEdit: false, timeRange: editorVM.currentVideo?.rangeDuration)
             }
             
             if newValue == nil{
@@ -114,7 +114,7 @@ extension ToolsSectionView{
             case .audio:
                 EmptyView()
             case .text:
-                TextToolsView(editor: textEditor)
+                TextToolsView(video: video, editor: textEditor)
             case .filters:
                 FiltersView(selectedFilterName: video.filterName, viewModel: filtersVM) { filterName in
                     if let filterName{

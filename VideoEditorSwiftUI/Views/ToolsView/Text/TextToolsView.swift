@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TextToolsView: View {
+    var video: Video
     @ObservedObject var editor: TextEditorViewModel
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -30,7 +31,7 @@ struct TextToolsView: View {
 
 struct TextToolsView_Previews: PreviewProvider {
     static var previews: some View {
-        TextToolsView(editor: TextEditorViewModel())
+        TextToolsView(video: Video.mock, editor: TextEditorViewModel())
     }
 }
 
@@ -78,7 +79,7 @@ extension TextToolsView{
         }
         .frame(width: 80, height: 80)
         .onTapGesture {
-            editor.openTextEditor(isEdit: false)
+            editor.openTextEditor(isEdit: false, timeRange: video.rangeDuration)
         }
     }
 }

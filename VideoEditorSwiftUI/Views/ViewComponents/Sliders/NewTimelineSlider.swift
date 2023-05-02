@@ -10,11 +10,12 @@ import SwiftUI
 struct TimelineSlider<T: View>: View {
     @State private var lastOffset: CGFloat = 0
     var bounds: ClosedRange<Double>
+    var disableOffset: Bool
     @Binding var value: Double
     @State var isChange: Bool = false
     @State var offset: CGFloat = 0
     @State var gestureW: CGFloat = 0
-    var frameWigth: CGFloat = 65
+    var frameWight: CGFloat = 65
     @ViewBuilder
     var frameView: () -> T
     let onChange: () -> Void
@@ -22,15 +23,16 @@ struct TimelineSlider<T: View>: View {
     var body: some View {
         GeometryReader { proxy in
             let sliderViewYCenter = proxy.size.height / 2
-            let sliderPositionX = proxy.size.width / 2 + frameWigth / 2 + offset
+            let sliderPositionX = proxy.size.width / 2 + frameWight / 2 + (disableOffset ? 0 : offset)
             ZStack{
                 frameView()
-                    .frame(width: frameWigth, height: proxy.size.height - 5)
+                    .frame(width: frameWight, height: proxy.size.height - 5)
                     .position(x: sliderPositionX, y: sliderViewYCenter)
                 Capsule()
                     .fill(Color.white)
                     .frame(width: 4, height: proxy.size.height)
                     .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 0)
+                    .opacity(disableOffset ? 0 : 1)
 
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
@@ -44,9 +46,9 @@ struct TimelineSlider<T: View>: View {
                         let translationWidth = gesture.translation.width * 0.5
          
                         
-                        offset = min(0, max(translationWidth, -frameWigth))
+                        offset = min(0, max(translationWidth, -frameWight))
                         
-                        let newValue = (bounds.upperBound - bounds.lowerBound) * (offset / frameWigth) - bounds.lowerBound
+                        let newValue = (bounds.upperBound - bounds.lowerBound) * (offset / frameWight) - bounds.lowerBound
                         
                         value = abs(newValue)
                         
@@ -59,7 +61,9 @@ struct TimelineSlider<T: View>: View {
             )
             .animation(.easeIn, value: offset)
             .onChange(of: value) { _ in
-               setOffset()
+                if !disableOffset{
+                    setOffset()
+                }
             }
         }
     }
@@ -68,7 +72,7 @@ struct TimelineSlider<T: View>: View {
 struct NewTimelineSlider_Previews: PreviewProvider {
     @State static var curretTime = 0.0
     static var previews: some View {
-        TimelineSlider(bounds: 5...34, value: $curretTime, frameView: {
+        TimelineSlider(bounds: 5...34, disableOffset: false, value: $curretTime, frameView: {
             Rectangle()
                 .fill(Color.secondary)
         }, onChange: {})
@@ -80,7 +84,7 @@ extension TimelineSlider{
     
     private func setOffset(){
         if !isChange{
-            offset = ((-value + bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound)) * frameWigth
+            offset = ((-value + bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound)) * frameWight
         }
     }
 }

@@ -24,7 +24,7 @@ extension ProjectEntity{
         wrappedBoxes.compactMap { entity -> TextBox? in
             if let text = entity.text, let bgColor = entity.bgColor,
                let fontColor = entity.fontColor{
-                return .init(text: text, fontSize: entity.fontSize, bgColor: Color(hex: bgColor), fontColor: Color(hex: fontColor), timeRange: 1...2, offset: .init(width: entity.offsetX, height: entity.offsetY))
+                return .init(text: text, fontSize: entity.fontSize, bgColor: Color(hex: bgColor), fontColor: Color(hex: fontColor), timeRange: (entity.lowerTime...entity.upperTime), offset: .init(width: entity.offsetX, height: entity.offsetY))
             }
             return nil
         }

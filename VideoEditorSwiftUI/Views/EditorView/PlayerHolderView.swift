@@ -59,7 +59,7 @@ extension PlayerHolderView{
                                 editorVM.frames.frameColor
                                 ZStack{
                                     PlayerView(player: videoPlayer.player)
-                                    TextOverlayView(viewModel: textEditor, disabledMagnification: isFullScreen)
+                                    TextOverlayView(currentTime: videoPlayer.currentTime, viewModel: textEditor,  disabledMagnification: isFullScreen)
                                         .scaleEffect(scale)
                                         .disabled(isFullScreen)
                                 }
@@ -87,11 +87,12 @@ extension PlayerHolderView{
     @ViewBuilder
     private var timeLineControlSection: some View{
         if let video = editorVM.currentVideo{
-            TimeLineView(video: video, currentTime: $videoPlayer.currentTime) {
+            TimeLineView(currentTime: $videoPlayer.currentTime, activateTextSlider: editorVM.selectedTools == .text, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
                 videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+            } onChangeTextTime: { textTime in
+                textEditor.setTime(textTime)
             }
         }
-        
     }
     
     private var playSection: some View{

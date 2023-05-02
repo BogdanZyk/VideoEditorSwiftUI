@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TextOverlayView: View {
+    var currentTime: Double
     @ObservedObject var viewModel: TextEditorViewModel
     var disabledMagnification: Bool = false
     var body: some View {
@@ -29,43 +30,47 @@ struct TextOverlayView: View {
             
             ForEach(viewModel.textBoxes) { textBox in
                 let isSelected = viewModel.isSelected(textBox.id)
-                VStack(alignment: .leading, spacing: 2) {
-                    if isSelected{
-                        textBoxButtons(textBox)
-                    }
-                   
-                    Text(createAttr(textBox))
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .overlay {
-                            if isSelected{
-                                RoundedRectangle(cornerRadius: 6)
-                                    .stroke(lineWidth: 1)
-                                    .foregroundColor(.cyan)
-                            }
-                        }
-                        .onTapGesture {
-                            editOrSelectTextBox(textBox, isSelected)
-                        }
-                }
-                .offset(textBox.offset)
                 
-                .simultaneousGesture(DragGesture(minimumDistance: 1).onChanged({ value in
-                    guard isSelected else {return}
-                    let current = value.translation
-                    let lastOffset = textBox.lastOffset
-                    let newTranslation: CGSize = .init(width: current.width + lastOffset.width, height: current.height + lastOffset.height)
-
-                    DispatchQueue.main.async {
-                        viewModel.textBoxes[getIndex(textBox.id)].offset = newTranslation
+                if textBox.timeRange.contains(currentTime){
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        if isSelected{
+                            textBoxButtons(textBox)
+                        }
+                        
+                        Text(createAttr(textBox))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .overlay {
+                                if isSelected{
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(lineWidth: 1)
+                                        .foregroundColor(.cyan)
+                                }
+                            }
+                            .onTapGesture {
+                                editOrSelectTextBox(textBox, isSelected)
+                            }
+                        
                     }
-
-                }).onEnded({ value in
-                    guard isSelected else {return}
-                    DispatchQueue.main.async {
-                        viewModel.textBoxes[getIndex(textBox.id)].lastOffset = value.translation
-                    }
-                }))
+                    .offset(textBox.offset)
+                    .simultaneousGesture(DragGesture(minimumDistance: 1).onChanged({ value in
+                        guard isSelected else {return}
+                        let current = value.translation
+                        let lastOffset = textBox.lastOffset
+                        let newTranslation: CGSize = .init(width: current.width + lastOffset.width, height: current.height + lastOffset.height)
+                        
+                        DispatchQueue.main.async {
+                            viewModel.textBoxes[getIndex(textBox.id)].offset = newTranslation
+                        }
+                        
+                    }).onEnded({ value in
+                        guard isSelected else {return}
+                        DispatchQueue.main.async {
+                            viewModel.textBoxes[getIndex(textBox.id)].lastOffset = value.translation
+                        }
+                    }))
+                }
             }
         }
         .allFrame()

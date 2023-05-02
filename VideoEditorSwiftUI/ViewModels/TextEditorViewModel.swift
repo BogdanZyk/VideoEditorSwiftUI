@@ -28,6 +28,13 @@ class TextEditorViewModel: ObservableObject{
         selectedTextBox?.id == id
     }
     
+    func setTime(_ time: ClosedRange<Double>){
+        guard let selectedTextBox else {return}
+        if let index = textBoxes.firstIndex(where: {$0.id == selectedTextBox.id}){
+            textBoxes[index].timeRange = time
+        }
+    }
+    
     func removeTextBox(){
         guard let selectedTextBox else {return}
         textBoxes.removeAll(where: {$0.id == selectedTextBox.id})
@@ -40,12 +47,12 @@ class TextEditorViewModel: ObservableObject{
         textBoxes.append(new)
     }
     
-    func openTextEditor(isEdit: Bool, _ textBox: TextBox? = nil){
+    func openTextEditor(isEdit: Bool, _ textBox: TextBox? = nil, timeRange: ClosedRange<Double>? = nil){
         if let textBox, isEdit{
             isEditMode = true
             currentTextBox = textBox
         }else{
-            currentTextBox = TextBox()
+            currentTextBox = TextBox(timeRange: timeRange ?? (1...5))
             isEditMode = false
         }
         showEditor = true
