@@ -13,7 +13,7 @@ struct TextEditorView: View{
     @State private var isFocused: Bool = true
     let onSave: ([TextBox]) -> Void
     var body: some View{
-        Color.secondary.opacity(0.1)
+        Color.black.opacity(0.35)
                 .ignoresSafeArea()
         VStack{
             Spacer()

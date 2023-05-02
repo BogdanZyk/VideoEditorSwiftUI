@@ -189,7 +189,7 @@ extension VideoEditor{
                 
                 let position = convertSize(text.offset, fromFrame: video.geometrySize, toFrame: size)
                 print(position)
-                let textLayer = createTextLayer(with: text, size: size, position: position.size, ratio: position.ratio)
+                let textLayer = createTextLayer(with: text, size: size, position: position.size, ratio: position.ratio, duration: video.totalDuration)
                 outputLayer.addSublayer(textLayer)
             }
         }
@@ -359,7 +359,7 @@ extension VideoEditor{
     }
     
 
-    private func createTextLayer(with model: TextBox, size: CGSize, position: CGSize, ratio: Double) -> CATextLayer {
+    private func createTextLayer(with model: TextBox, size: CGSize, position: CGSize, ratio: Double, duration: Double) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.string = model.text
         textLayer.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -370,7 +370,7 @@ extension VideoEditor{
         textLayer.frame = CGRect(x: position.width, y: position.height, width: size.width, height: size.height)
         textLayer.backgroundColor =  UIColor(model.bgColor).cgColor
         
-        //addAnimation(to: textLayer, with: model.timeRange)
+        addAnimation(to: textLayer, with: model.timeRange, duration: duration)
         
         return textLayer
     }
@@ -387,29 +387,30 @@ extension VideoEditor{
         return (CGSize(width: newSize.width, height: newSize.height), ratio)
     }
     
-    private func addAnimation(to textLayer: CATextLayer, with timeRange: ClosedRange<Double>) {
+    private func addAnimation(to textLayer: CATextLayer, with timeRange: ClosedRange<Double>, duration: Double) {
         
-        let apperance = CABasicAnimation(keyPath: "opacity")
-        apperance.fromValue = 0
-        apperance.toValue = 1
-        apperance.duration = 0.1
-        apperance.beginTime = timeRange.lowerBound
+        if timeRange.lowerBound > 0{
+            let appearance = CABasicAnimation(keyPath: "opacity")
+            appearance.fromValue = 0
+            appearance.toValue = 1
+            appearance.duration = 0.05
+            appearance.beginTime = timeRange.lowerBound
+            appearance.fillMode = .forwards
+            appearance.isRemovedOnCompletion = false
+            textLayer.add(appearance, forKey: "Appearance")
+            textLayer.opacity = 0
+        }
         
-        apperance.fillMode = .forwards
-        apperance.isRemovedOnCompletion = false
-        
-        
-        let disappearance = CABasicAnimation(keyPath: "opacity")
-        disappearance.fromValue = 1
-        disappearance.toValue = 0
-        disappearance.beginTime = timeRange.upperBound
-        disappearance.duration = 0.1
-        disappearance.fillMode = .forwards
-        disappearance.isRemovedOnCompletion = false
-        
-        textLayer.opacity = 0
-        textLayer.add(apperance, forKey: "Appearance")
-        textLayer.add(disappearance, forKey: "Disappearance")
+        if timeRange.upperBound < duration{
+            let disappearance = CABasicAnimation(keyPath: "opacity")
+            disappearance.fromValue = 1
+            disappearance.toValue = 0
+            disappearance.beginTime = timeRange.upperBound
+            disappearance.duration = 0.05
+            disappearance.fillMode = .forwards
+            disappearance.isRemovedOnCompletion = false
+            textLayer.add(disappearance, forKey: "Disappearance")
+        }
     }
 }
 

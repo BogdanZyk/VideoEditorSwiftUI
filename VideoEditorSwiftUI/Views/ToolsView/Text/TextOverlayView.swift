@@ -9,20 +9,24 @@ import SwiftUI
 
 struct TextOverlayView: View {
     @ObservedObject var viewModel: TextEditorViewModel
+    var disabledMagnification: Bool = false
     var body: some View {
         ZStack{
-            Color.secondary.opacity(0.001)
-                .simultaneousGesture(MagnificationGesture()
-                    .onChanged({ value in
-                        if let box = viewModel.selectedTextBox{
-                            let lastFontSize = viewModel.textBoxes[getIndex(box.id)].lastFontSize
-                            viewModel.textBoxes[getIndex(box.id)].fontSize = (value * 10) + lastFontSize
-                        }
-                    }).onEnded({ value in
-                        if let box = viewModel.selectedTextBox{
-                            viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
-                        }
-                    }))
+            if !disabledMagnification{
+                Color.secondary.opacity(0.001)
+                    .simultaneousGesture(MagnificationGesture()
+                        .onChanged({ value in
+                            if let box = viewModel.selectedTextBox{
+                                let lastFontSize = viewModel.textBoxes[getIndex(box.id)].lastFontSize
+                                viewModel.textBoxes[getIndex(box.id)].fontSize = (value * 10) + lastFontSize
+                            }
+                        }).onEnded({ value in
+                            if let box = viewModel.selectedTextBox{
+                                viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
+                            }
+                        }))
+            }
+            
             ForEach(viewModel.textBoxes) { textBox in
                 let isSelected = viewModel.isSelected(textBox.id)
                 VStack(alignment: .leading, spacing: 2) {
@@ -64,7 +68,7 @@ struct TextOverlayView: View {
                 }))
             }
         }
-
+        .allFrame()
     }
     
     private func createAttr(_ textBox: TextBox) -> AttributedString{
