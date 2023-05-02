@@ -31,6 +31,8 @@ struct TextEditorView: View{
                     .padding(.vertical, 12)
                     .foregroundColor(.black)
                     .background(Color.white, in: RoundedRectangle(cornerRadius: 20))
+                    .opacity(viewModel.currentTextBox.text.isEmpty ? 0.5 : 1)
+                    .disabled(viewModel.currentTextBox.text.isEmpty)
             }
             .hCenter()
             .overlay(alignment: .leading) {

@@ -362,7 +362,8 @@ extension VideoEditor{
     private func createTextLayer(with model: TextBox, size: CGSize, position: CGSize, ratio: Double) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.string = model.text
-        textLayer.font = UIFont.systemFont(ofSize: (model.fontSize * ratio), weight: .medium)
+        textLayer.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        textLayer.fontSize = model.fontSize * ratio
         textLayer.alignmentMode = .center
         textLayer.foregroundColor = UIColor(model.fontColor).cgColor
         let size = textLayer.preferredFrameSize()

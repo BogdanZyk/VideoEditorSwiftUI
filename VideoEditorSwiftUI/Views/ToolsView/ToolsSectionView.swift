@@ -47,6 +47,16 @@ struct ToolsSectionView: View {
                 editorVM.selectedTools = nil
             }
         }
+        .onChange(of: editorVM.selectedTools) { newValue in
+            
+            if newValue == .text, textEditor.textBoxes.isEmpty{
+                textEditor.openTextEditor(isEdit: false)
+            }
+            
+            if newValue == nil{
+                editorVM.setText(textEditor.textBoxes)
+            }
+        }
     }
 }
 

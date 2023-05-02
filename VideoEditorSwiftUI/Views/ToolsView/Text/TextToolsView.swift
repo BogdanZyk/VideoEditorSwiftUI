@@ -61,7 +61,11 @@ extension TextToolsView{
             }
         }
         .onTapGesture {
-            editor.selectTextBox(textBox)
+            if isSelected{
+                editor.openTextEditor(isEdit: true, textBox)
+            }else{
+                editor.selectTextBox(textBox)
+            }
         }
     }
     

@@ -9,9 +9,20 @@ import SwiftUI
 
 struct TextOverlayView: View {
     @ObservedObject var viewModel: TextEditorViewModel
-    let onSet: ([TextBox]) -> Void
     var body: some View {
         ZStack{
+            Color.secondary.opacity(0.001)
+                .simultaneousGesture(MagnificationGesture()
+                    .onChanged({ value in
+                        if let box = viewModel.selectedTextBox{
+                            let lastFontSize = viewModel.textBoxes[getIndex(box.id)].lastFontSize
+                            viewModel.textBoxes[getIndex(box.id)].fontSize = (value * 10) + lastFontSize
+                        }
+                    }).onEnded({ value in
+                        if let box = viewModel.selectedTextBox{
+                            viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
+                        }
+                    }))
             ForEach(viewModel.textBoxes) { textBox in
                 let isSelected = viewModel.isSelected(textBox.id)
                 VStack(alignment: .leading, spacing: 2) {
@@ -20,11 +31,11 @@ struct TextOverlayView: View {
                     }
                    
                     Text(createAttr(textBox))
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
                         .overlay {
                             if isSelected{
-                                RoundedRectangle(cornerRadius: 10)
+                                RoundedRectangle(cornerRadius: 6)
                                     .stroke(lineWidth: 1)
                                     .foregroundColor(.cyan)
                             }
@@ -35,7 +46,7 @@ struct TextOverlayView: View {
                 }
                 .offset(textBox.offset)
                 
-                .gesture(DragGesture(minimumDistance: 1).onChanged({ value in
+                .simultaneousGesture(DragGesture(minimumDistance: 1).onChanged({ value in
                     guard isSelected else {return}
                     let current = value.translation
                     let lastOffset = textBox.lastOffset
@@ -49,26 +60,11 @@ struct TextOverlayView: View {
                     guard isSelected else {return}
                     DispatchQueue.main.async {
                         viewModel.textBoxes[getIndex(textBox.id)].lastOffset = value.translation
-                        print(viewModel.textBoxes[getIndex(textBox.id)].offset)
                     }
-                    onSet(viewModel.textBoxes)
                 }))
             }
         }
-        .allFrame()
-        .contentShape(Rectangle())
-        .gesture(MagnificationGesture()
-            .onChanged({ value in
-                if let box = viewModel.selectedTextBox{
-                    let lastFontSize = viewModel.textBoxes[getIndex(box.id)].lastFontSize
-                    viewModel.textBoxes[getIndex(box.id)].fontSize = (value * 10) + lastFontSize
-                }
-            }).onEnded({ value in
-                if let box = viewModel.selectedTextBox{
-                    viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
-                }
-                onSet(viewModel.textBoxes)
-            }))
+
     }
     
     private func createAttr(_ textBox: TextBox) -> AttributedString{

@@ -81,7 +81,10 @@ extension MainEditorView{
             Spacer()
             
             Button {
-                showVideoQualitySheet.toggle()
+                editorVM.selectedTools = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                    showVideoQualitySheet.toggle()
+                }
             } label: {
                 Image(systemName: "square.and.arrow.up.fill")
             }
