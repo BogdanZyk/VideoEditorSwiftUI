@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import SwiftUI
 
+
 extension ProjectEntity{
     
     
@@ -18,6 +19,22 @@ extension ProjectEntity{
         return FileManager().createVideoPath(with: url)
     }
 
+    
+    var wrappedTextBoxes: [TextBox]{
+        wrappedBoxes.compactMap { entity -> TextBox? in
+            if let text = entity.text, let bgColor = entity.bgColor,
+               let fontColor = entity.fontColor{
+                return .init(text: text, fontSize: entity.fontSize, bgColor: Color(hex: bgColor), fontColor: Color(hex: fontColor), timeRange: 1...2, offset: .init(width: entity.offsetX, height: entity.offsetY))
+            }
+            return nil
+        }
+    }
+
+
+    private var wrappedBoxes: Set<TextBoxEntity> {
+        get { (textBoxes as? Set<TextBoxEntity>) ?? [] }
+        set { textBoxes = newValue as NSSet }
+    }
     
     var wrappedTools: [Int]{
         appliedTools?.components(separatedBy: ",").compactMap({Int($0)}) ?? []
@@ -44,6 +61,26 @@ extension ProjectEntity{
     }
     
     
+  static func createTextBoxes(context: NSManagedObjectContext, boxes: [TextBox]) -> [TextBoxEntity]{
+        
+        boxes.map { box -> TextBoxEntity in
+            let entity = TextBoxEntity(context: context)
+            let offset = box.offset
+            entity.text = box.text
+            entity.bgColor = box.bgColor.toHex()
+            entity.fontColor = box.fontColor.toHex()
+            entity.fontSize = box.fontSize
+            entity.lowerTime = box.timeRange.lowerBound
+            entity.upperTime = box.timeRange.upperBound
+            entity.offsetX = offset.width
+            entity.offsetY = offset.height
+            
+            return entity
+        }
+        
+    }
+    
+    
     static func create(video: Video, context: NSManagedObjectContext){
         let project = ProjectEntity(context: context)
         let id = UUID().uuidString
@@ -59,6 +96,7 @@ extension ProjectEntity{
         project.filterName = video.filterName
         project.lowerBound = video.rangeDuration.lowerBound
         project.upperBound = video.rangeDuration.upperBound
+        project.textBoxes = []
     
         context.saveContext()
     }
@@ -78,6 +116,8 @@ extension ProjectEntity{
             project.rate = Double(video.rate)
             project.frameColor = video.videoFrames?.frameColor.toHex()
             project.frameScale = video.videoFrames?.scaleValue ?? 0
+            let boxes = createTextBoxes(context: context, boxes: video.textBoxes)
+            project.wrappedBoxes = Set(boxes)
             
             context.saveContext()
         }

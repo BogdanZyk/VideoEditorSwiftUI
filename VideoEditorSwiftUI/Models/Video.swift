@@ -19,11 +19,13 @@ struct Video: Identifiable{
     var rate: Float = 1.0
     var rotation: Double = 0
     var frameSize: CGSize = .zero
+    var geometrySize: CGSize = .zero
     var isMirror: Bool = false
     var toolsApplied = [Int]()
     var filterName: String? = nil
     var colorCorrection = ColorCorrection()
     var videoFrames: VideoFrames? = nil
+    var textBoxes: [TextBox] = []
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound

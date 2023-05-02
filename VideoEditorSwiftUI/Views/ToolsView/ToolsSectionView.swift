@@ -35,6 +35,7 @@ struct ToolsSectionView: View {
             if let video = newValue, let image = video.thumbnailsImages.first?.image{
                 filtersVM.loadFilters(for: image)
                 filtersVM.colorCorrection = video.colorCorrection
+                textEditor.textBoxes = video.textBoxes
             }
         }
         .onChange(of: textEditor.selectedTextBox) { box in

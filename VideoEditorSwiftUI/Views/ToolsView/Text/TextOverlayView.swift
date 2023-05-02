@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TextOverlayView: View {
     @ObservedObject var viewModel: TextEditorViewModel
+    let onSet: ([TextBox]) -> Void
     var body: some View {
         ZStack{
             ForEach(viewModel.textBoxes) { textBox in
@@ -44,12 +45,13 @@ struct TextOverlayView: View {
                         viewModel.textBoxes[getIndex(textBox.id)].offset = newTranslation
                     }
 
-
                 }).onEnded({ value in
                     guard isSelected else {return}
                     DispatchQueue.main.async {
                         viewModel.textBoxes[getIndex(textBox.id)].lastOffset = value.translation
+                        print(viewModel.textBoxes[getIndex(textBox.id)].offset)
                     }
+                    onSet(viewModel.textBoxes)
                 }))
             }
         }
@@ -65,6 +67,7 @@ struct TextOverlayView: View {
                 if let box = viewModel.selectedTextBox{
                     viewModel.textBoxes[getIndex(box.id)].lastFontSize = value * 10
                 }
+                onSet(viewModel.textBoxes)
             }))
     }
     
@@ -128,6 +131,7 @@ struct TextEditorView: View{
     @ObservedObject var viewModel: TextEditorViewModel
     @State private var textHeight: CGFloat = 100
     @State private var isFocused: Bool = true
+    let onSave: ([TextBox]) -> Void
     var body: some View{
         Color.secondary.opacity(0.1)
                 .ignoresSafeArea()
@@ -140,6 +144,7 @@ struct TextEditorView: View{
             Button {
                 closeKeyboard()
                 viewModel.saveTapped()
+                onSave(viewModel.textBoxes)
             } label: {
                 Text("Save")
                     .padding(.horizontal, 20)

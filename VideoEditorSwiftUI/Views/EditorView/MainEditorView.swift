@@ -56,7 +56,7 @@ struct MainEditorView: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .overlay {
             if textEditor.showEditor{
-                TextEditorView(viewModel: textEditor)
+                TextEditorView(viewModel: textEditor, onSave: editorVM.setText)
             }
         }
     }

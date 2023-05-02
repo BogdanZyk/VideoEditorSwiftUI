@@ -68,7 +68,7 @@ class VideoEditor{
         videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
         
         ///Create background layer color and scale video
-        createBackgroundLayerIfNeeded(video.videoFrames, size: outputSize, videoComposition: videoComposition)
+        createLayers(video.videoFrames, video: video, size: outputSize, videoComposition: videoComposition)
         
         ///Set Video Composition Instruction
         let instruction = AVMutableVideoCompositionInstruction()
@@ -159,7 +159,7 @@ extension VideoEditor{
     }
     
     
-    private func createBackgroundLayerIfNeeded(_ videoFrame: VideoFrames?, size: CGSize, videoComposition: AVMutableVideoComposition){
+    private func createLayers(_ videoFrame: VideoFrames?, video: Video, size: CGSize, videoComposition: AVMutableVideoComposition){
         
         guard let videoFrame else {return}
         
@@ -183,12 +183,16 @@ extension VideoEditor{
         outputLayer.addSublayer(videoLayer)
        
         
-        
-        TextBox.texts.forEach { text in
-            let textLayer = createTextLayer(with: text, size: size)
-            outputLayer.addSublayer(textLayer)
+        if !video.textBoxes.isEmpty{
+            video.textBoxes.forEach { text in
+                print(text)
+                
+                let position = convertSize(text.offset, fromFrame: video.geometrySize, toFrame: size)
+                print(position)
+                let textLayer = createTextLayer(with: text, size: size, position: position.size, ratio: position.ratio)
+                outputLayer.addSublayer(textLayer)
+            }
         }
-        
         
         videoComposition.animationTool = AVVideoCompositionCoreAnimationTool(
             postProcessingAsVideoLayer: videoLayer,
@@ -355,21 +359,31 @@ extension VideoEditor{
     }
     
 
-    private func createTextLayer(with model: TextBox, size: CGSize) -> CATextLayer {
+    private func createTextLayer(with model: TextBox, size: CGSize, position: CGSize, ratio: Double) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.string = model.text
-        textLayer.font = "Helvetica-Bold" as CFTypeRef
-        textLayer.fontSize = model.fontSize
+        textLayer.font = UIFont.systemFont(ofSize: (model.fontSize * ratio), weight: .medium)
         textLayer.alignmentMode = .center
         textLayer.foregroundColor = UIColor(model.fontColor).cgColor
         let size = textLayer.preferredFrameSize()
-        textLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        textLayer.frame = CGRect(x: position.width, y: position.height, width: size.width, height: size.height)
         textLayer.backgroundColor =  UIColor(model.bgColor).cgColor
-        textLayer.position = model.position
         
-        addAnimation(to: textLayer, with: model.timeRange)
+        //addAnimation(to: textLayer, with: model.timeRange)
         
         return textLayer
+    }
+    
+    func convertSize(_ size: CGSize, fromFrame frameSize1: CGSize, toFrame frameSize2: CGSize) -> (size: CGSize, ratio: Double) {
+        let widthRatio = frameSize2.width / frameSize1.width
+        let heightRatio = frameSize2.height / frameSize1.height
+        let ratio = max(widthRatio, heightRatio)
+        let newSizeWidth = size.width * ratio
+        let newSizeHeight = size.height * ratio
+        
+        let newSize = CGSize(width: (frameSize2.width / 2) + newSizeWidth, height: (frameSize2.height / 2) + -newSizeHeight)
+        
+        return (CGSize(width: newSize.width, height: newSize.height), ratio)
     }
     
     private func addAnimation(to textLayer: CATextLayer, with timeRange: ClosedRange<Double>) {

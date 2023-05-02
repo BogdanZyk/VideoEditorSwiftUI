@@ -40,6 +40,7 @@ class EditorViewModel: ObservableObject{
         currentVideo?.videoFrames = frame
         self.frames = frame
         currentVideo?.updateThumbnails(geo)
+        currentVideo?.textBoxes = project.wrappedTextBoxes
     }
         
 }
@@ -74,6 +75,11 @@ extension EditorViewModel{
         }
     }
     
+    
+    func setText(_ textBox: [TextBox]){
+        currentVideo?.textBoxes = textBox
+        setTools()
+    }
     
     func setFrames(){
         currentVideo?.videoFrames = frames

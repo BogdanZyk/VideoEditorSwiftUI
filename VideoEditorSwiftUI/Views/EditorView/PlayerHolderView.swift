@@ -59,7 +59,7 @@ extension PlayerHolderView{
                                 editorVM.frames.frameColor
                                 ZStack{
                                     PlayerView(player: videoPlayer.player)
-                                    TextOverlayView(viewModel: textEditor)
+                                    TextOverlayView(viewModel: textEditor, onSet: editorVM.setText)
                                 }
                                 .scaleEffect(editorVM.frames.scale)
                                 .disabled(isFullScreen)
@@ -70,6 +70,7 @@ extension PlayerHolderView{
                             Task{
                                 guard let size = await editorVM.currentVideo?.asset.adjustVideoSize(to: proxy.size) else {return}
                              editorVM.currentVideo?.frameSize = size
+                                editorVM.currentVideo?.geometrySize = proxy.size
                          }
                      }
                 }
