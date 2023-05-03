@@ -18,17 +18,17 @@ struct TimeLineView: View {
     let onChangeTextTime: (ClosedRange<Double>) -> Void
     
     private let frameWight: CGFloat = 55
-    
+
     private var calcWight: CGFloat{
-        frameWight + viewState.wight
+        frameWight * CGFloat(viewState.countImages) + 10
     }
     var body: some View {
         ZStack{
-            if let image = video.thumbnailsImages.first?.image{
+            if !video.thumbnailsImages.isEmpty{
                 TimelineSlider(bounds: video.rangeDuration, disableOffset: isActiveTextRangeSlider, value: $currentTime, frameWight: calcWight) {
                     VStack(alignment: .leading, spacing: 5) {
                         ZStack {
-                            tubneilsImage(image)
+                            tubneilsImages(video.thumbnailsImages)
                             textRangeTimeLayer
                         }
                         audioLayerSection
@@ -83,12 +83,31 @@ struct TimeLineView_Previews: PreviewProvider {
 
 extension TimeLineView{
     
-    private func tubneilsImage(_ image: UIImage) -> some View{
-        Image(uiImage: image)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: calcWight, height: frameWight)
-            .clipped()
+    private func tubneilsImages(_ images: [ThumbnailImage]) -> some View{
+        let images = firstAndAverageImage(images)
+        return HStack(spacing: 0){
+            ForEach(images) { image in
+                if let image = image.image{
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: frameWight)
+                        .clipped()
+                }
+            }
+        }
+    }
+    
+    private func firstAndAverageImage(_ images: [ThumbnailImage]) -> [ThumbnailImage]{
+        guard let first = images.first else {return []}
+        
+        var newArray = [first]
+        
+        if viewState == .audio || viewState == .text{
+            let averageIndex = Int(images.count / 2)
+            newArray.append(images[averageIndex])
+        }
+        return newArray
     }
     
     private var textRangeTimeLayer: some View{
@@ -149,6 +168,12 @@ enum TimeLineViewState: Int{
         switch self {
         case .audio: return 110
         case .empty, .text: return 60
+        }
+    }
+    var countImages: Int{
+        switch self {
+        case .audio, .text: return 2
+        case .empty: return 1
         }
     }
 }
