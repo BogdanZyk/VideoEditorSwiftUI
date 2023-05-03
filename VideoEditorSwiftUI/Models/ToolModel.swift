@@ -37,6 +37,14 @@ enum ToolEnum: Int, CaseIterable{
         case .frames: return "person.crop.artframe"
         }
     }
+    
+    var timeState: TimeLineViewState{
+        switch self{
+        case .audio: return .audio
+        case .text: return .text
+        default: return .empty
+        }
+    }
 }
     
 

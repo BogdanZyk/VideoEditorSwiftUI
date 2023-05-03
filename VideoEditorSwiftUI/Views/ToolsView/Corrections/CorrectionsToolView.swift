@@ -12,7 +12,7 @@ struct CorrectionsToolView: View {
     @Binding var correction: ColorCorrection
     let onChange: (ColorCorrection) -> Void
     var body: some View {
-        VStack(spacing: 0){
+        VStack(spacing: 20){
             
             HStack{
                 ForEach(CorrectionType.allCases, id: \.self) { type in
@@ -25,7 +25,6 @@ struct CorrectionsToolView: View {
                         }
                 }
             }
-            Spacer()
             slider
         }
     }

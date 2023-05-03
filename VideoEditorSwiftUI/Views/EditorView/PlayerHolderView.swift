@@ -31,8 +31,8 @@ struct PlayerHolderView: View{
                 }
             }
             .allFrame()
-            playSection
-            timeLineControlSection
+//            playSection
+//            timeLineControlSection
         }
     }
 }
@@ -87,7 +87,7 @@ extension PlayerHolderView{
     @ViewBuilder
     private var timeLineControlSection: some View{
         if let video = editorVM.currentVideo{
-            TimeLineView(currentTime: $videoPlayer.currentTime, activateTextSlider: editorVM.selectedTools == .text, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
+            TimeLineView(currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
                 videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
             } onChangeTextTime: { textTime in
                 textEditor.setTime(textTime)
@@ -139,5 +139,59 @@ extension PlayerHolderView{
             .background(Color(.black).opacity(0.5), in: RoundedRectangle(cornerRadius: 10))
             .padding()
         }
+    }
+}
+
+
+struct PlayerControl: View{
+    @Binding var isFullScreen: Bool
+    @ObservedObject var editorVM: EditorViewModel
+    @ObservedObject var videoPlayer: VideoPlayerManager
+    @ObservedObject var textEditor: TextEditorViewModel
+    var body: some View{
+        VStack(spacing: 6) {
+            playSection
+            timeLineControlSection
+        }
+    }
+    
+    
+    @ViewBuilder
+    private var timeLineControlSection: some View{
+        if let video = editorVM.currentVideo{
+            TimeLineView(currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
+                videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+            } onChangeTextTime: { textTime in
+                textEditor.setTime(textTime)
+            }
+        }
+    }
+    
+    private var playSection: some View{
+        
+        Button {
+            if let video = editorVM.currentVideo{
+                videoPlayer.action(video)
+            }
+        } label: {
+            Image(systemName: videoPlayer.isPlaying ? "pause.fill" : "play.fill")
+                .imageScale(.medium)
+        }
+        .buttonStyle(.plain)
+        .hCenter()
+        .frame(height: 30)
+        .overlay(alignment: .trailing) {
+            Button {
+                videoPlayer.pause()
+                withAnimation {
+                    isFullScreen.toggle()
+                }
+            } label: {
+                Image(systemName: isFullScreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                    .imageScale(.medium)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal)
     }
 }

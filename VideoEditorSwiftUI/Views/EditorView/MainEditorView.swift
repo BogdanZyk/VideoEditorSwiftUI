@@ -25,7 +25,8 @@ struct MainEditorView: View {
                 VStack(spacing: 0){
                     headerView
                     PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
-                        .frame(height: proxy.size.height / (isFullScreen ?  1.1 : 1.5))
+                        .frame(height: proxy.size.height / (isFullScreen ?  1.25 : 1.8))
+                    PlayerControl(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
                     ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM, textEditor: textEditor)
                         .opacity(isFullScreen ? 0 : 1)
                         .padding(.top, 5)

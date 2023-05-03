@@ -13,7 +13,7 @@ struct FramesToolView: View {
     let colors: [Color] = [.white, .black, .blue, .brown, .cyan, .green, .orange]
     let onChange: () -> Void
     var body: some View {
-        VStack(spacing: 0){
+        VStack(spacing: 20){
             ScrollView(.horizontal){
                 HStack{
                     ForEach(colors, id: \.self) { color in
@@ -27,7 +27,6 @@ struct FramesToolView: View {
                     }
                 }
             }
-            Spacer()
             Slider(value: $scaleValue, in: 0...0.5) { change in
                 if !change{
                     onChange()

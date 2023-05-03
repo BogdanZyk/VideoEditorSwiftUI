@@ -75,30 +75,9 @@ extension ToolsSectionView{
         let isAppliedTool = video.isAppliedTool(for: tool)
         
         VStack(spacing: 16){
-            HStack {
-                Button {
-                    editorVM.selectedTools = nil
-                } label: {
-                    Image(systemName: "chevron.down")
-                        .imageScale(.small)
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 5))
-                }
-                Spacer()
-                if tool != .filters{
-                    Button {
-                        editorVM.reset()
-                    } label: {
-                        Text("Reset")
-                            .font(.subheadline)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
             
+            sheetHeader(tool)
             switch tool {
-                
             case .cut:
                 ThumbnailsSliderView(curretTime: $videoPlayer.currentTime, video: $editorVM.currentVideo, isChangeState: isAppliedTool) {
                     videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
@@ -133,14 +112,41 @@ extension ToolsSectionView{
                 FramesToolView(selectedColor: $editorVM.frames.frameColor, scaleValue: $editorVM.frames.scaleValue, onChange: editorVM.setFrames)
             }
             Spacer()
-            Text(tool.title)
-                .font(.headline)
         }
         .padding([.horizontal, .top])
-        .allFrame()
         .background(Color(.systemGray6))
     }
 }
 
-
+extension ToolsSectionView{
+    
+    private func sheetHeader(_ tool: ToolEnum) -> some View{
+        HStack {
+            Button {
+                editorVM.selectedTools = nil
+            } label: {
+                Image(systemName: "chevron.down")
+                    .imageScale(.small)
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 5))
+            }
+            Spacer()
+            if tool != .filters{
+                Button {
+                    editorVM.reset()
+                } label: {
+                    Text("Reset")
+                        .font(.subheadline)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .overlay {
+            Text(tool.title)
+                .font(.headline)
+        }
+    }
+    
+}
 
