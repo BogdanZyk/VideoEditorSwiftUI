@@ -18,7 +18,6 @@ struct TimeLineView: View {
     let onChangeTimeValue: () -> Void
     let onChangeTextTime: (ClosedRange<Double>) -> Void
     let onSetAudio: (Audio) -> Void
-    let onRecord: (Bool) -> Void
     private let frameWight: CGFloat = 55
 
     private var calcWight: CGFloat{
@@ -76,7 +75,7 @@ struct TimeLineView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.secondary
-            TimeLineView(recorderManager: AudioRecorderManager(), currentTime: .constant(0), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in}, onSetAudio: {_ in}, onRecord: {_ in})
+            TimeLineView(recorderManager: AudioRecorderManager(), currentTime: .constant(0), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in}, onSetAudio: {_ in})
         }
     }
 }
@@ -134,7 +133,10 @@ extension TimeLineView{
     private var audioLayerSection: some View{
         Group{
             if viewState == .audio{
-                AudioButtonView(video: video, recorderManager: recorderManager, onRecorded: onSetAudio, onRecord: onRecord)
+                AudioButtonView(video: video, recorderManager: recorderManager, onRecorded: onSetAudio){time in
+                    currentTime = time
+                    onChangeTimeValue()
+                }
             }
         }
     }

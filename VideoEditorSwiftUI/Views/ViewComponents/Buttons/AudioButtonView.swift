@@ -16,7 +16,7 @@ struct AudioButtonView: View {
     @State private var state: StateEnum = .empty
     @State private var audioSimples = [Audio.AudioSimple]()
     let onRecorded: (Audio) -> Void
-    let onRecord: (Bool) -> Void
+    let onRecordTime: (Double) -> Void
     var body: some View {
         GeometryReader { proxy in
             ZStack{
@@ -40,12 +40,15 @@ struct AudioButtonView: View {
             }
         }
         .frame(height: 40)
+        .onChange(of: recorderManager.currentRecordTime) { newValue in
+            onRecordTime(newValue)
+        }
     }
 }
 
 struct AudioButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        AudioButtonView(video: Video.mock, recorderManager: AudioRecorderManager(), onRecorded: {_ in}, onRecord: {_ in})
+        AudioButtonView(video: Video.mock, recorderManager: AudioRecorderManager(), onRecorded: {_ in}, onRecordTime: {_ in})
     }
 }
 
@@ -73,6 +76,7 @@ extension AudioButtonView{
                 state = .empty
                 stopTimer()
             }
+            .padding(.horizontal)
             .hLeading()
     }
     
@@ -82,8 +86,10 @@ extension AudioButtonView{
             .onTapGesture {
                 state = .empty
                 recorderManager.stopRecording()
-                onRecord(false)
             }
+            .scaleEffect(recorderManager.toggleColor ? 0.9 : 1)
+            .padding(.horizontal)
+            .hLeading()
     }
     
     private func audioButton(_ proxy: GeometryProxy, _ audio: Audio) -> some View{
@@ -123,12 +129,12 @@ extension AudioButtonView{
                 state = .record
                 stopTimer()
                 recorderManager.startRecording(recordMaxTime: video.totalDuration)
-                onRecord(true)
             }
         }
     }
     
     private func stopTimer(){
+        timeRemaining = 3
         timer?.invalidate()
         timer = nil
     }

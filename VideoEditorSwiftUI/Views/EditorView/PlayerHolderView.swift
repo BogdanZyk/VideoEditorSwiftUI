@@ -124,12 +124,6 @@ struct PlayerControl: View{
             } onSetAudio: { audio in
                 editorVM.currentVideo?.audio = audio
                 videoPlayer.setAudio(audio.url)
-            } onRecord: { isRecord in
-                if isRecord{
-                    videoPlayer.action(video)
-                }else{
-                    videoPlayer.pause()
-                }
             }
         }
     }

@@ -20,15 +20,11 @@ final class AudioRecorderManager: ObservableObject {
     @Published private(set) var timerCount: Timer?
     @Published private(set) var blinkingCount: Timer?
     @Published private(set) var currentRecordTime: TimeInterval = 0
+
     
-    
-    init(){
-        AVAudioSession.sharedInstance().configureRecordAudioSessionCategory()
-    }
-   
- 
     func startRecording(recordMaxTime: Double = 10){
         print("DEBUG:", "startRecording")
+        AVAudioSession.sharedInstance().configureRecordAudioSessionCategory()
         
         let path = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
         let audioURL = path.appendingPathComponent("video-record.m4a")
@@ -45,15 +41,14 @@ final class AudioRecorderManager: ObservableObject {
             audioRecorder.prepareToRecord()
             audioRecorder.record()
             recordState = .recording
-            timerCount = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) {[weak self] (value) in
+            timerCount = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) {[weak self] (value) in
                 guard let self = self else {return}
-                self.currentRecordTime += 0.1
+                self.currentRecordTime += 0.2
                 if self.currentRecordTime >= recordMaxTime{
                     self.stopRecording()
                 }
             }
             blinkColor()
-            
         } catch {
             recordState = .error
             print("Failed to Setup the Recording")
