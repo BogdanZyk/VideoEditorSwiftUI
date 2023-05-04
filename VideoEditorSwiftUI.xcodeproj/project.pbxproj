@@ -20,11 +20,13 @@
 		5A3D13B429F18E4D0027E25E /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B329F18E4D0027E25E /* RootViewModel.swift */; };
 		5A3D13B629F190260027E25E /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B529F190260027E25E /* Preview.swift */; };
 		5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */; };
+		5A5E6F972A039EFD00F5EBF8 /* AVAudioSession+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */; };
 		5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */; };
 		5A5F956D2A00FA180041C3F6 /* TextToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */; };
 		5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */; };
 		5A5F95712A0135490041C3F6 /* TextEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F95702A0135490041C3F6 /* TextEditorViewModel.swift */; };
 		5A5F95732A0166D90041C3F6 /* Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F95722A0166D90041C3F6 /* Swipe.swift */; };
+		5A62B47A2A02B85500E84093 /* AudioRecorderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A62B4792A02B85500E84093 /* AudioRecorderManager.swift */; };
 		5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B3FCE29F0360B00FB9858 /* Video.swift */; };
 		5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */; };
 		5AADA50329F919800064EA7E /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AADA50229F919800064EA7E /* FiltersViewModel.swift */; };
@@ -79,11 +81,13 @@
 		5A3D13B329F18E4D0027E25E /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		5A3D13B529F190260027E25E /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCroppedView.swift; sourceTree = "<group>"; };
+		5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioSession+Ext.swift"; sourceTree = "<group>"; };
 		5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlayView.swift; sourceTree = "<group>"; };
 		5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToolsView.swift; sourceTree = "<group>"; };
 		5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
 		5A5F95702A0135490041C3F6 /* TextEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorViewModel.swift; sourceTree = "<group>"; };
 		5A5F95722A0166D90041C3F6 /* Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swipe.swift; sourceTree = "<group>"; };
+		5A62B4792A02B85500E84093 /* AudioRecorderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderManager.swift; sourceTree = "<group>"; };
 		5A8B3FCE29F0360B00FB9858 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		5A9EDCFF29F03DCD0014A1CF /* VideoSpeedSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSpeedSlider.swift; sourceTree = "<group>"; };
 		5AADA50229F919800064EA7E /* FiltersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +176,14 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		5A62B4782A02B83700E84093 /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				5A62B4792A02B85500E84093 /* AudioRecorderManager.swift */,
+			);
+			path = Recorder;
+			sourceTree = "<group>";
+		};
 		5A9EDCFE29F03D800014A1CF /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +252,7 @@
 		5ACFF97C29E9450000827A37 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				5A62B4782A02B83700E84093 /* Recorder */,
 				5A17E08A29F1804B00DB4A47 /* CoreData */,
 				5ACFF99329EC89FD00827A37 /* Player */,
 				5ACFF99229EC89F800827A37 /* Camera */,
@@ -308,6 +321,7 @@
 				5A3D13AD29F185400027E25E /* FileManager.swift */,
 				5A3D13B529F190260027E25E /* Preview.swift */,
 				5AFA25C529FA7D9300B820D0 /* Color.swift */,
+				5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -534,6 +548,7 @@
 				5AE2A2A029F465BD003D217F /* VideoEditor.swift in Sources */,
 				5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */,
 				5A8B3FCF29F0360B00FB9858 /* Video.swift in Sources */,
+				5A62B47A2A02B85500E84093 /* AudioRecorderManager.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
@@ -552,6 +567,7 @@
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
 				5AE2A2A429F67B96003D217F /* SheetView.swift in Sources */,
+				5A5E6F972A039EFD00F5EBF8 /* AVAudioSession+Ext.swift in Sources */,
 				5A08FC7429EFD5E400AB877C /* NewTimelineSlider.swift in Sources */,
 				5AF25B5929F14270005E0467 /* CropView.swift in Sources */,
 				5AE2A2A229F66EE9003D217F /* VideoExporterBottomSheetView.swift in Sources */,
