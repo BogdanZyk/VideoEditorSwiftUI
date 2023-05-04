@@ -17,8 +17,10 @@ final class VideoPlayerManager: ObservableObject{
     @Published var currentTime: Double = .zero
     @Published var selectedItem: PhotosPickerItem?
     @Published var loadState: LoadState = .unknown
-    @Published private(set) var player = AVPlayer()
+    @Published private(set) var videoPlayer = AVPlayer()
+    @Published private(set) var audioPlayer = AVPlayer()
     @Published private(set) var isPlaying: Bool = false
+    private var isSetAudio: Bool = false
     private var cancellable = Set<AnyCancellable>()
     private var timeObserver: Any?
     private var currentDurationRange: ClosedRange<Double>?
@@ -38,7 +40,10 @@ final class VideoPlayerManager: ObservableObject{
             switch scrubState {
             case .scrubEnded(let seekTime):
                 pause()
-                player.seek(to: CMTime(seconds: seekTime, preferredTimescale: 600))
+                seek(seekTime, player: videoPlayer)
+                if isSetAudio{
+                    seek(seekTime, player: audioPlayer)
+                }
             default : break
             }
         }
@@ -53,6 +58,14 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
+    func setAudio(_ url: URL?){
+        guard let url else {
+            isSetAudio = false
+            return
+        }
+        audioPlayer = .init(url: url)
+        isSetAudio = true
+    }
     
     private func onSubsUrl(){
         $loadState
@@ -65,7 +78,7 @@ final class VideoPlayerManager: ObservableObject{
                 switch returnLoadState {
                 case .loaded(let url):
                     self.pause()
-                    self.player = AVPlayer(url: url)
+                    self.videoPlayer = AVPlayer(url: url)
                     self.startStatusSubscriptions()
                     print("AVPlayer set url:", url.absoluteString)
                 case .failed, .loading, .unknown:
@@ -77,7 +90,7 @@ final class VideoPlayerManager: ObservableObject{
     
     
     private func startStatusSubscriptions(){
-        player.publisher(for: \.timeControlStatus)
+        videoPlayer.publisher(for: \.timeControlStatus)
             .sink { [weak self] status in
                 guard let self = self else {return}
                 switch status {
@@ -98,37 +111,58 @@ final class VideoPlayerManager: ObservableObject{
     
     func pause(){
         if isPlaying{
-            player.pause()
+            videoPlayer.pause()
+            if isSetAudio{
+                audioPlayer.pause()
+            }
         }
     }
     
 
     private func play(_ rate: Float?){
         
+        AVAudioSession.sharedInstance().configurePlaybackSession()
+        
         if let currentDurationRange{
             if currentTime >= currentDurationRange.upperBound{
-                player.seek(to: CMTime(seconds: currentDurationRange.lowerBound, preferredTimescale: 600))
+                seek(currentDurationRange.lowerBound, player: videoPlayer)
+                if isSetAudio{
+                    seek(currentDurationRange.lowerBound, player: audioPlayer)
+                }
             }else{
-                player.seek(to: CMTime(seconds: player.currentTime().seconds, preferredTimescale: 600))
+                seek(videoPlayer.currentTime().seconds, player: videoPlayer)
+                if isSetAudio{
+                    seek(audioPlayer.currentTime().seconds, player: audioPlayer)
+                }
             }
         }
-        player.play()
-        
-        if let rate{
-            player.rate = rate
+        videoPlayer.play()
+        if isSetAudio{
+            audioPlayer.play()
         }
         
-        if let currentDurationRange, player.currentItem?.duration.seconds ?? 0 >= currentDurationRange.upperBound{
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
+        if let rate{
+            videoPlayer.rate = rate
+            if isSetAudio{
+                audioPlayer.play()
+            }
+        }
+        
+        if let currentDurationRange, videoPlayer.currentItem?.duration.seconds ?? 0 >= currentDurationRange.upperBound{
+            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem, queue: .main) { _ in
                 self.playerDidFinishPlaying()
             }
         }
     }
     
+    private func seek(_ seconds: Double, player: AVPlayer){
+        player.seek(to: CMTime(seconds: seconds, preferredTimescale: 600))
+    }
+    
     private func startTimer() {
         
         let interval = CMTimeMake(value: 1, timescale: 10)
-        timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+        timeObserver = videoPlayer.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self else { return }
             if self.isPlaying{
                 let time = time.seconds
@@ -151,12 +185,12 @@ final class VideoPlayerManager: ObservableObject{
     
     
     private func playerDidFinishPlaying() {
-        self.player.seek(to: .zero)
+        self.videoPlayer.seek(to: .zero)
     }
     
     private func removeTimeObserver(){
         if let timeObserver = timeObserver {
-            player.removeTimeObserver(timeObserver)
+            videoPlayer.removeTimeObserver(timeObserver)
         }
     }
     
@@ -193,14 +227,14 @@ extension VideoPlayerManager{
         }
         self.pause()
         DispatchQueue.global(qos: .userInteractive).async {
-            let composition = self.player.currentItem?.asset.setFilters(filters)
-            self.player.currentItem?.videoComposition = composition
+            let composition = self.videoPlayer.currentItem?.asset.setFilters(filters)
+            self.videoPlayer.currentItem?.videoComposition = composition
         }
     }
         
     func removeFilter(){
         pause()
-        player.currentItem?.videoComposition = nil
+        videoPlayer.currentItem?.videoComposition = nil
     }
 }
 

@@ -41,6 +41,9 @@ class EditorViewModel: ObservableObject{
         self.frames = frame
         currentVideo?.updateThumbnails(geo)
         currentVideo?.textBoxes = project.wrappedTextBoxes
+        if let audioUrl = project.audioURL{
+            currentVideo?.audioURL = URL(string: audioUrl)
+        }
     }
         
 }

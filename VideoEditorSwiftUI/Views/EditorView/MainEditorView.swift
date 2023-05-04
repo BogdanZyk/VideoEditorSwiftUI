@@ -17,6 +17,7 @@ struct MainEditorView: View {
     @State var showVideoQualitySheet: Bool = false
     @State var showRecordView: Bool = false
     @StateObject var editorVM = EditorViewModel()
+    @StateObject var audioRecorder = AudioRecorderManager()
     @StateObject var videoPlayer = VideoPlayerManager()
     @StateObject var textEditor = TextEditorViewModel()
     var body: some View {
@@ -26,7 +27,7 @@ struct MainEditorView: View {
                     headerView
                     PlayerHolderView(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
                         .frame(height: proxy.size.height / (isFullScreen ?  1.25 : 1.8))
-                    PlayerControl(isFullScreen: $isFullScreen, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
+                    PlayerControl(isFullScreen: $isFullScreen, recorderManager: audioRecorder, editorVM: editorVM, videoPlayer: videoPlayer, textEditor: textEditor)
                     ToolsSectionView(videoPlayer: videoPlayer, editorVM: editorVM, textEditor: textEditor)
                         .opacity(isFullScreen ? 0 : 1)
                         .padding(.top, 5)

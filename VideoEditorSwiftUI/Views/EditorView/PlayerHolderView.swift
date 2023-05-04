@@ -31,8 +31,6 @@ struct PlayerHolderView: View{
                 }
             }
             .allFrame()
-//            playSection
-//            timeLineControlSection
         }
     }
 }
@@ -58,7 +56,7 @@ extension PlayerHolderView{
                             ZStack{
                                 editorVM.frames.frameColor
                                 ZStack{
-                                    PlayerView(player: videoPlayer.player)
+                                    PlayerView(player: videoPlayer.videoPlayer)
                                     TextOverlayView(currentTime: videoPlayer.currentTime, viewModel: textEditor,  disabledMagnification: isFullScreen)
                                         .scaleEffect(scale)
                                         .disabled(isFullScreen)
@@ -83,47 +81,6 @@ extension PlayerHolderView{
 
 extension PlayerHolderView{
     
-    
-    @ViewBuilder
-    private var timeLineControlSection: some View{
-        if let video = editorVM.currentVideo{
-            TimeLineView(currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
-                videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
-            } onChangeTextTime: { textTime in
-                textEditor.setTime(textTime)
-            }
-        }
-    }
-    
-    private var playSection: some View{
-        
-        Button {
-            if let video = editorVM.currentVideo{
-                videoPlayer.action(video)
-            }
-        } label: {
-            Image(systemName: videoPlayer.isPlaying ? "pause.fill" : "play.fill")
-                .imageScale(.medium)
-        }
-        .buttonStyle(.plain)
-        .hCenter()
-        .frame(height: 30)
-        .overlay(alignment: .trailing) {
-            Button {
-                videoPlayer.pause()
-                withAnimation {
-                    isFullScreen.toggle()
-                }
-            } label: {
-                Image(systemName: isFullScreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
-                    .imageScale(.medium)
-            }
-            .buttonStyle(.plain)
-        }
-        .padding(.horizontal)
-    }
-    
-    
     @ViewBuilder
     private var timelineLabel: some View{
         if let video = editorVM.currentVideo{
@@ -145,6 +102,7 @@ extension PlayerHolderView{
 
 struct PlayerControl: View{
     @Binding var isFullScreen: Bool
+    @ObservedObject var recorderManager: AudioRecorderManager
     @ObservedObject var editorVM: EditorViewModel
     @ObservedObject var videoPlayer: VideoPlayerManager
     @ObservedObject var textEditor: TextEditorViewModel
@@ -159,10 +117,19 @@ struct PlayerControl: View{
     @ViewBuilder
     private var timeLineControlSection: some View{
         if let video = editorVM.currentVideo{
-            TimeLineView(currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
+            TimeLineView(recorderManager: recorderManager, currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
                 videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
             } onChangeTextTime: { textTime in
                 textEditor.setTime(textTime)
+            } onSetAudio: { audioUrl in
+                editorVM.currentVideo?.audioURL = audioUrl
+                videoPlayer.setAudio(audioUrl)
+            } onRecord: { isRecord in
+                if isRecord{
+                    videoPlayer.action(video)
+                }else{
+                    videoPlayer.pause()
+                }
             }
         }
     }

@@ -14,13 +14,12 @@ final class AudioRecorderManager: ObservableObject {
     
     private var audioRecorder: AVAudioRecorder!
     
-    @Published var recordState: AudioRecordEnum = .empty
-    @Published var isLoading: Bool = false
-    @Published var uploadURL: URL?
-    @Published var toggleColor: Bool = false
-    @Published var timerCount: Timer?
-    @Published var blinkingCount: Timer?
-    @Published var currentRecordTime: Double = 0
+    @Published private(set) var recordState: AudioRecordEnum = .empty
+    @Published private(set) var uploadURL: URL?
+    @Published private(set) var toggleColor: Bool = false
+    @Published private(set) var timerCount: Timer?
+    @Published private(set) var blinkingCount: Timer?
+    @Published private(set) var currentRecordTime: TimeInterval = 0
     
     
     init(){
@@ -32,7 +31,9 @@ final class AudioRecorderManager: ObservableObject {
         print("DEBUG:", "startRecording")
         
         let path = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        let audioCachURL = path.appendingPathComponent("Voice-\(UUID().uuidString).m4a")
+        let audioURL = path.appendingPathComponent("video-record.m4a")
+        FileManager.default.removefileExists(for: audioURL)
+        
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -40,7 +41,7 @@ final class AudioRecorderManager: ObservableObject {
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
         do {
-            audioRecorder = try AVAudioRecorder(url: audioCachURL, settings: settings)
+            audioRecorder = try AVAudioRecorder(url: audioURL, settings: settings)
             audioRecorder.prepareToRecord()
             audioRecorder.record()
             recordState = .recording
@@ -94,34 +95,15 @@ final class AudioRecorderManager: ObservableObject {
         })
         
     }
-}
-
-
-
-enum AudioRecordEnum: Int{
-    case recording, empty, error
-}
-
-
-extension TimeInterval {
-    var minutesSecondsMilliseconds: String {
-        String(format: "%02.0f:%02.0f:%02.0f",
-               (self / 60).truncatingRemainder(dividingBy: 60),
-               truncatingRemainder(dividingBy: 60),
-               (self * 100).truncatingRemainder(dividingBy: 100).rounded(.down))
-    }
     
-    
-    var minuteSeconds: String {
-        guard self > 0 && self < Double.infinity else {
-            return "unknown"
-        }
-        let time = NSInteger(self)
-        
-        let seconds = time % 60
-        let minutes = (time / 60) % 60
-        
-        return String(format: "%0.2d:%0.2d", minutes, seconds)
-        
+    enum AudioRecordEnum: Int{
+        case recording, empty, error
     }
 }
+
+
+
+
+
+
+

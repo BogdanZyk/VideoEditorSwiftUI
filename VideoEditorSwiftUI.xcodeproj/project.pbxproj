@@ -21,6 +21,8 @@
 		5A3D13B629F190260027E25E /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B529F190260027E25E /* Preview.swift */; };
 		5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */; };
 		5A5E6F972A039EFD00F5EBF8 /* AVAudioSession+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */; };
+		5A5E6F992A03A11D00F5EBF8 /* TimeInterval+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */; };
+		5A5E6F9B2A03A24B00F5EBF8 /* AudioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */; };
 		5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */; };
 		5A5F956D2A00FA180041C3F6 /* TextToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */; };
 		5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */; };
@@ -82,6 +84,8 @@
 		5A3D13B529F190260027E25E /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		5A3D13B729F2A3E50027E25E /* TestCroppedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCroppedView.swift; sourceTree = "<group>"; };
 		5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioSession+Ext.swift"; sourceTree = "<group>"; };
+		5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Ext.swift"; sourceTree = "<group>"; };
+		5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioButtonView.swift; sourceTree = "<group>"; };
 		5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlayView.swift; sourceTree = "<group>"; };
 		5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToolsView.swift; sourceTree = "<group>"; };
 		5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
@@ -322,6 +326,7 @@
 				5A3D13B529F190260027E25E /* Preview.swift */,
 				5AFA25C529FA7D9300B820D0 /* Color.swift */,
 				5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */,
+				5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				5ACFF9A829EE878500827A37 /* ToolButtonView.swift */,
+				5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -565,6 +571,8 @@
 				5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,
+				5A5E6F992A03A11D00F5EBF8 /* TimeInterval+Ext.swift in Sources */,
+				5A5E6F9B2A03A24B00F5EBF8 /* AudioButtonView.swift in Sources */,
 				5ACFF99F29ED709B00827A37 /* RangeSliderView.swift in Sources */,
 				5AE2A2A429F67B96003D217F /* SheetView.swift in Sources */,
 				5A5E6F972A039EFD00F5EBF8 /* AVAudioSession+Ext.swift in Sources */,

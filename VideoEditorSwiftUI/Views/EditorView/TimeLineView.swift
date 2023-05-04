@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TimeLineView: View {
+    @ObservedObject var recorderManager: AudioRecorderManager
     @State private var isActiveTextRangeSlider: Bool = false
     @State private var textTimeInterval: ClosedRange<Double> = 0...1
     @Binding var currentTime: Double
@@ -16,7 +17,8 @@ struct TimeLineView: View {
     var textInterval: ClosedRange<Double>?
     let onChangeTimeValue: () -> Void
     let onChangeTextTime: (ClosedRange<Double>) -> Void
-    
+    let onSetAudio: (URL) -> Void
+    let onRecord: (Bool) -> Void
     private let frameWight: CGFloat = 55
 
     private var calcWight: CGFloat{
@@ -74,7 +76,7 @@ struct TimeLineView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.secondary
-            TimeLineView(currentTime: .constant(0), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in})
+            TimeLineView(recorderManager: AudioRecorderManager(), currentTime: .constant(0), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in}, onSetAudio: {_ in}, onRecord: {_ in})
         }
     }
 }
@@ -132,25 +134,9 @@ extension TimeLineView{
     private var audioLayerSection: some View{
         Group{
             if viewState == .audio{
-                
-                ZStack(alignment: .leading){
-                    Color(.systemGray5)
-                    if let url = video.audioURL{
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.secondary)
-                    }else{
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "mic.fill")
-                                .foregroundColor(.white)
-                        }
-                        .padding(.horizontal)
-                    }
-                }
+                AudioButtonView(video: video, recorderManager: recorderManager, onRecorded: onSetAudio, onRecord: onRecord)
             }
         }
-        .frame(height: 40)
     }
 }
 

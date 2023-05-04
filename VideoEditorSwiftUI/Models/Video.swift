@@ -28,6 +28,12 @@ struct Video: Identifiable{
     var textBoxes: [TextBox] = []
     var audioURL: URL?
     
+    
+    var audioAsset: AVAsset?{
+        guard let audioURL else {return nil}
+        return AVAsset(url: audioURL)
+    }
+    
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
     }
