@@ -118,6 +118,14 @@ final class VideoPlayerManager: ObservableObject{
         }
     }
     
+    func setVolume(_ isVideo: Bool, value: Float){
+        pause()
+        if isVideo{
+            videoPlayer.volume = value
+        }else{
+            audioPlayer.volume = value
+        }
+    }
 
     private func play(_ rate: Float?){
         

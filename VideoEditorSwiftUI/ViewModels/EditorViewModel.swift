@@ -16,9 +16,9 @@ class EditorViewModel: ObservableObject{
     @Published var currentVideo: Video?
     @Published var selectedTools: ToolEnum?
     @Published var frames = VideoFrames()
+    @Published var isSelectVideo: Bool = true
     
     private var projectEntity: ProjectEntity?
-    
     
 
     func setNewVideo(_ url: URL, geo: GeometryProxy){
@@ -109,6 +109,11 @@ extension EditorViewModel{
         setTools()
     }
     
+    func setAudio(_ audio: Audio){
+        currentVideo?.audio = audio
+        setTools()
+    }
+    
     func setTools(){
         guard let selectedTools else { return }
         currentVideo?.appliedTool(for: selectedTools)
@@ -123,6 +128,8 @@ extension EditorViewModel{
         guard let url = currentVideo?.audio?.url else {return}
         FileManager.default.removefileExists(for: url)
         currentVideo?.audio = nil
+        isSelectVideo = true
+        removeTool()
         updateProject()
     }
   
@@ -135,11 +142,7 @@ extension EditorViewModel{
             currentVideo?.resetRangeDuration()
         case .speed:
             currentVideo?.resetRate()
-        case .crop:
-            break
-        case .audio:
-            break
-        case .text:
+        case .text, .audio, .crop:
             break
         case .filters:
             currentVideo?.setFilter(nil)

@@ -132,7 +132,7 @@ extension ToolsSectionView{
                     .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 5))
             }
             Spacer()
-            if tool != .filters{
+            if tool != .filters, tool != .audio, tool != .text{
                 Button {
                     editorVM.reset()
                 } label: {
@@ -140,6 +140,14 @@ extension ToolsSectionView{
                         .font(.subheadline)
                 }
                 .buttonStyle(.plain)
+            }else if !editorVM.isSelectVideo{
+                Button {
+                    videoPlayer.pause()
+                    editorVM.removeAudio()
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .foregroundColor(.white)
+                }
             }
         }
         .overlay {

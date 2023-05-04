@@ -12,6 +12,7 @@ struct TimeLineView: View {
     @State private var isActiveTextRangeSlider: Bool = false
     @State private var textTimeInterval: ClosedRange<Double> = 0...1
     @Binding var currentTime: Double
+    @Binding var isSelectedTrack: Bool
     var viewState: TimeLineViewState = .empty
     var video: Video
     var textInterval: ClosedRange<Double>?
@@ -75,7 +76,7 @@ struct TimeLineView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack{
             Color.secondary
-            TimeLineView(recorderManager: AudioRecorderManager(), currentTime: .constant(0), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in}, onSetAudio: {_ in})
+            TimeLineView(recorderManager: AudioRecorderManager(), currentTime: .constant(0), isSelectedTrack: .constant(true), viewState: .audio, video: video, onChangeTimeValue: {}, onChangeTextTime: {_ in}, onSetAudio: {_ in})
         }
     }
 }
@@ -95,6 +96,34 @@ extension TimeLineView{
                         .frame(height: frameWight)
                         .clipped()
                 }
+            }
+        }
+        .overlay {
+            if viewState == .audio{
+                if isSelectedTrack{
+                    RoundedRectangle(cornerRadius: 5)
+                        .strokeBorder(lineWidth: 2)
+                        .foregroundColor(.white)
+                }
+                HStack(spacing: 1){
+                    if video.volume > 0{
+                        Image(systemName: "speaker.wave.2.fill")
+                        Text(verbatim: String(Int(video.volume * 100)))
+                    }else{
+                        Image(systemName: "speaker.slash.fill")
+                    }
+                }
+                .font(.system(size: 9))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                .padding(5)
+            }
+        }
+        .onTapGesture {
+            if viewState == .audio, !isSelectedTrack{
+                isSelectedTrack.toggle()
+                currentTime = 0
+                onChangeTimeValue()
             }
         }
     }
@@ -133,7 +162,11 @@ extension TimeLineView{
     private var audioLayerSection: some View{
         Group{
             if viewState == .audio{
-                AudioButtonView(video: video, recorderManager: recorderManager, onRecorded: onSetAudio){time in
+                AudioButtonView(
+                    video: video,
+                    isSelectedTrack: $isSelectedTrack,
+                    recorderManager: recorderManager,
+                    onRecorded: onSetAudio){time in
                     currentTime = time
                     onChangeTimeValue()
                 }

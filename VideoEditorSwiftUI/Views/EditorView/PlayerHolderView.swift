@@ -117,14 +117,19 @@ struct PlayerControl: View{
     @ViewBuilder
     private var timeLineControlSection: some View{
         if let video = editorVM.currentVideo{
-            TimeLineView(recorderManager: recorderManager, currentTime: $videoPlayer.currentTime, viewState: editorVM.selectedTools?.timeState ?? .empty, video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
-                videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
-            } onChangeTextTime: { textTime in
-                textEditor.setTime(textTime)
-            } onSetAudio: { audio in
-                editorVM.currentVideo?.audio = audio
-                videoPlayer.setAudio(audio.url)
-            }
+            TimeLineView(
+                recorderManager: recorderManager,
+                currentTime: $videoPlayer.currentTime,
+                isSelectedTrack: $editorVM.isSelectVideo,
+                viewState: editorVM.selectedTools?.timeState ?? .empty,
+                video: video, textInterval: textEditor.selectedTextBox?.timeRange) {
+                    videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
+                } onChangeTextTime: { textTime in
+                    textEditor.setTime(textTime)
+                } onSetAudio: { audio in
+                    editorVM.setAudio(audio)
+                    videoPlayer.setAudio(audio.url)
+                }
         }
     }
     

@@ -16,9 +16,7 @@ final class AudioRecorderManager: ObservableObject {
     
     @Published private(set) var recordState: AudioRecordEnum = .empty
     @Published private(set) var finishedAudio: Audio?
-    @Published private(set) var toggleColor: Bool = false
     @Published private(set) var timerCount: Timer?
-    @Published private(set) var blinkingCount: Timer?
     @Published private(set) var currentRecordTime: TimeInterval = 0
 
     
@@ -48,7 +46,6 @@ final class AudioRecorderManager: ObservableObject {
                     self.stopRecording()
                 }
             }
-            blinkColor()
         } catch {
             recordState = .error
             print("Failed to Setup the Recording")
@@ -75,20 +72,11 @@ final class AudioRecorderManager: ObservableObject {
    
     private func resetTimer(){
         timerCount!.invalidate()
-        blinkingCount!.invalidate()
         self.currentRecordTime = 0
     }
     
     private func removeRecordedAudio(){
         FileManager.default.removefileExists(for: audioRecorder.url)
-    }
-    
-    private func blinkColor() {
-        
-        blinkingCount = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (value) in
-            self.toggleColor.toggle()
-        })
-        
     }
     
     enum AudioRecordEnum: Int{

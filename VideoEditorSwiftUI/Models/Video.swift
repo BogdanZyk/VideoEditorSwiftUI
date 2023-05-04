@@ -27,8 +27,8 @@ struct Video: Identifiable{
     var videoFrames: VideoFrames? = nil
     var textBoxes: [TextBox] = []
     var audio: Audio?
-  
-    
+    var volume: Float = 1.0
+
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound
     }
@@ -86,6 +86,10 @@ struct Video: Identifiable{
         if !isAppliedTool(for: tool){
             toolsApplied.append(tool.rawValue)
         }
+    }
+    
+    mutating func setVolume(_ value: Float){
+        volume = value
     }
     
     mutating func removeTool(for tool: ToolEnum){

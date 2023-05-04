@@ -123,6 +123,8 @@ extension ProjectEntity{
                 project.audio = AudioEntity.createAudio(context: context,
                                              url: audio.url.absoluteString,
                                              duration: audio.duration)
+            }else{
+                project.audio = nil
             }
             
             context.saveContext()
