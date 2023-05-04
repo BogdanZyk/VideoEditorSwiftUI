@@ -23,6 +23,9 @@
 		5A5E6F972A039EFD00F5EBF8 /* AVAudioSession+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */; };
 		5A5E6F992A03A11D00F5EBF8 /* TimeInterval+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */; };
 		5A5E6F9B2A03A24B00F5EBF8 /* AudioButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */; };
+		5A5E6F9D2A03C88A00F5EBF8 /* AudioSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9C2A03C88A00F5EBF8 /* AudioSheetView.swift */; };
+		5A5E6F9F2A03CA1800F5EBF8 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */; };
+		5A5E6FA12A03CCFE00F5EBF8 /* AudioEntity+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */; };
 		5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */; };
 		5A5F956D2A00FA180041C3F6 /* TextToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */; };
 		5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */; };
@@ -86,6 +89,9 @@
 		5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioSession+Ext.swift"; sourceTree = "<group>"; };
 		5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Ext.swift"; sourceTree = "<group>"; };
 		5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioButtonView.swift; sourceTree = "<group>"; };
+		5A5E6F9C2A03C88A00F5EBF8 /* AudioSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSheetView.swift; sourceTree = "<group>"; };
+		5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
+		5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioEntity+Ext.swift"; sourceTree = "<group>"; };
 		5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlayView.swift; sourceTree = "<group>"; };
 		5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToolsView.swift; sourceTree = "<group>"; };
 		5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 				5A3D13AA29F184330027E25E /* CoreDataContainer.xcdatamodeld */,
 				5A3D13AF29F186160027E25E /* CoreDataManager.swift */,
 				5A3D13B129F187960027E25E /* ProjectEntity+Ext.swift */,
+				5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -176,6 +183,7 @@
 		5A62B4772A0284E400E84093 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				5A5E6F9C2A03C88A00F5EBF8 /* AudioSheetView.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -285,6 +293,7 @@
 				5AE2A2A529F6A949003D217F /* VideoQuality.swift */,
 				5AE2A2AF29F88113003D217F /* FilteredImage.swift */,
 				5AFA25C729FC186F00B820D0 /* TextBox.swift */,
+				5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -543,6 +552,7 @@
 				5A3D13B229F187960027E25E /* ProjectEntity+Ext.swift in Sources */,
 				5ACFF9AC29EE8B9400827A37 /* PlayerView.swift in Sources */,
 				5AE2A2AE29F880D0003D217F /* FiltersView.swift in Sources */,
+				5A5E6F9F2A03CA1800F5EBF8 /* AudioModel.swift in Sources */,
 				5ACFF99A29ED57BC00827A37 /* ThumbnailsSliderView.swift in Sources */,
 				5ACFF98529E945E000827A37 /* EditorViewModel.swift in Sources */,
 				5ACFF9A929EE878500827A37 /* ToolButtonView.swift in Sources */,
@@ -557,6 +567,7 @@
 				5A62B47A2A02B85500E84093 /* AudioRecorderManager.swift in Sources */,
 				5ACFF99829ED53FB00827A37 /* View+Ext.swift in Sources */,
 				5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */,
+				5A5E6FA12A03CCFE00F5EBF8 /* AudioEntity+Ext.swift in Sources */,
 				5ACFF98129E9454200827A37 /* VideoPlayerManager.swift in Sources */,
 				5AADA50629F9204A0064EA7E /* CorrectionsToolView.swift in Sources */,
 				5AE2A2A629F6A949003D217F /* VideoQuality.swift in Sources */,
@@ -583,6 +594,7 @@
 				5A3D13AC29F184330027E25E /* CoreDataContainer.xcdatamodeld in Sources */,
 				5AE2A2A829F6BA29003D217F /* ExporterViewModel.swift in Sources */,
 				5ACFF99D29ED5C4900827A37 /* SliderView.swift in Sources */,
+				5A5E6F9D2A03C88A00F5EBF8 /* AudioSheetView.swift in Sources */,
 				5AE2A2B029F88113003D217F /* FilteredImage.swift in Sources */,
 				5A5F95732A0166D90041C3F6 /* Swipe.swift in Sources */,
 				5A3D13B029F186160027E25E /* CoreDataManager.swift in Sources */,

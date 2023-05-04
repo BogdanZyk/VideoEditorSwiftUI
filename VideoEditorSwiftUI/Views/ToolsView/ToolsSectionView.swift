@@ -91,7 +91,7 @@ extension ToolsSectionView{
             case .crop:
                 CropSheetView(editorVM: editorVM)
             case .audio:
-                EmptyView()
+                AudioSheetView(videoPlayer: videoPlayer, editorVM: editorVM)
             case .text:
                 TextToolsView(video: video, editor: textEditor)
             case .filters:

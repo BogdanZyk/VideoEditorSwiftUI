@@ -26,13 +26,8 @@ struct Video: Identifiable{
     var colorCorrection = ColorCorrection()
     var videoFrames: VideoFrames? = nil
     var textBoxes: [TextBox] = []
-    var audioURL: URL?
-    
-    
-    var audioAsset: AVAsset?{
-        guard let audioURL else {return nil}
-        return AVAsset(url: audioURL)
-    }
+    var audio: Audio?
+  
     
     var totalDuration: Double{
         rangeDuration.upperBound - rangeDuration.lowerBound

@@ -15,7 +15,7 @@ final class AudioRecorderManager: ObservableObject {
     private var audioRecorder: AVAudioRecorder!
     
     @Published private(set) var recordState: AudioRecordEnum = .empty
-    @Published private(set) var uploadURL: URL?
+    @Published private(set) var finishedAudio: Audio?
     @Published private(set) var toggleColor: Bool = false
     @Published private(set) var timerCount: Timer?
     @Published private(set) var blinkingCount: Timer?
@@ -64,9 +64,9 @@ final class AudioRecorderManager: ObservableObject {
     func stopRecording(){
         print("DEBUG:", "stopRecording")
         audioRecorder.stop()
-        resetTimer()
         recordState = .empty
-        uploadURL = audioRecorder.url
+        finishedAudio = .init(url: audioRecorder.url, duration: currentRecordTime)
+        resetTimer()
     }
     
     func cancel(){

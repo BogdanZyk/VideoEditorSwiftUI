@@ -17,7 +17,7 @@ struct TimeLineView: View {
     var textInterval: ClosedRange<Double>?
     let onChangeTimeValue: () -> Void
     let onChangeTextTime: (ClosedRange<Double>) -> Void
-    let onSetAudio: (URL) -> Void
+    let onSetAudio: (Audio) -> Void
     let onRecord: (Bool) -> Void
     private let frameWight: CGFloat = 55
 

@@ -121,9 +121,9 @@ struct PlayerControl: View{
                 videoPlayer.scrubState = .scrubEnded(videoPlayer.currentTime)
             } onChangeTextTime: { textTime in
                 textEditor.setTime(textTime)
-            } onSetAudio: { audioUrl in
-                editorVM.currentVideo?.audioURL = audioUrl
-                videoPlayer.setAudio(audioUrl)
+            } onSetAudio: { audio in
+                editorVM.currentVideo?.audio = audio
+                videoPlayer.setAudio(audio.url)
             } onRecord: { isRecord in
                 if isRecord{
                     videoPlayer.action(video)

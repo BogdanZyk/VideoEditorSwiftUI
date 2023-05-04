@@ -41,8 +41,8 @@ class EditorViewModel: ObservableObject{
         self.frames = frame
         currentVideo?.updateThumbnails(geo)
         currentVideo?.textBoxes = project.wrappedTextBoxes
-        if let audioUrl = project.audioURL{
-            currentVideo?.audioURL = URL(string: audioUrl)
+        if let audio = project.audio?.audioModel{
+            currentVideo?.audio = audio
         }
     }
         
@@ -117,6 +117,13 @@ extension EditorViewModel{
     func removeTool(){
         guard let selectedTools else { return }
         self.currentVideo?.removeTool(for: selectedTools)
+    }
+    
+    func removeAudio(){
+        guard let url = currentVideo?.audio?.url else {return}
+        FileManager.default.removefileExists(for: url)
+        currentVideo?.audio = nil
+        updateProject()
     }
   
     func reset(){

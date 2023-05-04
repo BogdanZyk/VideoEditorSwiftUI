@@ -14,13 +14,14 @@ struct AudioButtonView: View {
     @State private var timeRemaining = 3
     @State private var timer: Timer? = nil
     @State private var state: StateEnum = .empty
-    let onRecorded: (URL) -> Void
+    @State private var audioSimples = [Audio.AudioSimple]()
+    let onRecorded: (Audio) -> Void
     let onRecord: (Bool) -> Void
     var body: some View {
         GeometryReader { proxy in
             ZStack{
                 Color(.systemGray5)
-                if let audio = video.audioAsset{
+                if let audio = video.audio{
                     audioButton(proxy, audio)
                 }else{
                     switch state {
@@ -33,7 +34,7 @@ struct AudioButtonView: View {
                     }
                 }
             }
-            .onChange(of: recorderManager.uploadURL) { newValue in
+            .onChange(of: recorderManager.finishedAudio) { newValue in
                 guard let newValue else { return }
                 onRecorded(newValue)
             }
@@ -66,11 +67,13 @@ extension AudioButtonView{
     
     private var timerButton: some View{
         Text("\(timeRemaining)")
+            .font(.subheadline.bold())
             .foregroundColor(.red)
             .onTapGesture {
                 state = .empty
                 stopTimer()
             }
+            .hLeading()
     }
     
     private var stopButton: some View{
@@ -83,9 +86,9 @@ extension AudioButtonView{
             }
     }
     
-    private func audioButton(_ proxy: GeometryProxy, _ asset: AVAsset) -> some View{
-        let simplesCount = Int(proxy.size.width / 3)
+    private func audioButton(_ proxy: GeometryProxy, _ audio: Audio) -> some View{
         let sizePerSec = proxy.size.width / video.totalDuration
+        let width = sizePerSec * audio.duration
         return RoundedRectangle(cornerRadius: 8)
             .fill(Color.red.opacity(0.5))
             .overlay {
@@ -93,15 +96,19 @@ extension AudioButtonView{
                     RoundedRectangle(cornerRadius: 8)
                         .strokeBorder(lineWidth: 2)
                     HStack(spacing: 1){
-                        ForEach(0...simplesCount, id: \.self) { index in
+                        ForEach(audioSimples) { simple in
                             Capsule()
                                 .fill(.white)
-                                .frame(width: 2, height: 25)
+                                .frame(width: 2, height: simple.size)
                         }
                     }
                 }
             }
-            //.frame(width: sizePerSec * asset.duration.seconds)
+            .frame(width: width)
+            .hLeading()
+            .onAppear{
+                audioSimples = audio.createSimples(width)
+            }
     }
     
     enum StateEnum: Int{

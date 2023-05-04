@@ -105,7 +105,6 @@ extension ProjectEntity{
     static func update(for video: Video, project: ProjectEntity){
         if let context = project.managedObjectContext {
             project.isMirror = video.isMirror
-            project.audioURL = video.audioURL?.absoluteString
             project.lowerBound = video.rangeDuration.lowerBound
             project.upperBound = video.rangeDuration.upperBound
             project.filterName = video.filterName
@@ -119,6 +118,12 @@ extension ProjectEntity{
             project.frameScale = video.videoFrames?.scaleValue ?? 0
             let boxes = createTextBoxes(context: context, boxes: video.textBoxes)
             project.wrappedBoxes = Set(boxes)
+            
+            if let audio = video.audio{
+                project.audio = AudioEntity.createAudio(context: context,
+                                             url: audio.url.absoluteString,
+                                             duration: audio.duration)
+            }
             
             context.saveContext()
         }
