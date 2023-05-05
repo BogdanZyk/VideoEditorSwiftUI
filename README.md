@@ -1,6 +1,6 @@
 # VideoEditorSwiftUI
 
-A little video editing application
+Video editing application with great functionality of tools and the ability to export video in different formats.
 
 ## Features
 
