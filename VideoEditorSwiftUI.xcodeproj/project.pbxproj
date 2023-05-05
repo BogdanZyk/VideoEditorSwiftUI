@@ -27,6 +27,7 @@
 		5A5E6F9F2A03CA1800F5EBF8 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */; };
 		5A5E6FA12A03CCFE00F5EBF8 /* AudioEntity+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */; };
 		5A5E6FA32A04F3BF00F5EBF8 /* RecorderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA22A04F3BF00F5EBF8 /* RecorderButtonView.swift */; };
+		5A5E6FA52A05124700F5EBF8 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA42A05124700F5EBF8 /* UIImage+Ext.swift */; };
 		5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */; };
 		5A5F956D2A00FA180041C3F6 /* TextToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */; };
 		5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */; };
@@ -94,6 +95,7 @@
 		5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
 		5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioEntity+Ext.swift"; sourceTree = "<group>"; };
 		5A5E6FA22A04F3BF00F5EBF8 /* RecorderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderButtonView.swift; sourceTree = "<group>"; };
+		5A5E6FA42A05124700F5EBF8 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlayView.swift; sourceTree = "<group>"; };
 		5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToolsView.swift; sourceTree = "<group>"; };
 		5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				5AFA25C529FA7D9300B820D0 /* Color.swift */,
 				5A5E6F962A039EFD00F5EBF8 /* AVAudioSession+Ext.swift */,
 				5A5E6F982A03A11D00F5EBF8 /* TimeInterval+Ext.swift */,
+				5A5E6FA42A05124700F5EBF8 /* UIImage+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
 				5A5F95712A0135490041C3F6 /* TextEditorViewModel.swift in Sources */,
 				5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */,
+				5A5E6FA52A05124700F5EBF8 /* UIImage+Ext.swift in Sources */,
 				5A3D13B829F2A3E60027E25E /* TestCroppedView.swift in Sources */,
 				5ACFF96F29E944FA00827A37 /* VideoEditorSwiftUIApp.swift in Sources */,
 				5A17E08929F1744100DB4A47 /* RootView.swift in Sources */,

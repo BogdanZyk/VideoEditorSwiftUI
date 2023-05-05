@@ -143,6 +143,11 @@ extension Double{
 struct ThumbnailImage: Identifiable{
     var id: UUID = UUID()
     var image: UIImage?
+    
+    
+    init(image: UIImage? = nil) {
+        self.image = image?.resize(to: .init(width: 250, height: 350))
+    }
 }
 
 

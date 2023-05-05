@@ -106,13 +106,15 @@ extension RootView{
         .hCenter()
         .frame(height: 150)
         .cornerRadius(5)
+        .clipped()
         .overlay {
             VStack{
                 Button {
                     rootVM.removeProject(project)
                 } label: {
                     Image(systemName: "trash.fill")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.white)
+                        .shadow(color: .black.opacity(0.3), radius: 5)
                 }
                 .hTrailing()
                 Spacer()
