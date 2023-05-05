@@ -99,7 +99,7 @@ extension VideoExporterBottomSheetView{
                 VStack(alignment: .leading) {
                     Text(type.title)
                         .font(.headline)
-                    Text("subtitle")
+                    Text(type.subtitle)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }

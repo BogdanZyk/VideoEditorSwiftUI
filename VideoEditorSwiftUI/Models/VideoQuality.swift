@@ -30,6 +30,14 @@ enum VideoQuality: Int, CaseIterable{
         }
     }
     
+    var subtitle: String{
+        switch self {
+        case .low: return "Fast loading and small size, low quality"
+        case .medium: return "Optimal size to quality ratio"
+        case .high: return "Ideal for publishing on social networks"
+        }
+    }
+    
     var size: CGSize{
         switch self {
         case .low: return .init(width: 854, height: 480)
