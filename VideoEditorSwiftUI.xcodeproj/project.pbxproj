@@ -26,6 +26,7 @@
 		5A5E6F9D2A03C88A00F5EBF8 /* AudioSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9C2A03C88A00F5EBF8 /* AudioSheetView.swift */; };
 		5A5E6F9F2A03CA1800F5EBF8 /* AudioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */; };
 		5A5E6FA12A03CCFE00F5EBF8 /* AudioEntity+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */; };
+		5A5E6FA32A04F3BF00F5EBF8 /* RecorderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E6FA22A04F3BF00F5EBF8 /* RecorderButtonView.swift */; };
 		5A5F956B2A004BE60041C3F6 /* TextOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */; };
 		5A5F956D2A00FA180041C3F6 /* TextToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */; };
 		5A5F956F2A01351B0041C3F6 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */; };
@@ -92,6 +93,7 @@
 		5A5E6F9C2A03C88A00F5EBF8 /* AudioSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSheetView.swift; sourceTree = "<group>"; };
 		5A5E6F9E2A03CA1800F5EBF8 /* AudioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModel.swift; sourceTree = "<group>"; };
 		5A5E6FA02A03CCFE00F5EBF8 /* AudioEntity+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioEntity+Ext.swift"; sourceTree = "<group>"; };
+		5A5E6FA22A04F3BF00F5EBF8 /* RecorderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderButtonView.swift; sourceTree = "<group>"; };
 		5A5F956A2A004BE60041C3F6 /* TextOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlayView.swift; sourceTree = "<group>"; };
 		5A5F956C2A00FA180041C3F6 /* TextToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToolsView.swift; sourceTree = "<group>"; };
 		5A5F956E2A01351B0041C3F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 			children = (
 				5ACFF9A829EE878500827A37 /* ToolButtonView.swift */,
 				5A5E6F9A2A03A24B00F5EBF8 /* AudioButtonView.swift */,
+				5A5E6FA22A04F3BF00F5EBF8 /* RecorderButtonView.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				5AFA25C129FA68B700B820D0 /* Helpers.swift in Sources */,
 				5AF25B5729F13EC7005E0467 /* ToolModel.swift in Sources */,
 				5ACFF9B029EE8C6C00827A37 /* PlayerHolderView.swift in Sources */,
+				5A5E6FA32A04F3BF00F5EBF8 /* RecorderButtonView.swift in Sources */,
 				5ACFF9B229EEA93400827A37 /* ToolsSectionView.swift in Sources */,
 				5A5F95712A0135490041C3F6 /* TextEditorViewModel.swift in Sources */,
 				5A9EDD0029F03DCD0014A1CF /* VideoSpeedSlider.swift in Sources */,

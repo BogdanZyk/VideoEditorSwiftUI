@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimelineSlider<T: View>: View {
+struct TimelineSlider<T: View, A: View>: View {
     @State private var lastOffset: CGFloat = 0
     var bounds: ClosedRange<Double>
     var disableOffset: Bool
@@ -16,8 +16,11 @@ struct TimelineSlider<T: View>: View {
     @State var offset: CGFloat = 0
     @State var gestureW: CGFloat = 0
     var frameWight: CGFloat = 65
+    let actionWidth: CGFloat = 30
     @ViewBuilder
     var frameView: () -> T
+    @ViewBuilder
+    var actionView: () -> A
     let onChange: () -> Void
     
     var body: some View {
@@ -27,13 +30,16 @@ struct TimelineSlider<T: View>: View {
             ZStack{
                 frameView()
                     .frame(width: frameWight, height: proxy.size.height - 5)
-                    .position(x: sliderPositionX, y: sliderViewYCenter)
-                Capsule()
-                    .fill(Color.white)
-                    .frame(width: 4, height: proxy.size.height)
-                    .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 0)
-                    .opacity(disableOffset ? 0 : 1)
-
+                    .position(x: sliderPositionX - actionWidth/2, y: sliderViewYCenter)
+                HStack(spacing: 0) {
+                    Capsule()
+                        .fill(Color.white)
+                        .frame(width: 4, height: proxy.size.height)
+                    actionView()
+                        .frame(width: actionWidth)
+                }
+                .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 0)
+                .opacity(disableOffset ? 0 : 1)
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
             .contentShape(Rectangle())
@@ -75,7 +81,7 @@ struct NewTimelineSlider_Previews: PreviewProvider {
         TimelineSlider(bounds: 5...34, disableOffset: false, value: $curretTime, frameView: {
             Rectangle()
                 .fill(Color.secondary)
-        }, onChange: {})
+        }, actionView: {EmptyView()}, onChange: {})
             .frame(height: 80)
     }
 }

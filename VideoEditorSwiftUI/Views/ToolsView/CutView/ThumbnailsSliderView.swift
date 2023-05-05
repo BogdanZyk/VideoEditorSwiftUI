@@ -28,7 +28,7 @@ struct ThumbnailsSliderView: View {
             GeometryReader { proxy in
                 ZStack{
                     thumbnailsImagesSection(proxy)
-                        .border(Color.secondary, width: 2)
+                        .border(Color.red, width: 2)
                     if let video{
                         RangedSliderView(value: $rangeDuration, bounds: 0...video.originalDuration, onEndChange: { setOnChangeTrim(false)}) {
                             Rectangle().blendMode(.destinationOut)

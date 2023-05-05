@@ -35,9 +35,12 @@ struct TimeLineView: View {
                         }
                         audioLayerSection
                     }
-                } onChange: {
-                    onChangeTimeValue()
+                } actionView: {
+                    recordButton
                 }
+            onChange: {
+                onChangeTimeValue()
+            }
             }
         }
         .frame(height: viewState.height)
@@ -159,17 +162,29 @@ extension TimeLineView{
         }
     }
     
+    private var recordButton: some View{
+        Group{
+            if viewState == .audio{
+                RecorderButtonView(video: video, recorderManager: recorderManager, onRecorded: onSetAudio) { time in
+                    currentTime = time
+                    onChangeTimeValue()
+                }
+                .vBottom()
+                .padding(.bottom, viewState.height / 6)
+            }else{
+                Rectangle()
+                    .opacity(0)
+            }
+        }
+    }
+    
     private var audioLayerSection: some View{
         Group{
             if viewState == .audio{
                 AudioButtonView(
                     video: video,
                     isSelectedTrack: $isSelectedTrack,
-                    recorderManager: recorderManager,
-                    onRecorded: onSetAudio){time in
-                    currentTime = time
-                    onChangeTimeValue()
-                }
+                    recorderManager: recorderManager)
             }
         }
     }
