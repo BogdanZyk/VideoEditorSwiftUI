@@ -23,6 +23,9 @@ Video editing application with great functionality of tools and the ability to e
 - AVFoundation
 - AVKit
 
+## 📹 Video 
+[![Preview](http://img.youtube.com/vi/JJZzDcUuOcw/0.jpg)](https://www.youtube.com/watch?v=JJZzDcUuOcw)
+
 ## Screenshots 📷
 
 ### Projects and editor views
